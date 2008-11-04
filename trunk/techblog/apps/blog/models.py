@@ -18,8 +18,8 @@ class Blog(models.Model):
     title = models.CharField("Title of the Blog", max_length=100)
     slug = models.SlugField()
 
-    markup_type = models.CharField(choices=markup.MARKUP_TYPES, default="postmarkup", max_length=20)
-    markup_raw = models.TextField(default="")
+    markup_type = models.CharField("Markup Type", choices=markup.MARKUP_TYPES, default="postmarkup", max_length=20)
+    markup_raw = models.TextField("Markup", default="")
     html = models.TextField(default="", blank=True)
     text = models.TextField(default="", blank=True)
     data = PickledObjectField(default={}, blank=True)
@@ -48,7 +48,7 @@ class Post(models.Model):
 
 
     markup_type = models.CharField("Markup Type", choices=markup.MARKUP_TYPES, default="postmarkup", max_length=20)
-    markup_raw = models.TextField(default="")
+    markup_raw = models.TextField("Markup", default="")
     html = models.TextField(default="", blank=True)
     text = models.TextField(default="", blank=True)
     data = PickledObjectField(default={}, blank=True)
