@@ -11,8 +11,9 @@ admin.site.register(models.Blog, BlogAdmin)
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['__unicode__', 'post_time', 'get_admin_abbrev']
-    prepopulated_fields = {"slug": ("title",)}
-    date_hierarchy = 'post_time'
+    fields = ('title', 'slug', 'published', 'display_time', 'markup_type', 'markup_raw')
+    list_display = ['__unicode__', 'display_time', 'get_admin_abbrev']
+    prepopulated_fields = {'slug': ('title',)}
+    date_hierarchy = 'display_time'
 
 admin.site.register(models.Post, PostAdmin)

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from fields import PickledObjectField
 from django.utils.safestring import mark_safe
+import datetime
 
 import markup
 
@@ -37,14 +38,16 @@ class Blog(models.Model):
 class Post(models.Model):
 
     title = models.CharField("Post Title", max_length=100)
-    slug = models.SlugField()
+    slug = models.SlugField("Post Slug")
+    published = models.BooleanField("Published?", default=False)
 
 
     created_time = models.DateTimeField(auto_now_add=True)
-    post_time = models.DateTimeField(auto_now_add=True)
+    edit_time = models.DateTimeField(auto_now=True)
+    display_time = models.DateTimeField("Post Time", default=datetime.datetime.now)
 
 
-    markup_type = models.CharField(choices=markup.MARKUP_TYPES, default="postmarkup", max_length=20)
+    markup_type = models.CharField("Markup Type", choices=markup.MARKUP_TYPES, default="postmarkup", max_length=20)
     markup_raw = models.TextField(default="")
     html = models.TextField(default="", blank=True)
     text = models.TextField(default="", blank=True)
