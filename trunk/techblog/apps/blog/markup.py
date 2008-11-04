@@ -1,40 +1,33 @@
 #!/usr/bin/env python
 import postmarkup
-from django.db import models
-from fields import PickledObjectField
+import markuptags
 
-class Renderers():
-    pass
-renderers = Renderers()
+MARKUP_TYPES = [ ("html", "Raw HTML"),
+                ("postmarkup", "Postmarkup (BBCode like)"),
+                ]
 
-renderers.blog = postmarkup.create()
-
-
-def render_blogpost(markup, tag_data=None):
-    return renderers.blog(markup, tag_data=tag_data, paragraphs=True, clean=True)
-render_blogpost.version  = 1
+post_markup = postmarkup.create()
+post_markup.add_tag(markuptags.PyTag, "py")
+post_markup.add_tag(markuptags.EvalTag, "eval")
+post_markup.add_tag(markuptags.HTMLTag, "html")
 
 
-def add_markup_to_model(model, name, description, renderer):
+def render_post_markup(model):
 
-    name = name.lower()
-    setattr(model, name+"_markup", models.TextField(description))
-    setattr(model, name+"_version", models.IntegerField(description, default=0))
-    setattr(model, name+"_html", models.TextField(description, default=0))
-    setattr(model, name+"_data", PickledObjectField(description+" data"))
+    if model.markup_type == "html":
 
-    def make_markup_getter(name, renderer):
+        model.html = model.markup_raw
+        model.text = postmarkup.textilize(model.html)
+        model.data = {}
 
-        def get_markup(self):
+    elif model.markup_type =="postmarkup":
 
-            markup = getattr(self, name+"_markup")
-            version = getattr(self, name+"_version")
-            html = getattr(self, name+"_html")
-            if version != renderer.version:
-                tag_data = {}
-                html = renderer(markup, tag_data=tag_data)
-                setattr(self, name+"_data", tag_data)
-                setattr(self, name+"_html", html)
-            return html
+        tag_data = {}
+        html = post_markup( model.markup_raw,
+                            paragraphs=True,
+                            clean=True,
+                            tag_data=tag_data )
 
-    setattr(model, name, make_markup_getter(name, renderer) )
+        model.html = html
+        model.text = postmarkup.textilize(html)
+        model.data = tag_data.get('output', {})
