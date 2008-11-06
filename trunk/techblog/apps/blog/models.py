@@ -9,49 +9,74 @@ import markup
 
 # Create your models here.
 
+class ModelWithMarkup(models.Model):
+
+    markup_type = models.CharField("Markup Type", choices=markup.MARKUP_TYPES, default="postmarkup", max_length=20)
+    markup_raw = models.TextField("Markup", default="")
+    html = models.TextField(default="", blank=True)
+    summary_html = models.TextField(default="", blank=True)
+    text = models.TextField(default="", blank=True)
+    data = PickledObjectField(default={}, blank=True)
+    markup_version = models.IntegerField(default=0)
+
+    def check_markup(self):
+        if markup.VERSION != self.markup_version:
+            self.save()
+
+    class Meta:
+        abstract = True
 
 
-class Blog(models.Model):
+class Tag(models.Model):
+
+    blog = models.ForeignKey("Blog")
+    name = models.CharField("Tag name", max_length=100)
+    slug = models.SlugField()
+
+    count = models.IntegerField(default="0", editable=False)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Channel(ModelWithMarkup):
+
+    title = models.CharField("Channel Title", max_length=100)
+    slug = models.SlugField()
+
+    blogs = models.ManyToManyField("Blog")
+
+
+class Blog(ModelWithMarkup):
 
     created_time = models.DateTimeField(auto_now_add=True)
 
     title = models.CharField("Title of the Blog", max_length=100)
     slug = models.SlugField()
 
-    markup_type = models.CharField("Markup Type", choices=markup.MARKUP_TYPES, default="postmarkup", max_length=20)
-    markup_raw = models.TextField("Markup", default="")
-    html = models.TextField(default="", blank=True)
-    text = models.TextField(default="", blank=True)
-    data = PickledObjectField(default={}, blank=True)
-
     def __unicode__(self):
         return self.title
 
     def save(self, force_insert=False, force_update=False):
         markup.render_post_markup(self)
-        super(Post, self).save(force_insert, force_update)
+        super(Blog, self).save(force_insert, force_update)
 
 
-#markup.add_markup_to_model(Blog, "description", "Blog description markup", markup.render_blogpost)
 
+class Post(ModelWithMarkup):
 
-class Post(models.Model):
+    blog = models.ForeignKey(Blog)
 
     title = models.CharField("Post Title", max_length=100)
     slug = models.SlugField("Post Slug")
     published = models.BooleanField("Published?", default=False)
-
 
     created_time = models.DateTimeField(auto_now_add=True)
     edit_time = models.DateTimeField(auto_now=True)
     display_time = models.DateTimeField("Post Time", default=datetime.datetime.now)
 
 
-    markup_type = models.CharField("Markup Type", choices=markup.MARKUP_TYPES, default="postmarkup", max_length=20)
-    markup_raw = models.TextField("Markup", default="")
-    html = models.TextField(default="", blank=True)
-    text = models.TextField(default="", blank=True)
-    data = PickledObjectField(default={}, blank=True)
+    tags = models.ManyToManyField("Tag", blank=True)
 
     #created_time = models.DateTimeField(auto_now_add=True)
 
@@ -71,5 +96,3 @@ class Post(models.Model):
     def save(self, force_insert=False, force_update=False):
         markup.render_post_markup(self)
         super(Post, self).save(force_insert, force_update)
-
-#markup.add_markup_to_model(Post, "content", "Post content", markup.render_blogpost)

@@ -67,7 +67,7 @@ class EvalTag(postmarkup.TagBase):
             try:
                 result = str(e)
             except:
-                retult = "<error>"
+                retult = "(Error in eval tag)"
 
         return result.rstrip()
 
@@ -80,3 +80,14 @@ class HTMLTag(postmarkup.TagBase):
         contents = self.get_contents(parser).strip()
         self.skip_contents(parser)
         return contents
+
+class SummaryTag(postmarkup.TagBase):
+
+    def __init__(self, name, **kwargs):
+        postmarkup.TagBase.__init__(self, name, strip_first_newline=True)
+
+    def render_open(self, parser, node_index):
+        contents = self.get_contents(parser).strip()
+        tag_data = parser.tag_data
+        tag_data["output"]["summary"] = contents
+        return u""

@@ -1,5 +1,5 @@
-from django.conf.urls.defaults import *
 from django.conf import settings
+from django.conf.urls.defaults import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -10,6 +10,8 @@ urlpatterns = patterns('',
 
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/(.*)', admin.site.root),
+
+    (r'^$', 'apps.blog.views.front'),
 )
 
 if settings.DEBUG:
@@ -18,5 +20,5 @@ if settings.DEBUG:
 
 
 urlpatterns += patterns('',
-    (r'^blog/(?P<blog>)/', include('apps.blog.urls')),
+    (r'^blog/(?P<blog_slug>)/', include('apps.blog.urls')),
 )
