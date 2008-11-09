@@ -84,7 +84,7 @@ class HTMLTag(postmarkup.TagBase):
 class SummaryTag(postmarkup.TagBase):
 
     def __init__(self, name, **kwargs):
-        postmarkup.TagBase.__init__(self, name, strip_first_newline=True)
+        postmarkup.TagBase.__init__(self, name, strip_first_newline=True, inline=True)
 
     def render_open(self, parser, node_index):
         contents = self.get_contents(parser).strip()
