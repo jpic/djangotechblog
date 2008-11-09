@@ -48,6 +48,7 @@ class MarkupField(TextField):
         markup_type = getattr(model_instance, self._type_field)
 
         html, summary_html, text, data = self._renderer_callback(markup, markup_type)
+        print html
 
         setattr(model_instance, self._html_field, html)
         setattr(model_instance, self._summary_field, summary_html)
@@ -58,8 +59,6 @@ class MarkupField(TextField):
 
 def render_post_markup(markup, markup_type):
 
-    print markup_type, markup
-
     if markup_type =="postmarkup":
 
         tag_data = {}
@@ -67,6 +66,7 @@ def render_post_markup(markup, markup_type):
                             paragraphs=True,
                             clean=True,
                             tag_data=tag_data )
+
 
         text = postmarkup.textilize(html)
         output = tag_data.get('output', {})
