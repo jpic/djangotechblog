@@ -2,29 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from fields import PickledObjectField
 from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse
 import datetime
 
 import markup
 
-
-# Create your models here.
-
-class ModelWithMarkup(models.Model):
-
-    markup_type = models.CharField("Markup Type", choices=markup.MARKUP_TYPES, default="postmarkup", max_length=20)
-    markup_raw = models.TextField("Markup", default="")
-    html = models.TextField(default="", blank=True)
-    summary_html = models.TextField(default="", blank=True)
-    text = models.TextField(default="", blank=True)
-    data = PickledObjectField(default={}, blank=True)
-    markup_version = models.IntegerField(default=0)
-
-    def check_markup(self):
-        if markup.VERSION != self.markup_version:
-            self.save()
-
-    class Meta:
-        abstract = True
 
 
 class Tag(models.Model):
@@ -39,31 +21,46 @@ class Tag(models.Model):
         return self.name
 
 
-class Channel(ModelWithMarkup):
+class Channel(models.Model):
 
     title = models.CharField("Channel Title", max_length=100)
+    tagline = models.CharField("Tag line", max_length=200)
     slug = models.SlugField()
+
+    description = markup.MarkupField(default="", renderer=markup.render_post_markup)
 
     blogs = models.ManyToManyField("Blog")
 
 
-class Blog(ModelWithMarkup):
+class Blog(models.Model):
 
     created_time = models.DateTimeField(auto_now_add=True)
 
     title = models.CharField("Title of the Blog", max_length=100)
+    tagline = models.CharField("Tag line", max_length=200)
     slug = models.SlugField()
+    posts_per_page = models.IntegerField(default=10)
+
+    description = markup.MarkupField(default="", renderer=markup.render_post_markup)
 
     def __unicode__(self):
         return self.title
 
-    def save(self, force_insert=False, force_update=False):
-        markup.render_post_markup(self)
-        super(Blog, self).save(force_insert, force_update)
+    def posts(self):
+        now = datetime.datetime.now()
+        posts = self.post_set.filter(published=True,
+                                     display_time__lte=now).order_by("display_time")
+        return posts
 
+    @models.permalink
+    def get_absolute_url(self):
 
+        blog_slug = self.slug
 
-class Post(ModelWithMarkup):
+        return ("apps.blog.views.blog_front", (),
+                dict(blog_slug=blog_slug))
+
+class Post(models.Model):
 
     blog = models.ForeignKey(Blog)
 
@@ -75,15 +72,16 @@ class Post(ModelWithMarkup):
     edit_time = models.DateTimeField(auto_now=True)
     display_time = models.DateTimeField("Post Time", default=datetime.datetime.now)
 
-
     tags = models.ManyToManyField("Tag", blank=True)
+
+    content = markup.MarkupField(default="", renderer=markup.render_post_markup)
 
     #created_time = models.DateTimeField(auto_now_add=True)
 
     def get_admin_abbrev(self):
-        if len(self.text) < 100:
-            return self.text
-        return self.text[:100]+" [...]"
+        if len(self.content_text) < 100:
+            return self.content_text
+        return self.content_text[:100]+" [...]"
     get_admin_abbrev.short_description = "Content (abbreviated)"
 
     def get_admin_html(self):
@@ -93,6 +91,22 @@ class Post(ModelWithMarkup):
     def __unicode__(self):
         return self.title
 
-    def save(self, force_insert=False, force_update=False):
-        markup.render_post_markup(self)
-        super(Post, self).save(force_insert, force_update)
+    def date_url(self):
+        year = self.display_time.year
+        month = self.display_time.month
+        day = self.display_time.day
+        return "%d/%d/%d/%s" % (year, month, day, self.slug)
+
+    @models.permalink
+    def get_absolute_url(self):
+
+        blog_slug = self.blog.slug
+        year = self.display_time.year
+        month = self.display_time.month
+        day = self.display_time.day
+
+        return ("apps.blog.views.blog_entry", (),
+                dict(blog_slug=blog_slug, year=year, month=month, day=day, slug=self.slug))
+
+ #       return reverse("apps.blog.views.blog_entry", args=(blog_slug, year, month, day, self.slug))
+        #return "%d/%d/%d/%s" % (year, month, day, self.slug)

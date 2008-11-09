@@ -8,11 +8,13 @@ import models
 class BlogAdmin(admin.ModelAdmin):
     fields = ('title',
               'slug',
-              'markup_type',
-              'markup_raw',
-              'html',
-              'summary_html')
+              'tagline',
+              'description_type',
+              'description',
+              'description_html',
+              )
     prepopulated_fields = {"slug": ("title",)}
+    list_display = ['__unicode__', 'tagline']
 
 admin.site.register(models.Blog, BlogAdmin)
 
@@ -24,11 +26,7 @@ class PostAdmin(admin.ModelAdmin):
               'published',
               'display_time',
               'tags',
-              'markup_type',
-              'markup_raw',
-              'html',
-              'summary_html',
-              'data')
+              'content')
     list_display = ['__unicode__', 'display_time', 'get_admin_abbrev']
     prepopulated_fields = {'slug': ('title',)}
     date_hierarchy = 'display_time'

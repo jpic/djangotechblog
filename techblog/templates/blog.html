@@ -1,0 +1,30 @@
+{% extends "blog_base.html" %}
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="/media/js/blog_base.js"> </script>
+{% endblock %}
+
+{% block column1 %}
+{% for entry in entries %}
+<div class="entry">
+<h2><a href="{{ entry.date_url }}">{{ entry.title }}</a></h2>
+<div class="post-subtitle">{{ entry.display_time|timesince }} ago</div>
+
+{% if not entry.content_summary_html %}
+    {{ entry.content_html|safe }}
+{% endif %}
+
+
+{% if entry.content_summary_html %}
+    {{ entry.content_summary_html|safe }}
+    <div class="read-more""><a href="{{ entry.date_url }}">Read more...</a></div>
+{% endif %}
+</div>
+{% endfor %}
+{% endblock %}
+
+
+{% block summary_area %}
+<div class="summary-area">{{ blog.description_html|safe }}</div>
+{% endblock %}

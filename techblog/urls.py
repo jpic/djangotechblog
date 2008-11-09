@@ -20,5 +20,5 @@ if settings.DEBUG:
 
 
 urlpatterns += patterns('',
-    (r'^blog/(?P<blog_slug>)/', include('apps.blog.urls')),
+    (r'^blog/', include('apps.blog.urls')),
 )
