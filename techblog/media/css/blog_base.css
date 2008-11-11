@@ -4,6 +4,9 @@ body
     background-color:#555;
     font-family:"Lucida Grande",Geneva,Arial,Verdana,sans-serif;
 
+    background-color:#ededed;
+    background-image:url("/media/images/backgradient.png");
+    background-repeat:repeat-x;
 }
 
 #title
@@ -23,6 +26,9 @@ body
 {
     margin:0 auto;
     min-height:150px;
+    /*background-color:#aeaeae;
+    background-image:url("/media/images/swirly.jpg");
+    background-repeat:repeat-x;*/
 }
 
 #header h1
@@ -58,6 +64,7 @@ body
     clear:both;
     height:26px;
     background-image:url(/media/images/bottomborder.png);
+    margin-bottom:30px;
 }
 
 .page-summary
@@ -77,6 +84,7 @@ body
     font-family:"Lucida Grande",Geneva,Arial,Verdana,sans-serif;
     font-weight:bold;
     font-size:90%;
+    margin:20px 2px;
 }
 
 .header-content .inner
@@ -94,7 +102,7 @@ body
     margin:0 auto;
     width:980px;
 
-    border:1px solid #999;
+    border:1px solid #000;
     /*border-top:4px solid #999;*/
     background-color:#fff;
 
@@ -127,8 +135,12 @@ body
 #header .header-content
 {
     background-color:#36393D;
+    background-color:#CCC;
     padding:2px;
-    background-image:url(/media/images/colorback.jpg);
+    /*background-image:url(/media/images/blueswirl.jpg);*/
+    margin-bottom:30px;
+    margin-left:2px;
+    margin-right:2px;
 }
 
 
@@ -182,7 +194,7 @@ body
 #footer .inner .footer-content
 {
     color:black;
-    background-color:#bbb;
+    background-color:#ddd;
     padding:8px;
     font-size:75%;
     /*font-weight:bold;*/
@@ -231,13 +243,14 @@ body
 {
     /*background-color:#bbb;*/
     font-size:90%;
+    margin:4px;
 }
 
 .toplinks a
 {
     text-decoration:none;
-    color:white;
-    font-weight:normal;
+    /* color:white; */
+    font-weight:bold;
     font-size:12px;
 
 }
@@ -322,6 +335,7 @@ strong {font-weight:bold;}
     text-align:justify;
     font-weight:bold;
     padding-top:40px;
+    padding-bottom:40px;
 }
 
 .read-more
