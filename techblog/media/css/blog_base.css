@@ -26,9 +26,11 @@ body
 {
     margin:0 auto;
     min-height:150px;
+    background-color:#ddd;
     /*background-color:#aeaeae;
     background-image:url("/media/images/swirly.jpg");
     background-repeat:repeat-x;*/
+    background-image:url("/media/images/back.png");
 }
 
 #header h1
@@ -36,7 +38,7 @@ body
     font-family:'Trebuchet MS','Lucida Grande',Verdana,Arial,Sans-Serif;
     font-size:150%;
     font-weight:normal;
-    color:#0066cc;
+    color:white;
     text-align:center;
     clear:both;
     padding-top:60px;
@@ -45,10 +47,16 @@ body
 .tagline
 {
     font-size:100%;
-    font-weight:bold;
-    color:#888;
+    font-weight:normal;
+    color:black;
     text-align:center;
     margin-top:10px;
+}
+
+.tagline a, .tagline a:visited
+{
+    font-weight:normal;
+    color:black;
 }
 
 
@@ -102,7 +110,7 @@ body
     margin:0 auto;
     width:980px;
 
-    border:1px solid #000;
+    border:1px solid #444;
     /*border-top:4px solid #999;*/
     background-color:#fff;
 
@@ -110,6 +118,12 @@ body
 /*    background-image:url("/media/images/blogback.png");
     background-repeat:repeat-y;*/
 
+}
+
+.bottom-shadow
+{
+    background-image:url("/media/images/bottomshadow.png");
+    height:40px;
 }
 
 #header{}
@@ -129,7 +143,7 @@ body
 
 #header .inner
 {
-    margin:1px;
+    margin:0px;
 }
 
 #header .header-content
@@ -331,11 +345,20 @@ strong {font-weight:bold;}
     margin:0 auto;
     padding:20px;
     color:#555;
-    line-height:150%;
     text-align:justify;
-    font-weight:bold;
+    font-weight:normal;
     padding-top:40px;
     padding-bottom:40px;
+}
+
+.summary-area p
+{
+    color:white;
+}
+
+.summary-area a
+{
+    color:white;
 }
 
 .read-more
