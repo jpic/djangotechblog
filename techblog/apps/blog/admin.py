@@ -26,7 +26,9 @@ class PostAdmin(admin.ModelAdmin):
               'published',
               'display_time',
               'tags',
-              'content')
+              'content',
+              'content_html',
+              'content_summary_html')
     list_display = ['__unicode__', 'display_time', 'get_admin_abbrev']
     prepopulated_fields = {'slug': ('title',)}
     date_hierarchy = 'display_time'

@@ -3,19 +3,13 @@ import postmarkup
 import markuptags
 from fields import PickledObjectField
 from django.db.models import CharField, TextField, IntegerField
+from markuprender import *
 
 VERSION = 1
 
 MARKUP_TYPES = [ ("html", "Raw HTML"),
                 ("postmarkup", "Postmarkup (BBCode like)"),
                 ]
-
-post_markup = postmarkup.create()
-post_markup.add_tag(markuptags.PyTag, "py")
-post_markup.add_tag(markuptags.EvalTag, "eval")
-post_markup.add_tag(markuptags.HTMLTag, "html")
-post_markup.add_tag(postmarkup.SectionTag, "in")
-post_markup.add_tag(markuptags.SummaryTag, "summary")
 
 class MarkupField(TextField):
 
@@ -48,7 +42,6 @@ class MarkupField(TextField):
         markup_type = getattr(model_instance, self._type_field)
 
         html, summary_html, text, data = self._renderer_callback(markup, markup_type)
-        print html
 
         setattr(model_instance, self._html_field, html)
         setattr(model_instance, self._summary_field, summary_html)
