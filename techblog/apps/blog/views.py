@@ -16,7 +16,7 @@ def blog_front(request, blog_slug, page=1):
     entries = posts
     entries_count = posts.count()
 
-    start_index = (page-1)*blog.posts_per_page
+    start_index = (page-1) * blog.posts_per_page
     last_index = start_index + blog.posts_per_page
 
     entries = entries[start_index:last_index+1]
