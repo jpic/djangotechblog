@@ -5,7 +5,7 @@ body
     font-family:"Lucida Grande",Geneva,Arial,Verdana,sans-serif;
 
     background-color:#ededed;
-    background-image:url("/media/images/gradientback.png");
+    background-image:url("/media/images/backgradient.png");
     background-repeat:repeat-x;
 }
 
@@ -148,8 +148,8 @@ body
 
 #header .header-content
 {
-    background-color:#36393D;
-    background-color:#CCC;
+    /*background-color:#36393D;
+    background-color:#CCC;*/
     padding:2px;
     /*background-image:url(/media/images/blueswirl.jpg);*/
     margin-bottom:30px;
@@ -160,7 +160,7 @@ body
 
 #column1
 {
-    width:653px;
+    width:652px;
     float:left;
     overflow:hidden;
 }
@@ -177,7 +177,8 @@ body
     width: 326px;
     float:left;
     overflow:hidden;
-    border-left:1px solid #999;
+    border-left:1px solid #bbb;
+    /*background-color:#eee;*/
 }
 
 
@@ -188,12 +189,13 @@ body
 
 .column1-content
 {
-    padding:10px;
+    /*padding:10px;*/
 }
 
 .column2-content
 {
-    padding:10px;
+    padding:0px 20px;
+    /*padding:10px;*/
 }
 
 #footer .inner
@@ -232,7 +234,7 @@ body
     font-family:"Lucida Grande",Geneva,Arial,Verdana,sans-serif;
     font-size:80%;
     text-align:center;
-    color:white;
+    color:#999;
 }
 
 .toplinks
@@ -258,6 +260,14 @@ body
     /*background-color:#bbb;*/
     font-size:90%;
     margin:4px;
+
+    border-top:1px solid #ccc;
+    border-bottom:1px solid #ccc;
+    background-image:url("/media/images/subtlegradient.png");
+    background-position:0 1px;
+    background-repeat:repeat-x;
+    margin:5px;
+    padding:5px;
 }
 
 .toplinks a
@@ -313,11 +323,19 @@ a:active
 
 h2
 {
-    font-size:120%;
-    font-weight:bold;
-    margin:10px 0px;
+    font-size:110%;
+    /*font-weight:bold;*/
+    margin:10px -2px;
     color:#555;
     font-family:'Trebuchet MS','Lucida Grande',Verdana,Arial,Sans-Serif;
+
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    background-image:url("/media/images/subtlegradient.png");
+    background-position:0 1px;
+    background-repeat:repeat-x;
+    padding:5px;
+    clear:both;
 }
 
 .post-subtitle
