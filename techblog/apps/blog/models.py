@@ -107,6 +107,3 @@ class Post(models.Model):
 
         return ("apps.blog.views.blog_entry", (),
                 dict(blog_slug=blog_slug, year=year, month=month, day=day, slug=self.slug))
-
- #       return reverse("apps.blog.views.blog_entry", args=(blog_slug, year, month, day, self.slug))
-        #return "%d/%d/%d/%s" % (year, month, day, self.slug)
