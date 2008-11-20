@@ -24,6 +24,6 @@ def collate_archives(blog):
 
     months = [(year, month, count_iterable(post_group)) for (year, month),post_group in groupby(posts, year_month)]
 
-    years = [ (year,list(months)) for (year, months) in groupby(months, lambda m:m[0])]
+    years = [(year,list(months)) for (year, months) in groupby(months, lambda m:m[0])]
 
     return years
