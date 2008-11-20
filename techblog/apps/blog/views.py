@@ -3,7 +3,7 @@ import models
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import Http404
 from datetime import datetime, timedelta
-
+import tools
 
 
 def blog_front(request, blog_slug, page=1):
@@ -21,6 +21,8 @@ def blog_front(request, blog_slug, page=1):
 
     entries = entries[start_index:last_index+1]
 
+    archives = tools.collate_archives(blog)
+
     #if not entries:
     #    raise Http404
 
@@ -28,7 +30,8 @@ def blog_front(request, blog_slug, page=1):
               title = title,
               page_title = title,
               tagline = blog.tagline,
-              entries = entries)
+              entries = entries,
+              archives = archives)
 
 
     return render_to_response("blog.html", td)

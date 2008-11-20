@@ -24,6 +24,16 @@
 {% endfor %}
 {% endblock %}
 
+{% block column2 %}
+{% for year,months in archives %}
+<h1>{{ year }}</h1>
+<ul>
+    {% for year, month, count in months %}
+    <li>{{ month }}</li>
+    {% endfor %}
+</ul>
+{% endfor %}
+{% endblock %}
 
 {% block summary_area %}
 <div class="summary-area">{{ blog.description_html|safe }}</div>

@@ -11,7 +11,7 @@ def create_blog(title="Test Blog", num_posts = 100):
         return "\n".join("%s"% text for _ in xrange(count))
 
     def slugify(title):
-        return title.lower().replace(' ', '_')
+        return title.lower().replace(' ', '-')
 
     blog = models.Blog(title = title,
                 description = paragraphs(1),
@@ -19,9 +19,10 @@ def create_blog(title="Test Blog", num_posts = 100):
 
     blog.save()
 
-    words = """"random python I You like code life universe everything god"""
+    words = """random python I You like code life universe everything god"""
     """atheism hot very difficult easy hard dynamic of the in is under on through"""
     """extremely strangely hardly plainly transparently incredibly"""
+    """goes remarkable not if interesting words phone computer will she he are is"""
 
     words = words.split()
     def random_title():

@@ -38,7 +38,7 @@ class Blog(models.Model):
 
     title = models.CharField("Title of the Blog", max_length=100)
     tagline = models.CharField("Tag line", max_length=200)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     posts_per_page = models.IntegerField(default=10)
 
     description = markup.MarkupField(default="", renderer=markup.render_post_markup)
@@ -65,7 +65,7 @@ class Post(models.Model):
     blog = models.ForeignKey(Blog)
 
     title = models.CharField("Post Title", max_length=100)
-    slug = models.SlugField("Post Slug")
+    slug = models.SlugField("Post Slug", unique=True)
     published = models.BooleanField("Published?", default=False)
 
     created_time = models.DateTimeField(auto_now_add=True)
