@@ -11,8 +11,10 @@ except ImportError:
 
 class PyTag(postmarkup.TagBase):
 
+    DEFAULT_NAME = "py"
+
     def __init__(self, name, **kwargs):
-        postmarkup.TagBase.__init__(self, name, enclosed=True, strip_first_newline=True)
+        postmarkup.TagBase.__init__(self, name, enclosed=True, inline=True, strip_first_newline=True)
 
     def render_open(self, parser, node_index):
 
@@ -24,13 +26,9 @@ class PyTag(postmarkup.TagBase):
         self.skip_contents(parser)
 
         stdout = sys.stdout
-
         contents = "\n".join(contents.split('\r\n')) + "\n"
 
-        print repr(contents)
-
         sys.stdout = StringIO()
-
 
         try:
             try:
@@ -44,10 +42,15 @@ class PyTag(postmarkup.TagBase):
             result = sys.stdout.getvalue()
             sys.stdout = stdout
 
+        if not self.params.lower() == "safe":
+            result = postmarkup._escape(result)
+
         return result.rstrip()
 
 
 class EvalTag(postmarkup.TagBase):
+
+    DEFAULT_NAME = "eval"
 
     def __init__(self, name, **kwargs):
         postmarkup.TagBase.__init__(self, name, inline=True, enclosed=True, strip_first_newline=True)
@@ -69,9 +72,14 @@ class EvalTag(postmarkup.TagBase):
             except:
                 retult = "(Error in eval tag)"
 
+        if not self.params.lower() == "safe":
+            result = postmarkup._escape(result)
+
         return result.rstrip()
 
 class HTMLTag(postmarkup.TagBase):
+
+    DEFAULT_NAME = "html"
 
     def __init__(self, name, **kwargs):
         postmarkup.TagBase.__init__(self, name, enclosed=True, strip_first_newline=True)
@@ -87,6 +95,8 @@ class HTMLTag(postmarkup.TagBase):
 
 class SummaryTag(postmarkup.TagBase):
 
+    DEFAULT_NAME = "summary"
+
     def __init__(self, name, **kwargs):
         postmarkup.TagBase.__init__(self, name, inline=True)
 
@@ -96,3 +106,14 @@ class SummaryTag(postmarkup.TagBase):
         summary = tag_data["output"].setdefault("summary", "")
         tag_data["output"]["summary"] = contents
         return u""
+
+class AnchorTag(postmarkup.TagBase):
+
+    DEFAULT_NAME = "anchor"
+
+    def __init__(self, name, **kwargs):
+        postmarkup.TagBase.__init__(self, name, autoclose=True, inline=True)
+
+    def render_open(self, parser, node_index):
+        anchor_name = self.params.lower().replace(' ', '_')
+        return u"""<a name="%s" />""" % anchor_name
