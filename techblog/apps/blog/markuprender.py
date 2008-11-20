@@ -26,6 +26,8 @@ print postmarkup.__version__[/py]
 [eval safe]range(10)[/eval]
 [py]x=1[/py]
 X is [eval]x[/eval], [py]import datetime[/py][eval]datetime.datetime.now()[/eval]
+
+[py]import this[/py]
 Another paragraph"""
 
     tag_data = {}

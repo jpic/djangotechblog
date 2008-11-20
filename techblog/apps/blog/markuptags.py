@@ -70,7 +70,7 @@ class EvalTag(postmarkup.TagBase):
             try:
                 result = str(e)
             except:
-                retult = "(Error in eval tag)"
+                result = "(Error in eval tag)"
 
         if not self.params.lower() == "safe":
             result = postmarkup._escape(result)
