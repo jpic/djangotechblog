@@ -49,7 +49,7 @@ class Blog(models.Model):
     def posts(self):
         now = datetime.datetime.now()
         posts = self.post_set.filter(published=True,
-                                     display_time__lte=now).order_by("display_time")
+                                     display_time__lte=now).order_by("-display_time")
         return posts
 
     @models.permalink

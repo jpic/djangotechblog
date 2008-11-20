@@ -52,8 +52,8 @@ def blog_entry(request, blog_slug, year, month, day, slug):
         raise Http404
 
     entry = get_object_or_404(models.Post,
-                             display_time__gte=post_day_start,
-                             display_time__lt=post_day_end,
+                             #display_time__gte=post_day_start,
+                             #display_time__lt=post_day_end,
                              slug=slug,
                              published=True)
 

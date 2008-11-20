@@ -14,23 +14,22 @@
 </head>
 
 <body>
-    <div id="title">
-        <div class="inner">
-        </div>
-    </div>
-    <div id="content">
 
+    <div class="intro">
+        <h1>{{ title }}</h1>
+    </div>
+
+    <div id="content">
         <div id="header">
             <div class="inner">
-
-
                 <div class="title-area">
 
-                <h1>{% block page_title %}{{ page_title }}{% endblock %}</h1>
+                <h1>{{ page_title }}</h1>
                 <div class="tagline">{% block tagline %}{{ tagline }}{% endblock %}</div>
 
                 {% block summary_area %} {% endblock %}
                 </div>
+
                 <div class="bottom-shadow"> </div>
 
 
@@ -87,7 +86,7 @@ You should be aware that these frameworks are often criticized for bloating the 
             <div class="inner">
                 <div class="column2-content">
                     {% block column2 %}
-                    <h2>About Me</h2>
+                    <h1>About Me</h1>
                     <p>
                         <img class="mug-shot" src="/media/images/mugshot.jpg"/>
                         I'm a software developer and author, living in London.

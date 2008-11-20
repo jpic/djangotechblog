@@ -2,11 +2,13 @@
 {% block title %}{{ blog.title }}{% endblock %}
 
 {% block column1 %}
-<h2>{{ entry.title }}</h2>
+<h1>{{ entry.title }}</h1>
 <div class="post-subtitle">{{ entry.display_time|timesince }} ago</div>
 
 {{ entry.content_html|safe }}
 
 {% endblock %}
+
+{% block summary_area %} {% endblock %}
 
 {% block tagline %}<a href="{{ entry.blog.get_absolute_url }}">{{ tagline }}</a>{% endblock %}
