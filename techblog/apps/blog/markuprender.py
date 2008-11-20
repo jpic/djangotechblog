@@ -17,19 +17,15 @@ for symbol in dir(markuptags):
         if default_name:
             post_markup.add_tag(obj, default_name)
 
-#post_markup.add_tag(markuptags.PyTag, "py")
-#post_markup.add_tag(markuptags.EvalTag, "eval")
-#post_markup.add_tag(markuptags.HTMLTag, "html")
-#post_markup.add_tag(markuptags.SummaryTag, "summary")
-#post_markup.add_tag(markuptags.AnchorTag, "anchor")
-
 if __name__ == "__main__":
 
     test = """[summary]
 This is a [b]summary[/b]...[/summary]
 Article [py]import postmarkup
 print postmarkup.__version__[/py]
-[eval safe]"<h1>Hello</h1>"[/eval]
+[eval safe]range(10)[/eval]
+[py]x=1[/py]
+X is [eval]x[/eval], [py]import datetime[/py][eval]datetime.datetime.now()[/eval]
 Another paragraph"""
 
     tag_data = {}
