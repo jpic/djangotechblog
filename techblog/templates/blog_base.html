@@ -25,12 +25,10 @@
                 <div class="title-area">
 
                 <h1>{{ page_title }}</h1>
-                <div class="tagline">{% block tagline %}{{ tagline }}{% endblock %}</div>
 
                 {% block summary_area %} {% endblock %}
                 </div>
 
-                <div class="bottom-shadow"> </div>
 
 
                 {# <div class="top-border"> </div> #}
@@ -55,57 +53,62 @@
             </div>
         </div>
 
+        <div id="main">
+
+            <div class="bottom-shadow"> </div>
 
 
-        <div id="column1">
+            <div id="column1">
 
-            <div class="inner">
+                <div class="inner">
 
-                <div class="column1-content">
-                    {% block column1 %}
-                    <h2><a href="#">Blog Post Title</a></h2>
-                    <div class="post-subtitle">Posted 2 days ago, by Will</div>
+                    <div class="column1-content">
+                        {% block column1 %}
+                        <h2><a href="#">Blog Post Title</a></h2>
+                        <div class="post-subtitle">Posted 2 days ago, by Will</div>
 
-                    <p>
-            While Reset CSS removes and <a href="kjhkjh">neutralizes</a> the inconsistent default styling of HTML elements, Base CSS applies a consistent style foundation for common HTML elements across A-grade browsers.
+                        <p>
+                While Reset CSS removes and <a href="kjhkjh">neutralizes</a> the inconsistent default styling of HTML elements, Base CSS applies a consistent style foundation for common HTML elements across A-grade browsers.
 
-Fonts CSS offers cross-browser typographical normalization and control; the framework provides consistent font sizing and line-height, supports user-driven font-size adjustment in the browser, including cross-browser consistency for adjusted sizes and works in both Quirks Mode and Standards Mode.
+    Fonts CSS offers cross-browser typographical normalization and control; the framework provides consistent font sizing and line-height, supports user-driven font-size adjustment in the browser, including cross-browser consistency for adjusted sizes and works in both Quirks Mode and Standards Mode.
 
-Grids CSS delivers four preset page widths, six preset templates, and the ability to stack and nest subdivided regions of two, three, or four columns. The 4kb file provides over 1000 page layout combinations. The framework supports easy customization of the width for fixed-width layouts; it also supports fluid-width (100%) layouts as well as preset fixed-width layouts at 750px, 950px, and 974px, and the ability to easily customize to any number. YUI also offers The YUI Grids Builder — a simple interface for Grids customization.
+    Grids CSS delivers four preset page widths, six preset templates, and the ability to stack and nest subdivided regions of two, three, or four columns. The 4kb file provides over 1000 page layout combinations. The framework supports easy customization of the width for fixed-width layouts; it also supports fluid-width (100%) layouts as well as preset fixed-width layouts at 750px, 950px, and 974px, and the ability to easily customize to any number. YUI also offers The YUI Grids Builder — a simple interface for Grids customization.
 
-You should be aware that these frameworks are often criticized for bloating the code with non-semantic markup and generating too many unnecessary classes, IDs and div-containers in CSS. Yahoo! UI Library also provides a detailed documentation with numerous examples, tutorials, cheat sheets, templates and tools.
-                    </p>
-                    {% endblock %}
+    You should be aware that these frameworks are often criticized for bloating the code with non-semantic markup and generating too many unnecessary classes, IDs and div-containers in CSS. Yahoo! UI Library also provides a detailed documentation with numerous examples, tutorials, cheat sheets, templates and tools.
+                        </p>
+                        {% endblock %}
+                    </div>
+
                 </div>
 
             </div>
 
-        </div>
+            <div id="column2">
+                <div class="inner">
+                    <div class="column2-content">
+                        {% block column2 %}
+                        <h1>About Me</h1>
+                        <p>
+                            <img class="mug-shot" src="/media/images/mugshot.jpg"/>
+                            I'm a software developer and author, living in London.
+                            I develop websites in Python and Django for a living.
+                        </p>
+                        <div class="clear"> </div>
+                        {% endblock %}
+                    </div>
 
-        <div id="column2">
-            <div class="inner">
-                <div class="column2-content">
-                    {% block column2 %}
-                    <h1>About Me</h1>
-                    <p>
-                        <img class="mug-shot" src="/media/images/mugshot.jpg"/>
-                        I'm a software developer and author, living in London.
-                        I develop websites in Python and Django for a living.
-                    </p>
-                    <div class="clear"> </div>
-                    {% endblock %}
                 </div>
 
             </div>
+            <div class="clear"> </div>
 
-        </div>
-        <div class="clear"> </div>
-
-        <div id="footer">
-            <div class="inner">
-                <div class="footer-content">
-                    This is the footer
+            <div id="footer">
+                <div class="inner">
+                    <div class="footer-content">
+                        This is the footer
+                    </div>
                 </div>
+
             </div>
 
         </div>
