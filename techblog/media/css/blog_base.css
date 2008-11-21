@@ -175,7 +175,10 @@ body
 {
     background-color:#333;
 }
-#footer{}
+#footer
+{
+    padding-top:8px;
+}
 
 #content-top
 {
@@ -252,7 +255,7 @@ body
     /*margin-left:24px;
     margin-right:24px;
     padding-bottom:24px;*/
-    margin:1px;
+    /*margin:1px;*/
 
 }
 
