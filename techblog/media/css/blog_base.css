@@ -461,6 +461,8 @@ a:active
     text-align:center;
     border:1px solid #ddd;
     margin-right:8px;
+    border-right:1px solid #999;
+    border-bottom:1px solid #999;
 }
 
 .post-date>.date-inner
