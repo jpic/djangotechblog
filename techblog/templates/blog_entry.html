@@ -2,8 +2,8 @@
 {% block title %}{{ blog.title }}{% endblock %}
 
 {% block summary_area %}
-<div class="faded-title">{{ blog.title }}</div>
-<h1>{{ entry.title }}</h1>
+<div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
+<h1>{{ blog.tagline }}</h1>
 {% endblock %}
 
 {% block column1 %}

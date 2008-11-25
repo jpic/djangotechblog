@@ -117,3 +117,18 @@ class AnchorTag(postmarkup.TagBase):
     def render_open(self, parser, node_index):
         anchor_name = self.params.lower().replace(' ', '_')
         return u"""<a name="%s" />""" % anchor_name
+
+class PullquoteTag(postmarkup.TagBase):
+
+    DEFAULT_NAME = "pullquote"
+
+    def __init__(self, name, **kwargs):
+        postmarkup.TagBase.__init__(self, name, inline=False)
+
+    def render_open(self, parser, node_index):
+        contents = self.get_contents(parser).strip()
+        self.skip_contents(parser)
+        txt = postmarkup._escape(contents)
+        html = u"""<div class="pullquote">"%s"</div>""" % txt
+        return html
+

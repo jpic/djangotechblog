@@ -1,4 +1,7 @@
 {% extends "blog_base.html" %}
+
+{% load blogtags %}
+
 {% block title %}{{ blog.title }}{% endblock %}
 
 {% block js %}
@@ -7,9 +10,19 @@
 
 {% block column1 %}
 {% for entry in entries %}
+
 <div class="entry">
+    <div class="post-date">
+    <div class="date-inner">
+        <span class="month">{{ entry.display_time.month|shortmonth }}</span>
+        <br/>
+        <span class="day">{{ entry.display_time.day }}</span>
+        <br/>
+        <span class="year">{{ entry.display_time.year }}</span>
+        {# {{ entry.display_time|timesince }} ago #}
+    </div>
+</div>
 <h1><a href="{{ entry.date_url }}">{{ entry.title }}</a></h1>
-<div class="post-subtitle">{{ entry.display_time|timesince }} ago</div>
 
 {% if not entry.content_summary_html %}
     {{ entry.content_html|safe }}
@@ -21,6 +34,7 @@
     <div class="read-more""><a href="{{ entry.date_url }}">Read more...</a></div>
 {% endif %}
 </div>
+<br/>
 {% endfor %}
 {% endblock %}
 
@@ -29,13 +43,14 @@
 <h1>{{ year }}</h1>
 <ul>
     {% for year, month, count in months %}
-    <li>{{ month }}</li>
+    <li>{{ month|longmonth }}</li>
     {% endfor %}
 </ul>
 {% endfor %}
 {% endblock %}
 
 {% block summary_area %}
-<h1>{{ blog.title }}</h1>
+<div class="faded-title">{{ blog.title }}</div>
+<h1>{{ blog.tagline }}</h1>
 <div class="summary-area">{{ blog.description_html|safe }}</div>
 {% endblock %}

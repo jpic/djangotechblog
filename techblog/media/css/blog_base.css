@@ -6,9 +6,10 @@ body
 
     background-color:#ededed;
     background-color:#929292;
-    /*background-image:url("/media/images/shadeback.png");*/
+    /*background-image:url("/media/images/blueback.png");*/
     background-repeat:repeat-x;
 }
+
 
 #title
 {
@@ -83,7 +84,7 @@ body
     background-image:url(/media/images/topgradient.png);
     padding:20px;
     border-bottom:4px solid white;
-display:none;
+    display:none;
 }
 
 .title-area h1
@@ -97,6 +98,7 @@ display:none;
     /*background-color:#575773;*/
 }
 
+
 .title-area .faded-title
 {
     font-size:300%;
@@ -105,6 +107,12 @@ display:none;
     z-index:20;
     font-family:"Courier New", Courier, monospace;
     text-align:center;
+    color:white;
+}
+
+.title-area .faded-title a:visited, .title-area .faded-title a:link
+{
+    color:white;
 }
 
 .tagline
@@ -233,7 +241,7 @@ display:none;
     width:628px;
     float:left;
     overflow:hidden;
-    background-image:url("/media/images/bottomshadow.png");
+    /*background-image:url("/media/images/bottomshadow.png");*/
     background-repeat:repeat-x;
 }
 #column1 .inner
@@ -251,14 +259,18 @@ display:none;
     overflow:hidden;
     /*border-left:1px solid #bbb;*/
     /*background-color:#eee;*/
-    background-image:url("/media/images/bottomshadow.png");
+    /*background-image:url("/media/images/bottomshadow.png");*/
     background-repeat:repeat-x;
 }
 
 
 .column1-content p
 {
+}
 
+.entry p
+{
+    margin-left:50px;
 }
 
 .column1-content
@@ -271,7 +283,7 @@ display:none;
     padding:0px 20px;
     background-color:#f9f9f9;
     /*padding:10px;*/
-    margin-top:20px;
+
 }
 
 #footer .inner
@@ -296,12 +308,11 @@ display:none;
 {
     font-size:80%;
     line-height:130%;
-    padding-bottom:.5em;
-    padding-top:.5em;
+    padding-bottom:1em;
     color:#333;
 }
 
-#subtext
+.subtext
 {
     width:980px;
     margin:0 auto;
@@ -309,7 +320,27 @@ display:none;
     padding-bottom:30px;
     font-size:80%;
     text-align:center;
-    color:#999;
+    color:#fff;
+}
+
+.subtext a, .subtext a:visited
+{
+    color:white;
+}
+
+
+.credit
+{
+    padding-bottom:20px;
+    color:white;
+    font-size:70%;
+    margin:0 auto;
+    text-align:center;
+}
+
+.credit a, .credit a:visited
+{
+    color:white;
 }
 
 .toplinks
@@ -376,7 +407,8 @@ display:none;
 
 a
 {
-    color:#752A26;
+    /*color:#752A26;*/
+    color:#821f07;
     font-weight:bold;
     text-decoration:none;
 }
@@ -411,8 +443,7 @@ a:active
     /*background-image:url("/media/images/subtlegradient.png");*/
     background-position:0 1px;
     background-repeat:repeat-x;
-    padding:6px 2px;
-    clear:both;
+    padding:0px 2px 6px 0px;
 }
 
 .post-subtitle
@@ -421,6 +452,47 @@ a:active
     color:#999;
     margin-top:-4px;
 }
+
+.post-date
+{
+    background-color:white;
+    float:left;
+    color:white;
+    text-align:center;
+    border:1px solid #ddd;
+    margin-right:8px;
+}
+
+.post-date>.date-inner
+{
+    text-align:center;
+    margin:1px;
+    /*background-image:url(/media/images/dateback.png);*/
+    background-color:#821f07;
+    background-color:#07825d;
+    padding:2px 4px;
+}
+
+.post-date .month
+{
+    font-weight:bold;
+    font-size:65%;
+    text-transform:uppercase;
+}
+
+.post-date .day
+{
+    font-weight:bold;
+    font-size:100%;
+}
+
+.post-date .year
+{
+    font-weight:normal;
+    font-size:60%;
+    color:white;
+}
+
 
 .mug-shot
 {
@@ -470,7 +542,22 @@ strong {font-weight:bold;}
     clear:both;
 
     padding-bottom:16px;
+    border-bottom:1px dashed #bbb;
 }
 
 .entry a
 {font-weight:normal;}
+
+.pullquote
+{
+    width:49%;
+    float:right;
+    font-size:120%;
+    font-style:italic;
+    color:#194c7f;
+    line-height:130%;
+    background-color:#f8f8f8;
+    padding:6px;
+    margin:4px;
+    font-family:Georgia;
+}

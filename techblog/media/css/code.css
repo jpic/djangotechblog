@@ -9,6 +9,7 @@ pre
     margin-top:8px;
     margin-bottom:8px;
     line-height:120%;
+    clear:both;
     }
 .code .c { color: #008800; font-style: italic } /* Comment */
 .code .err { border: 1px solid #FF0000 } /* Error */
