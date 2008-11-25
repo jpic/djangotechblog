@@ -307,7 +307,7 @@ body
 #column1 p,#column2 p
 {
     font-size:80%;
-    line-height:130%;
+    line-height:120%;
     padding-bottom:1em;
     color:#333;
 }
@@ -560,4 +560,33 @@ strong {font-weight:bold;}
     padding:6px;
     margin:4px;
     font-family:Georgia;
+}
+
+.pullout-right
+{
+    width:30%;
+    float:right;
+    background-color:#f8f8f8;
+    padding:6px;
+    margin:4px;
+    border:1px solid #bbb;
+
+    font-size:85%;
+    line-height:120%;
+    color:black;
+}
+
+.pullout-left
+{
+    width:30%;
+    float:left;
+    background-color:#f8f8f8;
+    padding:6px;
+    margin:4px;
+    margin-right:16px;
+    border:1px solid #bbb;
+
+    font-size:85%;
+    line-height:120%;
+    color:black;
 }

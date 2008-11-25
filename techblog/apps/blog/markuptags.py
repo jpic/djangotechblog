@@ -132,3 +132,19 @@ class PullquoteTag(postmarkup.TagBase):
         html = u"""<div class="pullquote">"%s"</div>""" % txt
         return html
 
+class PulloutTag(postmarkup.TagBase):
+
+    DEFAULT_NAME = "pullout"
+
+    def __init__(self, name, **kwargs):
+        postmarkup.TagBase.__init__(self, name, inline=False)
+
+    def render_open(self, parser, node_index):
+        left = self.params.lower() != 'right'
+        if left:
+            return """<div class="pullout-left">"""
+        else:
+            return """<div class="pullout-right">"""
+
+    def render_close(self, parser, node_index):
+        return """</div>"""

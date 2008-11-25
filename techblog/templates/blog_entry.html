@@ -1,5 +1,5 @@
 {% extends "blog_base.html" %}
-{% block title %}{{ blog.title }}{% endblock %}
+{% block title %}{{ entry.title }}{% endblock %}
 
 {% block summary_area %}
 <div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
