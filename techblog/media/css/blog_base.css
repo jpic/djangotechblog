@@ -445,13 +445,15 @@ a:active
     background-position:0 1px;
     background-repeat:repeat-x;
     padding:0px 2px 6px 0px;
+
 }
 
 .post-subtitle
 {
     font-size:70%;
-    color:#999;
+    color:#666;
     margin-top:-4px;
+    margin-bottom:20px;
 }
 
 .post-date

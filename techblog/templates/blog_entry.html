@@ -26,13 +26,15 @@
 
 
 <h1>{{ entry.title }}</h1>
-<div class="post-subtitle">{{ entry.display_time|timesince }} ago</div>
+<div class="post-subtitle">{{ entry.display_time|date:"F jS, Y" }}</div>
 
 {{ entry.content_html|safe }}
 
 
 <div class="entry-description">
-    Posted in <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
+    This blog entry was posted to <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
+    on {{ entry.display_time|date:"l F jS, Y" }}
+    at {{ entry.display_time|time:"g:sA" }}
 </div>
 
 
