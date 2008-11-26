@@ -7,10 +7,34 @@
 {% endblock %}
 
 {% block column1 %}
+
+{% if prev_entry or next_entry %}
+<div class="post-navigation">
+    {% if prev_entry %}
+    <div class="prev-entry">
+        <a href="{{prev_entry.get_absolute_url }}" title="Older post">{{ prev_entry.title }}</a>
+    </div>
+    {% endif %}
+
+    {% if next_entry %}
+    <div class="next-entry">
+        <a href="{{next_entry.get_absolute_url }}" title="Newer post">{{ next_entry.title }}</a>
+    </div>{% endif %}
+    <div class="clear"> </div>
+</div>
+{% endif %}
+
+
 <h1>{{ entry.title }}</h1>
 <div class="post-subtitle">{{ entry.display_time|timesince }} ago</div>
 
 {{ entry.content_html|safe }}
+
+
+<div class="entry-description">
+    Posted in <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
+</div>
+
 
 {% endblock %}
 

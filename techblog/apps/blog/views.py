@@ -57,11 +57,25 @@ def blog_entry(request, blog_slug, year, month, day, slug):
                              slug=slug,
                              published=True)
 
+    prev_entry = None
+    next_entry = None
+    try:
+        prev_entry = models.Post.objects.filter(blog=blog, display_time__lt=entry.display_time).order_by('-display_time')[0]
+    except IndexError:
+        pass
+
+    try:
+        next_entry = models.Post.objects.filter(blog=blog, display_time__gt=entry.display_time).order_by('display_time')[0]
+    except IndexError:
+        pass
+
     td = dict(  blog=blog,
                 year=year,
                 month=month,
                 day=day,
                 entry=entry,
+                prev_entry=prev_entry,
+                next_entry=next_entry,
                 page_title = entry.title,
                 tagline = entry.blog.title)
 

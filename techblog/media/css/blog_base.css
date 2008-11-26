@@ -204,7 +204,7 @@ body
 }
 #footer
 {
-    padding-top:8px;
+    padding-top:20px;
 }
 
 #content-top
@@ -297,10 +297,10 @@ body
 
 #footer .inner .footer-content
 {
-    color:black;
-    background-color:#ddd;
+    color:#333;
+    background-color:#eee;
     padding:8px;
-    font-size:75%;
+    font-size:70%;
     /*font-weight:bold;*/
 }
 
@@ -341,6 +341,7 @@ body
 .credit a, .credit a:visited
 {
     color:white;
+    font-weight:bold;
 }
 
 .toplinks
@@ -409,7 +410,7 @@ a
 {
     /*color:#752A26;*/
     color:#821f07;
-    font-weight:bold;
+    /*font-weight:bold;*/
     text-decoration:none;
 }
 
@@ -589,4 +590,56 @@ strong {font-weight:bold;}
     font-size:85%;
     line-height:120%;
     color:black;
+}
+
+.prev-entry
+{
+
+    float:left;
+    font-size:85%;
+}
+
+.next-entry
+{
+
+    float:right;
+    font-size:85%;
+}
+
+.prev-entry a
+{
+    background-image:url(/media/images/icons/arrow_left.png);
+    background-position:left center;
+    background-repeat:no-repeat;
+    padding-left:20px
+}
+
+
+.next-entry a
+{
+    background-image:url(/media/images/icons/arrow_right.png);
+    background-position:right center;
+    background-repeat:no-repeat;
+    padding-right:20px
+}
+
+.entry-description
+{
+    background-color:#f9f9f9;
+    border-top:1px solid #eee;
+    border-bottom:1px solid #eee;
+    font-size:70%;
+    padding:10px 2px;
+
+    color:#666;
+}
+
+.post-navigation
+{
+    font-size:80%;
+    padding-top:6px;
+    padding-bottom:6px;
+    margin-top:20px;
+    margin-bottom:20px;
+    /*background-color:#f6f6f6;*/
 }
