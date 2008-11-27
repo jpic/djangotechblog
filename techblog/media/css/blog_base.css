@@ -682,13 +682,19 @@ ul.links-list
     color:#aaa;
 }
 
-.links-list li a:hover, .links-list li a:visited
+.links-list li a:hover
 {
     color:#333;
     padding-bottom:1px;
-    border-bottom:4px solid #07825D;
+    border-bottom:4px solid #07825D !important;
     text-decoration:none;
+}
 
+.links-list li a:visited
+{
+    padding-bottom:1px;
+    border-bottom:4px solid white;
+    
 }
 
 .links-area
