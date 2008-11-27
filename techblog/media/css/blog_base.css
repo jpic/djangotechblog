@@ -270,7 +270,12 @@ body
 
 .entry p
 {
-    margin-left:50px;
+    margin-left:60px;
+}
+
+.entry h1
+{
+    margin-left:60px !important;
 }
 
 .column1-content
@@ -559,10 +564,11 @@ strong {font-weight:bold;}
     font-style:italic;
     color:#194c7f;
     line-height:130%;
-    background-color:#f8f8f8;
+    /*background-color:#f8f8f8;*/
     padding:6px;
     margin:4px;
-    font-family:Georgia;
+    font-family:Georgia, serif, cursive;
+    text-align:justify;
 }
 
 .pullout-right
@@ -570,13 +576,15 @@ strong {font-weight:bold;}
     width:30%;
     float:right;
     background-color:#f8f8f8;
-    padding:6px;
+    padding:10px;
     margin:4px;
-    border:1px solid #07825D;
 
     font-size:85%;
     line-height:120%;
     color:black;
+
+    background-color:#07825D !important;
+    background-image:url(/media/images/titleshade2.png);
 }
 
 .pullout-left
@@ -584,14 +592,18 @@ strong {font-weight:bold;}
     width:30%;
     float:left;
     background-color:#f8f8f8;
-    padding:6px;
+    padding:10px;
     margin:4px;
     margin-right:16px;
-    border:1px solid #07825D;
+    /*border:1px solid #07825D;*/
+
 
     font-size:85%;
     line-height:120%;
     color:black;
+
+    background-color:#07825D !important;
+    background-image:url(/media/images/titleshade2.png);
 }
 
 .prev-entry
@@ -717,4 +729,36 @@ ul.links-list
     /*font-weight:bold;*/
     float:left;
     color:#777;
+}
+
+blockquote
+{
+    margin-left:20px;
+    /*border-left:8px solid #07825D;*/
+    background-color:#f9f9f9;
+    /*background-color:#07825D;*/
+    padding-left:16px;
+    margin-bottom:10px;
+    /*font-weight:bold;*/
+    background-image:url("/media/images/quotes.png");
+    background-repeat:no-repeat;
+    padding-left:40px;
+    padding-right:16px;
+    width:80%;
+}
+
+.pullout-left p, .pullout-right p
+{
+    padding-bottom:2px !important;
+    padding-top:2px !important;
+    color:white !important;
+}
+
+blockquote p
+{
+    padding-bottom:4px !important;
+    padding-top:4px !important;
+    font-size:75% !important;
+    line-height:150% !important;
+    color:#555 !important;
 }
