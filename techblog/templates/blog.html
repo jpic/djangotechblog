@@ -8,7 +8,20 @@
 <script type="text/javascript" src="/media/js/blog_base.js"> </script>
 {% endblock %}
 
+{% block above_columns %}
+<div class="links-area">
+    <ul class="links-list">
+    <li><a href="#">Link 1</a></li>
+    <li><a href="#">A Second Link</a></li>
+    <li><a href="#">Link number 3</a></li>
+    <li><a href="#">Yet another link</a></li>
+    </ul>
+</div>
+<div class="clear"> </div>
+{% endblock %}
+
 {% block column1 %}
+
 {% for entry in entries %}
 
 <div class="entry">
@@ -38,16 +51,21 @@
 {% endfor %}
 {% endblock %}
 
+
 {% block column2 %}
 {% for year,months in archives %}
-<h1>{{ year }}</h1>
-<ul>
+<div class="archive-year">{{ year }}</div>
+<ul class="archive-months">
     {% for year, month, count in months %}
-    <li>{{ month|longmonth }}</li>
+    <li>
+        <div class="archive-month"><a href="#" title="{{ count }} posts">{{ month|longmonth }}</a></div>
+    </li>
     {% endfor %}
 </ul>
+<div class="clear"> </div>
 {% endfor %}
 {% endblock %}
+
 
 {% block summary_area %}
 <div class="faded-title">{{ blog.title }}</div>

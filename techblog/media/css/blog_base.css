@@ -645,3 +645,76 @@ strong {font-weight:bold;}
     margin-bottom:20px;
     /*background-color:#f6f6f6;*/
 }
+
+ul.links-list
+{
+    padding:4px;
+    margin-bottom:30px;
+}
+
+.links-list li
+{
+
+    list-style: none;
+    float:left;
+    font-weight:bold;
+    color:#aaa;
+    margin-right:22px;
+    font-size:80%;
+}
+
+.links-list li a
+{
+    padding-bottom:1px;
+    border-bottom:4px solid white;
+    color:#aaa;
+}
+
+.links-list li a:hover, .links-list li a:visited
+{
+    color:#333;
+    padding-bottom:1px;
+    border-bottom:4px solid #07825D;
+    text-decoration:none;
+
+}
+
+.links-area
+{
+    margin-left:40px;
+}
+
+.archive-months
+{
+    font-size:80%;
+    padding-left:16px;
+}
+
+.archive-months li
+{
+    padding:1px;
+}
+
+.archive-year
+{
+    padding:2px;
+    font-size:120%;
+    color:#444;
+    margin-top:8px;
+    /*border-bottom:1px solid #bbb;*/
+    margin-bottom:4px;
+    clear:both;
+}
+
+.archive-month
+{
+    /*width:100px;
+    float:left;*/
+}
+
+.archive-count
+{
+    /*font-weight:bold;*/
+    float:left;
+    color:#777;
+}
