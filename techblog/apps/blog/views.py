@@ -1,5 +1,6 @@
 # Create your views here.
 import models
+from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import Http404
 from datetime import datetime, timedelta
@@ -8,6 +9,10 @@ import tools
 
 def blog_front(request, blog_slug, page=1):
 
+    page = int(page)
+    if page < 1:
+        raise Http404
+
     blog = get_object_or_404(models.Blog, slug=blog_slug)
 
     title = blog.title
@@ -15,6 +20,10 @@ def blog_front(request, blog_slug, page=1):
     posts = blog.posts()
     entries = posts
     entries_count = posts.count()
+    total_pages = entries_count / blog.posts_per_page
+
+    if page > total_pages:
+        raise Http404
 
     start_index = (page-1) * blog.posts_per_page
     last_index = start_index + blog.posts_per_page
@@ -23,15 +32,27 @@ def blog_front(request, blog_slug, page=1):
 
     archives = tools.collate_archives(blog)
 
-    #if not entries:
-    #    raise Http404
+    def get_page_url(page):
+        if page < 1 or page > total_pages:
+            return ""
+        if page == 1:
+            return reverse("blog_front", kwargs={"blog_slug":blog_slug})
+        else:
+            return reverse("blog_front_with_page", kwargs={"blog_slug":blog_slug, "page":str(page)})
+
+    newer_page_url = get_page_url(page - 1)
+    older_page_url = get_page_url(page + 1)
+
 
     td = dict(blog = blog,
               title = title,
               page_title = title,
               tagline = blog.tagline,
               entries = entries,
-              archives = archives)
+              archives = archives,
+              page = page,
+              older_page_url = older_page_url,
+              newer_page_url = newer_page_url)
 
 
     return render_to_response("blog.html", td)

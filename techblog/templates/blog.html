@@ -1,8 +1,9 @@
 {% extends "blog_base.html" %}
 
 {% load blogtags %}
+{% load humanize %}
 
-{% block title %}{{ blog.title }}{% endblock %}
+{% block title %}{{ blog.title }}{% ifnotequal page 1 %} - {{ page|ordinal }} page{% endifnotequal %}{% endblock %}
 
 {% block js %}
 <script type="text/javascript" src="/media/js/blog_base.js"> </script>
@@ -35,7 +36,7 @@
         {# {{ entry.display_time|timesince }} ago #}
     </div>
 </div>
-<h1><a href="{{ entry.date_url }}">{{ entry.title }}</a></h1>
+<h1><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h1>
 
 {% if not entry.content_summary_html %}
     {{ entry.content_html|safe }}
@@ -49,6 +50,23 @@
 </div>
 <br/>
 {% endfor %}
+
+{% if older_page_url or newer_page_url %}
+<div class="summary-navigation">
+    {% if older_page_url %}
+    <div class="prev-entry">
+        <a href="{{ older_page_url }}">Older posts</a>
+    </div>
+    {% endif %}
+
+    {% if newer_page_url %}
+    <div class="next-entry">
+        <a href="{{ newer_page_url }}">Newer posts</a>
+    </div>{% endif %}
+    <div class="clear"> </div>
+</div>
+{% endif %}
+
 {% endblock %}
 
 
