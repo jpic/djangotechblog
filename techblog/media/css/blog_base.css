@@ -709,7 +709,7 @@ ul.links-list
     color:#aaa;
     margin-right:22px;
     font-size:80%;
-    font-family:courier, sans-serif;
+    /*font-family:courier, sans-serif;*/
 }
 
 .links-list li a
@@ -831,6 +831,7 @@ blockquote p
 {
     text-align:center;
     margin-bottom:30px;
+    font-family:courier, monospace;
 }
 
 
