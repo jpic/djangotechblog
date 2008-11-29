@@ -64,8 +64,8 @@ class TagCloud(object):
         if max_tags is not None:
             self.tags = self.tags[:max_tags]
 
-        self.min_font = 10.0
-        self.max_font = 24.0
+        self.min_font = 8.0
+        self.max_font = 22.0
 
     def set_scale(min_font, max_font):
 
@@ -96,9 +96,10 @@ class TagCloud(object):
 
             font_size = int(round(self.min_font + tag_scale * font_size_range))
 
-            tag_cloud.append( (font_size, tag) )
+            tag_cloud.append( (tag_scale, font_size, tag) )
 
         tag_cloud = tag_cloud[::2][::-1] + tag_cloud[1::2]
+        #tag_cloud = tag_cloud[::-1]
 
         for size_tag in tag_cloud:
             yield size_tag

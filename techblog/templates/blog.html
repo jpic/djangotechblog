@@ -77,12 +77,15 @@
 
 <h1>Tag Cloud</h1>
 <div class="tag-cloud">
-{% for font_size, tag in blog.get_tag_cloud %}
+
+{% for scale, font_size, tag in blog.get_tag_cloud %}
     <span class="tag" style="font-size:{{ font_size }}px;">
         <a href="#" title="{{ tag.count }} posts">{{ tag.name|title }}</a>
     </span>
 {% endfor %}
+
 </div>
+<div class="clear"> </div>
 
 <h1>Archives</h1>
 <div class="archives">
