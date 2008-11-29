@@ -89,7 +89,10 @@ class TagCloud(object):
 
         tag_cloud = []
         for place, tag in zip(places, self.tags):
-            tag_scale = (place - min_count) / count_range
+            if count_range:
+                tag_scale = (place - min_count) / count_range
+            else:
+                tag_scale = .25
 
             font_size = int(round(self.min_font + tag_scale * font_size_range))
 

@@ -39,14 +39,16 @@
 <h1><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h1>
 
 {% if not entry.content_summary_html %}
-    {{ entry.content_html|safe }}
+    {{ entry.content_html|first_paragraph|safe }}
 {% endif %}
 
 
 {% if entry.content_summary_html %}
     {{ entry.content_summary_html|safe }}
-    <div class="read-more""><a href="{{ entry.date_url }}">Read more...</a></div>
 {% endif %}
+
+<div class="read-more""><a href="{{ entry.date_url }}">Read more...</a></div>
+
 </div>
 <br/>
 {% endfor %}

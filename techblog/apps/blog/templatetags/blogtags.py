@@ -1,5 +1,6 @@
 from django import template
 from django.template.defaultfilters import stringfilter
+import re
 
 register = template.Library()
 
@@ -27,3 +28,13 @@ def longmonth(value):
         return "INVALID MONTH"
 
     return long_months[month_index-1]
+
+_re_first_paragraph = re.compile(r"<p>.*?</p>")
+
+@register.filter
+@stringfilter
+def first_paragraph(value):
+    match = _re_first_paragraph.match(value)
+    if not match:
+        return value
+    return match.group(0)
