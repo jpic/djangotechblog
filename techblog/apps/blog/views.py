@@ -28,7 +28,7 @@ def blog_front(request, blog_slug, page=1):
     start_index = (page-1) * blog.posts_per_page
     last_index = start_index + blog.posts_per_page
 
-    entries = entries[start_index:last_index+1]
+    entries = entries[start_index:last_index]
 
     archives = tools.collate_archives(blog)
 
@@ -73,8 +73,8 @@ def blog_entry(request, blog_slug, year, month, day, slug):
         raise Http404
 
     entry = get_object_or_404(models.Post,
-                             #display_time__gte=post_day_start,
-                             #display_time__lt=post_day_end,
+                             display_time__gte=post_day_start,
+                             display_time__lt=post_day_end,
                              slug=slug,
                              published=True)
 
@@ -101,7 +101,7 @@ def blog_entry(request, blog_slug, year, month, day, slug):
                 next_entry=next_entry,
                 page_title = entry.title,
                 tagline = entry.blog.title,
-                tags = tags)
+                tags = tags )
 
     return render_to_response("blog_entry.html", td)
 

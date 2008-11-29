@@ -39,6 +39,9 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return '#'
+
 
 class Channel(models.Model):
 
@@ -49,6 +52,53 @@ class Channel(models.Model):
     description = markup.MarkupField(default="", renderer=markup.render_post_markup)
 
     blogs = models.ManyToManyField("Blog")
+
+
+class TagCloud(object):
+
+    def __init__(self, blog, max_tags = 50):
+
+        self.blog = blog
+
+        self.tags = list( Tag.objects.filter(blog=blog).order_by("-count") )
+        if max_tags is not None:
+            self.tags = self.tags[:max_tags]
+
+        self.min_font = 10.0
+        self.max_font = 24.0
+
+    def set_scale(min_font, max_font):
+
+        self.min_font = min_font
+        self.max_font = max_font
+
+    def __iter__(self):
+
+        tag_counts = [tag.count for tag in self.tags]
+
+        sorted_counts = sorted(list(set(tag_counts)))
+        # tag_counts = [sorted_counts.index(count) for count in tag_counts]
+
+        places = [sorted_counts.index(tag.count) for tag in self.tags]
+
+        max_count = max(places)
+        min_count = min(places)
+        count_range = float(max_count - min_count)
+
+        font_size_range = self.max_font - self.min_font
+
+        tag_cloud = []
+        for place, tag in zip(places, self.tags):
+            tag_scale = (place - min_count) / count_range
+
+            font_size = int(round(self.min_font + tag_scale * font_size_range))
+
+            tag_cloud.append( (font_size, tag) )
+
+        tag_cloud = tag_cloud[::2][::-1] + tag_cloud[1::2]
+
+        for size_tag in tag_cloud:
+            yield size_tag
 
 
 class Blog(models.Model):
@@ -79,6 +129,30 @@ class Blog(models.Model):
 
         return ("apps.blog.views.blog_front", (),
                 dict(blog_slug=blog_slug))
+
+    def get_tag_cloud(self, tag_count=50):
+
+        return TagCloud(self)
+
+
+        tags = list( Tag.objects.filter(blog=self).order_by("-count") )
+        if tag_count is not None:
+            tags = tags[:tag_count]
+
+        tag_counts = [tag.count for tag in tags]
+        max_count = max(tag_counts)
+        min_count = min(tag_counts)
+        count_range = float(max_count - min_count)
+
+        tag_cloud = []
+        for tag in tags:
+            tag_scale = (tag.count - min_count) / count_range
+            tag_scale = int(tag_scale * 10.0) + 1
+            tag_cloud.append( (tag_scale, tag) )
+
+        tag_cloud = tag_cloud[::2][::-1] + tag_cloud[1::2]
+
+        return tag_cloud
 
 class Post(models.Model):
 
@@ -136,6 +210,7 @@ class Post(models.Model):
         """
 
         tags = [t.lower().strip() for t in self.tags_text.split(',')]
+        tags = list(set(tags))
 
         for tag_name in tags:
             tag_slug = slugify(tag_name)
