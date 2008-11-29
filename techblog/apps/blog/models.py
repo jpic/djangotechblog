@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from fields import PickledObjectField
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 import datetime
 
 import markup
@@ -15,7 +16,18 @@ class Tag(models.Model):
     name = models.CharField("Tag name", max_length=100)
     slug = models.SlugField()
 
-    count = models.IntegerField(default="0", editable=False)
+    count = models.IntegerField(default=0, editable=False)
+
+    def decrement(self):
+        count = self.count
+        if count:
+            count -= 1
+            self.count = count
+        return count
+
+    def increment(self):
+        self.count += 1
+        return self.count
 
     def __unicode__(self):
         return self.name
@@ -52,6 +64,7 @@ class Blog(models.Model):
                                      display_time__lte=now).order_by("-display_time")
         return posts
 
+
     @models.permalink
     def get_absolute_url(self):
 
@@ -72,7 +85,8 @@ class Post(models.Model):
     edit_time = models.DateTimeField(auto_now=True)
     display_time = models.DateTimeField("Post Time", default=datetime.datetime.now)
 
-    tags = models.ManyToManyField("Tag", blank=True)
+    #tags = models.ManyToManyField("Tag", blank=True)
+    tags = models.TextField("Comma separated tags", default="")
 
     content = markup.MarkupField(default="", renderer=markup.render_post_markup)
 
@@ -107,3 +121,34 @@ class Post(models.Model):
 
         return ("apps.blog.views.blog_entry", (),
                 dict(blog_slug=blog_slug, year=year, month=month, day=day, slug=self.slug))
+
+    def _process_tags(self):
+
+        """Creates tags or increments tag counts as neccesary.
+        Called by the save method.
+
+        """
+
+        print self.tags
+        tags = [t.lower().strip() for t in self.tags.split(',')]
+
+        for tag_name in tags:
+            tag_slug = slugify(tag_name)
+            if tag_slug:
+                try:
+                    tag = Tag.objects.get(slug=tag_slug)
+                except Tag.DoesNotExist:
+                    tag = Tag( blog = self.blog,
+                               name = tag_name,
+                               slug = tag_slug)
+                else:
+                    tag.decrement()
+                tag.increment()
+                tag.save()
+
+
+
+    def save(self, *args, **kwargs):
+
+        self._process_tags()
+        super(Post, self).save(*args, **kwargs)
