@@ -38,6 +38,6 @@ admin.site.register(models.Post, PostAdmin)
 
 class TagAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
-    list_display = ('__unicode__', 'count')
+    list_display = ('name', 'slug', 'count')
 
 admin.site.register(models.Tag, TagAdmin)

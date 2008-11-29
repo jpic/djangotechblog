@@ -8,7 +8,14 @@ import datetime
 
 import markup
 
-
+#
+#from django.db.models.signals import post_save
+#
+#
+#def _process_tags_signal(sender, **kwargs):
+#    sender.
+#
+#post_save.connect(process_tags, sender=Post)
 
 class Tag(models.Model):
 
@@ -85,8 +92,8 @@ class Post(models.Model):
     edit_time = models.DateTimeField(auto_now=True)
     display_time = models.DateTimeField("Post Time", default=datetime.datetime.now)
 
-    #tags = models.ManyToManyField("Tag", blank=True)
-    tags = models.TextField("Comma separated tags", default="")
+    tags = models.ManyToManyField("Tag", blank=True)
+    tags_text = models.TextField("Comma separated tags", default="")
 
     content = markup.MarkupField(default="", renderer=markup.render_post_markup)
 
@@ -125,12 +132,10 @@ class Post(models.Model):
     def _process_tags(self):
 
         """Creates tags or increments tag counts as neccesary.
-        Called by the save method.
 
         """
 
-        print self.tags
-        tags = [t.lower().strip() for t in self.tags.split(',')]
+        tags = [t.lower().strip() for t in self.tags_text.split(',')]
 
         for tag_name in tags:
             tag_slug = slugify(tag_name)
@@ -141,14 +146,15 @@ class Post(models.Model):
                     tag = Tag( blog = self.blog,
                                name = tag_name,
                                slug = tag_slug)
-                else:
-                    tag.decrement()
+
                 tag.increment()
                 tag.save()
+
+                self.tags.add(tag)
 
 
 
     def save(self, *args, **kwargs):
 
-        self._process_tags()
         super(Post, self).save(*args, **kwargs)
+        self._process_tags()

@@ -608,14 +608,14 @@ strong {font-weight:bold;}
 
 .prev-entry
 {
-
+    padding:2px;
     float:left;
     font-size:85%;
 }
 
 .next-entry
 {
-
+    padding:2px;
     float:right;
     font-size:85%;
 }

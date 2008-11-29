@@ -57,15 +57,18 @@ def create_blog(title="Test Blog", num_posts = 100):
 
     blog.save()
 
-    words = """random python I You like code life universe everything god"""
-    """atheism hot very difficult easy hard dynamic of the in is under on through"""
-    """extremely strangely hardly plainly transparently incredibly"""
-    """goes remarkable not if interesting words phone computer will she he are is"""
+    words = """random python I You like code life universe everything god """\
+    """atheism hot very difficult easy hard dynamic of the in is under on through """\
+    """extremely strangely hardly plainly transparently incredibly """\
+    """goes remarkable not if interesting words phone computer will she he are is """\
+    """entry base css html games demons juggling brown chess steal this computer """\
+    """brave heart motor storm ruby on rails running beginning code plus minus are """
+
 
     words = words.split()
 
     def random_tags():
-        num_words = randint(2,8)
+        num_words = randint(4,8)
         tags = ", ".join(sample(words, num_words))
         return tags
 
@@ -73,7 +76,7 @@ def create_blog(title="Test Blog", num_posts = 100):
     post = models.Post( blog=blog,
                         published=True,
                         title="Totally Excellent Blog Post",
-                        tags=random_tags(),
+                        tags_text=random_tags(),
                         slug= "test-post",
                         content = test_post)
     post.save()
@@ -89,13 +92,21 @@ def create_blog(title="Test Blog", num_posts = 100):
 
         display_time -= timedelta(days = randint(2, 15))
 
-        title = random_title()
-        post = models.Post(    blog=blog,
+        while True:
+            title = random_title()
+            slug = slugify(title)
+            try:
+                models.Post.objects.get(slug=slug)
+            except models.Post.DoesNotExist:
+                break
+
+        post = models.Post(     blog=blog,
                                 published=True,
                                 created_time = display_time,
                                 display_time = display_time,
                                 edit_time = display_time,
                                 title = title,
+                                tags_text=random_tags(),
                                 slug=slugify(title),
                                 content = paragraphs(randint(1,5)) )
         post.save()

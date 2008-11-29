@@ -35,6 +35,8 @@
     This blog entry was posted to <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
     on {{ entry.display_time|date:"l F jS, Y" }}
     at {{ entry.display_time|time:"g:sA" }}
+    <br/>
+    Tags: {% for tag in entry.tags.all %}{{ tag.name }}{% endfor %}
 </div>
 
 {% endblock %}

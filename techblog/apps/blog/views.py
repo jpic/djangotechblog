@@ -90,6 +90,8 @@ def blog_entry(request, blog_slug, year, month, day, slug):
     except IndexError:
         pass
 
+    tags = list(entry.tags.all())
+
     td = dict(  blog=blog,
                 year=year,
                 month=month,
@@ -98,7 +100,8 @@ def blog_entry(request, blog_slug, year, month, day, slug):
                 prev_entry=prev_entry,
                 next_entry=next_entry,
                 page_title = entry.title,
-                tagline = entry.blog.title)
+                tagline = entry.blog.title,
+                tags = tags)
 
     return render_to_response("blog_entry.html", td)
 
