@@ -30,13 +30,20 @@
 
 {{ entry.content_html|safe }}
 
+<h3>Possibly related posts</h3>
+<ul class="related-posts-list">
+    {% for post in related_posts %}
+    <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>
 
 <div class="entry-description">
     This blog entry was posted to <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
     on {{ entry.display_time|date:"l F jS, Y" }}
     at {{ entry.display_time|time:"g:sA" }}
     <br/>
-    Tags: {% for tag in entry.tags.all %}{{ tag.name }}{% endfor %}
+    Tags: {% for tag in tags %}<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>{% if not forloop.last%}, {% endif %}{% endfor %}
+</ul>
 </div>
 
 {% endblock %}

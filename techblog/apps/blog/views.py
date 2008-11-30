@@ -6,6 +6,7 @@ from django.http import Http404
 from datetime import datetime, timedelta
 import tools
 
+from itertools import groupby
 
 def blog_front(request, blog_slug, page=1):
 
@@ -58,6 +59,23 @@ def blog_front(request, blog_slug, page=1):
     return render_to_response("blog.html", td)
 
 
+def get_related_posts(blog, post, count=10):
+
+
+    tags = list(post.tags.all())
+
+    posts = models.Post.objects.filter(blog=blog, tags__in=tags).exclude(pk=post.id).order_by('-display_time')[:1000]
+
+    def count_iter(i):
+        return sum(1 for _ in i)
+
+    counts_and_posts = [(post, count_iter(similar_posts)) for post, similar_posts in groupby(posts)]
+    counts_and_posts.sort(key=lambda i:(i[1], i[0].display_time))
+    return [cp[0] for cp in reversed(counts_and_posts[-count:])]
+
+    #return posts
+
+
 def blog_entry(request, blog_slug, year, month, day, slug):
 
     blog = get_object_or_404(models.Blog, slug=blog_slug)
@@ -90,7 +108,11 @@ def blog_entry(request, blog_slug, year, month, day, slug):
     except IndexError:
         pass
 
-    tags = list(entry.tags.all())
+    tags = list(entry.tags.all().order_by('slug'))
+    #tags.sort(key = lambda t:t.name.lower())
+
+
+    related_posts = get_related_posts(blog, entry)
 
     td = dict(  blog=blog,
                 year=year,
@@ -101,7 +123,8 @@ def blog_entry(request, blog_slug, year, month, day, slug):
                 next_entry=next_entry,
                 page_title = entry.title,
                 tagline = entry.blog.title,
-                tags = tags )
+                tags = tags,
+                related_posts = related_posts)
 
     return render_to_response("blog_entry.html", td)
 

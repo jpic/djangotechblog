@@ -476,6 +476,17 @@ a:active
     font-family:arial,sans-serif;
 }
 
+
+#column1 h3
+{
+    font-size:80%;
+    font-weight:bold;
+    color:#666;
+    padding-bottom:1px;
+    border-bottom:1px dotted #aaa;
+    margin-top:12px;
+}
+
 .post-subtitle
 {
     font-size:70%;
@@ -837,7 +848,7 @@ blockquote p
     /*font-family:courier, monospace;*/
     /*display:inline;*/
     font-family:arial;
-    text-align:justify;
+    text-align:center;
 
 }
 
@@ -879,4 +890,13 @@ blockquote p
     padding-bottom:1px;
     /*border-bottom:4px solid white;*/
 
+}
+
+
+.related-posts-list
+{
+    font-size:80% !important;
+    margin: 10px 0;
+    list-style-type: disc;
+    padding-left:26px;
 }
