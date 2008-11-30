@@ -25,7 +25,7 @@ class PostAdmin(admin.ModelAdmin):
               'slug',
               'published',
               'display_time',
-              'tags',
+              'tags_text',
               'content',
               'content_html',
               'content_summary_html')

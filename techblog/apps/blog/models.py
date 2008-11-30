@@ -207,13 +207,24 @@ class Post(models.Model):
         return ("apps.blog.views.blog_entry", (),
                 dict(blog_slug=blog_slug, year=year, month=month, day=day, slug=self.slug))
 
-    def _process_tags(self):
+    def _remove_tags(self):
+
+        tags = Tag.objects.filter(blog=self.blog, post=self)
+        for tag in self.tags.all():
+            if not tag.decrement():
+                tag.delete()
+            else:
+                tag.save()
+            self.tags.remove(tag)
+
+
+    def _add_tags(self):
 
         """Creates tags or increments tag counts as neccesary.
 
         """
 
-        tags = [t.lower().strip() for t in self.tags_text.split(',')]
+        tags = [t.strip() for t in self.tags_text.split(',')]
         tags = list(set(tags))
 
         for tag_name in tags:
@@ -235,5 +246,6 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
 
+        self._remove_tags()
         super(Post, self).save(*args, **kwargs)
-        self._process_tags()
+        self._add_tags()
