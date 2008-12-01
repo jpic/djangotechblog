@@ -338,6 +338,7 @@ body
     line-height:normal;
     padding-bottom:1em;
     color:#333;
+    text-align:justify;
 }
 
 .subtext
@@ -807,6 +808,7 @@ blockquote
     padding-bottom:2px !important;
     padding-top:2px !important;
     color:white !important;
+    text-align:left !important;
 }
 
 blockquote p
@@ -897,6 +899,22 @@ blockquote p
 {
     font-size:80% !important;
     margin: 10px 0;
-    list-style-type: disc;
-    padding-left:26px;
+    /*list-style-type:*/
+    /*list-style-image:url(/media/images/icons/bullet_go.png);*/
+
+}
+
+.related-posts-list li
+{
+    padding:2px;
+}
+
+.related-posts-list a
+{
+    margin:4px 2px;
+    padding-left:22px;
+    padding-bottom:4px;
+    min-height:16px;
+    background-image:url(/media/images/icons/bullet_go.png);
+    background-repeat:no-repeat;
 }
