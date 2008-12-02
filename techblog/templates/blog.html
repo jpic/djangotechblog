@@ -80,7 +80,7 @@
 
 {% for scale, font_size, tag in blog.get_tag_cloud %}
     <span class="tag" style="font-size:{{ font_size }}px;">
-        <a href="#" title="{{ tag.count }} posts">{{ tag.name|title }}</a>
+        <a href="{{ tag.get_absolute_url }}" title="{{ tag.count }} posts">{{ tag.name|title }}</a>
     </span>
 {% endfor %}
 

@@ -1,0 +1,12 @@
+{% extends "blog_base.html" %}
+{% block title %}{{ tag.name }}{% endblock %}
+
+{% block column1 %}
+
+{% for post in post_paginator.object_list %}
+
+<h1>{{ post.title }}</h1>
+
+{% endfor %}
+
+{% endblock %}

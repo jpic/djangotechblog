@@ -39,8 +39,11 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.name
 
+    @models.permalink
     def get_absolute_url(self):
-        return '#'
+        return ("apps.blog.views.tag", (),
+                dict(blog_slug=self.blog.slug, tag_slug=self.slug))
+
 
 
 class Channel(models.Model):

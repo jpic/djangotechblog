@@ -3,6 +3,8 @@ import models
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import Http404
+from django.core.paginator import Paginator
+
 from datetime import datetime, timedelta
 import tools
 
@@ -127,6 +129,26 @@ def blog_entry(request, blog_slug, year, month, day, slug):
                 related_posts = related_posts)
 
     return render_to_response("blog_entry.html", td)
+
+def tag(request, blog_slug, tag_slug):
+
+    blog = get_object_or_404(models.Blog, slug=blog_slug)
+    tag = get_object_or_404(models.Tag, slug=tag_slug)
+
+    posts = tag.post_set.all().order_by('-display_time')
+
+    post_paginator = Paginator(posts, 20)
+
+    td = dict(blog = blog,
+              tag = tag,
+              posts = posts,
+              post_paginator = post_paginator)
+
+    return render_to_response("blog_tag.html", td)
+
+
+
+
 
 def front(request):
     template_data = {}
