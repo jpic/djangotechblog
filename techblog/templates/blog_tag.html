@@ -1,12 +1,40 @@
 {% extends "blog_base.html" %}
-{% block title %}{{ tag.name }}{% endblock %}
+{% block title %}Posts tagged with '{{ tag.name }}'{% endblock %}
+
+
+{% block summary_area %}
+<div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
+<h1>{{ blog.tagline }}</h1>
+{% endblock %}
 
 {% block column1 %}
 
-{% for post in post_paginator.object_list %}
+<h1>{{ tag.name|title }} posts in {{ blog.title }}</h1>
 
-<h1>{{ post.title }}</h1>
+<p>There are <strong>{{ post_paginator.object_list.count }}</strong> posts tagged with '{{ tag.name }}'.
+</p>
+
+{% for post in page.object_list %}
+
+<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+<div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
+<div class="brief-summary">{{ post.get_summary|truncatewords_html:"20"|striptags }}</div>
 
 {% endfor %}
+
+<div class="post-navigation">
+    {% if prev_page %}
+    <div class="next-entry">
+        <a href="{{ prev_page }}" title="Older posts">Newer posts</a>
+    </div>
+    {% endif %}
+
+    {% if next_page %}
+    <div class="prev-entry">
+        <a href="{{ next_page }}" title="Newer posts">Older posts</a>
+    </div>{% endif %}
+    <div class="clear"> </div>
+</div>
+
 
 {% endblock %}

@@ -478,6 +478,26 @@ a:active
 }
 
 
+#column1 h2
+{
+    font-size:80%;
+
+    font-weight:bold;
+    margin:10px -2px;
+
+    color:#555;
+    color:#0066cc;
+    color:#194c7f;
+
+    /*border-top:1px solid #ccc;
+    border-bottom:1px solid #ccc;*/
+    /*background-image:url("/media/images/subtlegradient.png");*/
+    background-position:0 1px;
+    background-repeat:repeat-x;
+    padding:0px 2px 6px 0px;
+    font-family:arial,sans-serif;
+}
+
 #column1 h3
 {
     font-size:80%;
@@ -492,8 +512,8 @@ a:active
 {
     font-size:70%;
     color:#666;
-    margin-top:-8px;
-    margin-bottom:20px;
+    margin-top:-10px;
+    margin-bottom:10px;
     font-family:arial,sans-serif;
 }
 
@@ -917,4 +937,13 @@ blockquote p
     min-height:16px;
     background-image:url(/media/images/icons/bullet_go.png);
     background-repeat:no-repeat;
+}
+
+.brief-summary
+{
+    font-size:80%;
+    line-height:normal;
+    color:#666;
+    /*text-align:justify;*/
+    padding-bottom:10px;
 }

@@ -180,6 +180,12 @@ class Post(models.Model):
 
     #created_time = models.DateTimeField(auto_now_add=True)
 
+    def get_summary(self):
+        if self.content_summary_html:
+            return self.content_summary_html
+        else:
+            return self.content_html
+
     def get_admin_abbrev(self):
         if len(self.content_text) < 100:
             return self.content_text
