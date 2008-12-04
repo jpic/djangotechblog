@@ -26,6 +26,7 @@
 {% for post in posts %}
 
 <div class="entry">
+    {% comment %}
     <div class="post-date">
     <div class="date-inner">
         <span class="month">{{ post.display_time.month|shortmonth }}</span>
@@ -35,7 +36,8 @@
         <span class="year">{{ post.display_time.year }}</span>
         {# {{ post.display_time|timesince }} ago #}
     </div>
-</div>
+    </div>
+    {% endcomment %}
 <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
 
 {% if not post.content_summary_html %}
