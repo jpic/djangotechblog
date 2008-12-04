@@ -3,7 +3,7 @@
 {% load blogtags %}
 {% load humanize %}
 
-{% block title %}{{ blog.title }}{% ifnotequal page 1 %} - {{ page|ordinal }} page{% endifnotequal %}{% endblock %}
+{% block title %}{{ blog.title }}{% ifnotequal page 1 %} - {{ page_no|ordinal }} page{% endifnotequal %}{% endblock %}
 
 {% block js %}
 <script type="text/javascript" src="/media/js/blog_base.js"> </script>
@@ -23,31 +23,31 @@
 
 {% block column1 %}
 
-{% for entry in entries %}
+{% for post in posts %}
 
 <div class="entry">
     <div class="post-date">
     <div class="date-inner">
-        <span class="month">{{ entry.display_time.month|shortmonth }}</span>
+        <span class="month">{{ post.display_time.month|shortmonth }}</span>
         <br/>
-        <span class="day">{{ entry.display_time.day }}</span>
+        <span class="day">{{ post.display_time.day }}</span>
         <br/>
-        <span class="year">{{ entry.display_time.year }}</span>
-        {# {{ entry.display_time|timesince }} ago #}
+        <span class="year">{{ post.display_time.year }}</span>
+        {# {{ post.display_time|timesince }} ago #}
     </div>
 </div>
-<h1><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h1>
+<h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
 
-{% if not entry.content_summary_html %}
-    {{ entry.content_html|first_paragraph|safe }}
+{% if not post.content_summary_html %}
+    {{ post.content_html|first_paragraph|safe }}
 {% endif %}
 
 
-{% if entry.content_summary_html %}
-    {{ entry.content_summary_html|safe }}
+{% if post.content_summary_html %}
+    {{ post.content_summary_html|safe }}
 {% endif %}
 
-<div class="read-more""><a href="{{ entry.date_url }}">Read more...</a></div>
+<div class="read-more""><a href="{{ post.date_url }}">Read more...</a></div>
 
 </div>
 <br/>

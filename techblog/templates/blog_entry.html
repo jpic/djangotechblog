@@ -30,7 +30,7 @@
 
 {{ entry.content_html|safe }}
 
-<h3>Possibly related posts</h3>
+<h3>Possibly related posts:</h3>
 <ul class="related-posts-list">
     {% for post in related_posts %}
     <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>

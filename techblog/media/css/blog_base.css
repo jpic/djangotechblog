@@ -438,7 +438,8 @@ body
 a
 {
     /*color:#752A26;*/
-    color:#821f07;
+    /*color:#821f07;*/
+    color:#0066CC;
     /*font-weight:bold;*/
     text-decoration:none;
 }
@@ -451,11 +452,13 @@ a:hover
 a:visited
 {
     color:#752A26;
+    color:#0066CC;
 }
 
 a:active
 {
     color:#752A26;
+    color:#0066CC;
 }
 
 #column1 h1
@@ -467,6 +470,11 @@ a:active
     color:#555;
     color:#0066cc;
     color:#194c7f;
+    color:#555;
+
+    font-weight:bold;
+
+    letter-spacing:-1px;
 
     /*border-top:1px solid #ccc;
     border-bottom:1px solid #ccc;*/
@@ -502,9 +510,9 @@ a:active
 {
     font-size:80%;
     font-weight:bold;
-    color:#666;
+    color:#333;
     padding-bottom:1px;
-    border-bottom:1px dotted #aaa;
+    /*border-bottom:1px dotted #aaa;*/
     margin-top:12px;
 }
 
@@ -623,8 +631,15 @@ strong {font-weight:bold;}
     /*background-color:#f8f8f8;*/
     padding:6px;
     margin:4px;
+    padding-left:16px;
     /*font-family:Georgia, serif, cursive;*/
     text-align:justify;
+
+    font-weight:bold;
+    letter-spacing:-1px;
+    line-height:150%;
+    color:#888;
+    color:#cc7f33;
 }
 
 .pullout-right
@@ -632,6 +647,7 @@ strong {font-weight:bold;}
     width:30%;
     float:right;
     background-color:#f8f8f8;
+    background-color:#315f8c;
     padding:10px;
     margin:4px;
 
@@ -639,8 +655,8 @@ strong {font-weight:bold;}
     line-height:120%;
     color:black;
 
-    background-color:#07825D !important;
-    background-image:url(/media/images/titleshade2.png);
+    background-color:#315f8c !important;
+    /*background-image:url(/media/images/titleshade2.png);*/
 }
 
 .pullout-left
@@ -648,6 +664,7 @@ strong {font-weight:bold;}
     width:30%;
     float:left;
     background-color:#f8f8f8;
+    background-color:#315f8c;
     padding:10px;
     margin:4px;
     margin-right:16px;
@@ -658,8 +675,8 @@ strong {font-weight:bold;}
     line-height:120%;
     color:black;
 
-    background-color:#07825D !important;
-    background-image:url(/media/images/titleshade2.png);
+    background-color:#315f8c !important;
+    /*background-image:url(/media/images/titleshade2.png);*/
 }
 
 .prev-entry
@@ -721,7 +738,7 @@ strong {font-weight:bold;}
     padding-bottom:6px;
     margin-top:20px;
     margin-bottom:20px;
-    width:50%;
+    /*width:50%;*/
     margin: 20px auto;
     /*background-color:#f6f6f6;*/
 }
@@ -811,16 +828,21 @@ blockquote
 {
     margin-left:20px;
     /*border-left:8px solid #07825D;*/
-    background-color:#F5F5FF;
+    background-color:#F5F5F5;
     /*background-color:#07825D;*/
     padding-left:16px;
     margin-bottom:10px;
     /*font-weight:bold;*/
-    background-image:url("/media/images/quotes.png");
+    /*background-image:url("/media/images/quotes.png");*/
     background-repeat:no-repeat;
-    padding-left:40px;
+    padding-left:24px;
     padding-right:16px;
+    padding-top:4px;
+    padding-bottom:4px;
+    margin-top:6px;
+    margin-bottom:12px;
     width:80%;
+    border-left:6px solid #b2cc99;
 }
 
 .pullout-left p, .pullout-right p

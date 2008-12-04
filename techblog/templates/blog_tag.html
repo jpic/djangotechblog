@@ -1,6 +1,7 @@
 {% extends "blog_base.html" %}
 {% block title %}Posts tagged with '{{ tag.name }}'{% endblock %}
 
+{% load blogtags %}
 
 {% block summary_area %}
 <div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
@@ -9,32 +10,51 @@
 
 {% block column1 %}
 
-<h1>{{ tag.name|title }} posts in {{ blog.title }}</h1>
+{% for post in posts %}
 
-<p>There are <strong>{{ post_paginator.object_list.count }}</strong> posts tagged with '{{ tag.name }}'.
-</p>
+<div class="entry">
+    <div class="post-date">
+    <div class="date-inner">
+        <span class="month">{{ post.display_time.month|shortmonth }}</span>
+        <br/>
+        <span class="day">{{ post.display_time.day }}</span>
+        <br/>
+        <span class="year">{{ post.display_time.year }}</span>
+        {# {{ post.display_time|timesince }} ago #}
+    </div>
+</div>
+<h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
 
-{% for post in page.object_list %}
+{% if not post.content_summary_html %}
+    {{ post.content_html|first_paragraph|safe }}
+{% endif %}
 
-<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
-<div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
-<div class="brief-summary">{{ post.get_summary|truncatewords_html:"20"|striptags }}</div>
 
+{% if post.content_summary_html %}
+    {{ post.content_summary_html|safe }}
+{% endif %}
+
+<div class="read-more""><a href="{{ post.date_url }}">Read more...</a></div>
+
+</div>
+<br/>
 {% endfor %}
 
-<div class="post-navigation">
-    {% if prev_page %}
-    <div class="next-entry">
-        <a href="{{ prev_page }}" title="Older posts">Newer posts</a>
+{% if older_page_url or newer_page_url %}
+<div class="summary-navigation">
+    {% if older_page_url %}
+    <div class="prev-entry">
+        <a href="{{ older_page_url }}">Older posts</a>
     </div>
     {% endif %}
 
-    {% if next_page %}
-    <div class="prev-entry">
-        <a href="{{ next_page }}" title="Newer posts">Older posts</a>
+    {% if newer_page_url %}
+    <div class="next-entry">
+        <a href="{{ newer_page_url }}">Newer posts</a>
     </div>{% endif %}
     <div class="clear"> </div>
 </div>
-
+{% endif %}
 
 {% endblock %}
+
