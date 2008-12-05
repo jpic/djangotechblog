@@ -218,13 +218,14 @@ class Post(models.Model):
 
     def _remove_tags(self):
 
-        tags = Tag.objects.filter(blog=self.blog, post=self)
-        for tag in self.tags.all():
-            if not tag.decrement():
-                tag.delete()
-            else:
-                tag.save()
-            self.tags.remove(tag)
+        if self.pk is not None:
+            tags = Tag.objects.filter(blog=self.blog, post=self)
+            for tag in self.tags.all():
+                if not tag.decrement():
+                    tag.delete()
+                else:
+                    tag.save()
+                self.tags.remove(tag)
 
 
     def _add_tags(self):
