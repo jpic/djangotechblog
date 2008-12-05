@@ -49,7 +49,7 @@
     {{ post.content_summary_html|safe }}
 {% endif %}
 
-<div class="read-more""><a href="{{ post.date_url }}">Read more...</a></div>
+<div class="read-more""><a href="{{ post.get_absolute_url }}">Read more...</a></div>
 
 </div>
 <br/>
