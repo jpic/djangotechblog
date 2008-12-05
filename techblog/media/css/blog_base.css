@@ -294,17 +294,18 @@ body
 
 .entry p
 {
-    margin-left:60px;
+    /*margin-left:60px;*/
 }
 
 .entry h1
 {
-    margin-left:60px !important;
+    /*margin-left:60px !important;*/
 }
 
 .column1-content
 {
     /*padding:10px;*/
+    padding-left:44px;
 }
 
 .column2-content
