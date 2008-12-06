@@ -76,7 +76,7 @@ def get_related_posts(blog, post, count=10):
     #return posts
 
 
-def blog_entry(request, blog_slug, year, month, day, slug):
+def blog_post(request, blog_slug, year, month, day, slug):
 
     blog = get_object_or_404(models.Blog, slug=blog_slug)
 
@@ -90,39 +90,39 @@ def blog_entry(request, blog_slug, year, month, day, slug):
     if post_day_start > datetime.now():
         raise Http404
 
-    entry = get_object_or_404(models.Post,
+    post = get_object_or_404(models.Post,
                              display_time__gte=post_day_start,
                              display_time__lt=post_day_end,
                              slug=slug,
                              published=True)
 
-    prev_entry = None
-    next_entry = None
+    prev_post = None
+    next_post = None
     try:
-        prev_entry = models.Post.objects.filter(blog=blog, display_time__lt=entry.display_time).order_by('-display_time')[0]
+        prev_post = models.Post.objects.filter(blog=blog, display_time__lt=post.display_time).order_by('-display_time')[0]
     except IndexError:
         pass
 
     try:
-        next_entry = models.Post.objects.filter(blog=blog, display_time__gt=entry.display_time).order_by('display_time')[0]
+        next_post = models.Post.objects.filter(blog=blog, display_time__gt=post.display_time).order_by('display_time')[0]
     except IndexError:
         pass
 
-    tags = list(entry.tags.all().order_by('slug'))
+    tags = list(post.tags.all().order_by('slug'))
     #tags.sort(key = lambda t:t.name.lower())
 
 
-    related_posts = get_related_posts(blog, entry)
+    related_posts = get_related_posts(blog, post)
 
     td = dict(  blog=blog,
                 year=year,
                 month=month,
                 day=day,
-                entry=entry,
-                prev_entry=prev_entry,
-                next_entry=next_entry,
-                page_title = entry.title,
-                tagline = entry.blog.title,
+                post=post,
+                prev_post=prev_post,
+                next_post=next_post,
+                page_title = post.title,
+                tagline = post.blog.title,
                 tags = tags,
                 related_posts = related_posts)
 

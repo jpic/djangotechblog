@@ -84,7 +84,9 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'django.contrib.admin',
-    'techblog.apps.blog'
+    'techblog.apps.blog',
+    'techblog.apps.comments',
+    'techblog.apps.pages'
 )
 
 try:

@@ -1,6 +1,6 @@
 from django.db import models
 
-from techblog.apps.markup import MarkupField
+from techblog.apps.blog.fields import MarkupField
 
 
 class Page(models.Model):

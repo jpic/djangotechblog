@@ -67,8 +67,8 @@ class TagCloud(object):
         if max_tags is not None:
             self.tags = self.tags[:max_tags]
 
-        self.min_font = 8.0
-        self.max_font = 22.0
+        self.min_font = 10.0
+        self.max_font = 25.0
 
     def set_scale(min_font, max_font):
 
@@ -213,7 +213,7 @@ class Post(models.Model):
         month = self.display_time.month
         day = self.display_time.day
 
-        return ("apps.blog.views.blog_entry", (),
+        return ("apps.blog.views.blog_post", (),
                 dict(blog_slug=blog_slug, year=year, month=month, day=day, slug=self.slug))
 
     def _remove_tags(self):

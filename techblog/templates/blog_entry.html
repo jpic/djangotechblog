@@ -1,5 +1,8 @@
 {% extends "blog_base.html" %}
-{% block title %}{{ entry.title }}{% endblock %}
+
+{% load comments %}
+
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block summary_area %}
 <div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
@@ -8,45 +11,56 @@
 
 {% block column1 %}
 
-{% if prev_entry or next_entry %}
+{% if prev_post or next_post %}
 <div class="post-navigation">
-    {% if prev_entry %}
-    <div class="prev-entry">
-        <a href="{{prev_entry.get_absolute_url }}" title="Older post">{{ prev_entry.title }}</a>
+    {% if prev_post %}
+    <div class="prev-post">
+        <a href="{{prev_post.get_absolute_url }}" title="Older post">{{ prev_post.title }}</a>
     </div>
     {% endif %}
 
-    {% if next_entry %}
-    <div class="next-entry">
-        <a href="{{next_entry.get_absolute_url }}" title="Newer post">{{ next_entry.title }}</a>
+    {% if next_post %}
+    <div class="next-post">
+        <a href="{{next_post.get_absolute_url }}" title="Newer post">{{ next_post.title }}</a>
     </div>{% endif %}
     <div class="clear"> </div>
 </div>
 {% endif %}
 
 
-<h1>{{ entry.title }}</h1>
-<div class="post-subtitle">{{ entry.display_time|date:"F jS, Y" }}</div>
+<h1>{{ post.title }}</h1>
+<div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
 
-{{ entry.content_html|safe }}
+{{ post.content_html|safe }}
 
-<h3>Possibly related posts:</h3>
+
+
+<div class="post-description">
+    This blog post was posted to <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
+    on {{ post.display_time|date:"l F jS, Y" }}
+    at {{ post.display_time|time:"g:sA" }}
+    <br/><br/>
+    Tags: {% for tag in tags %}<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>{% if not forloop.last%}, {% endif %}{% endfor %}
+    <br/><br/>
+    Possibly related posts:
 <ul class="related-posts-list">
     {% for post in related_posts %}
     <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
     {% endfor %}
 </ul>
-
-<div class="entry-description">
-    This blog entry was posted to <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
-    on {{ entry.display_time|date:"l F jS, Y" }}
-    at {{ entry.display_time|time:"g:sA" }}
-    <br/>
-    Tags: {% for tag in tags %}<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>{% if not forloop.last%}, {% endif %}{% endfor %}
-</ul>
 </div>
+
+<div class="blog-comment-form">
+<h3>Leave a Comment</h3>
+{% comment_form post %}
+<p class="comment-form-options">
+    <a href="#" title="Click before posting comment">Preview</a>
+    <input type="button" value="Post Comment"></input>
+</p>
+</div>
+
 
 {% endblock %}
 
 
-{% block tagline %}<a href="{{ entry.blog.get_absolute_url }}">{{ tagline }}</a>{% endblock %}
+{% block tagline %}<a href="{{ post.blog.get_absolute_url }}">{{ tagline }}</a>{% endblock %}

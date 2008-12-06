@@ -21,4 +21,5 @@ if settings.DEBUG:
 
 urlpatterns += patterns('',
     (r'^blog/', include('apps.blog.urls')),
+    (r'^comments/', include('django.contrib.comments.urls')),
 )

@@ -1,6 +1,13 @@
 #!/usr/bin/env python
+from postmarkup import textilize
 
 from django.db import models
+from django.db.models import CharField, TextField, IntegerField
+
+MARKUP_TYPES = [ ("html", "Raw HTML"),
+                ("postmarkup", "Postmarkup (BBCode like)"),
+                ]
+
 
 try:
     import cPickle as pickle
@@ -45,3 +52,49 @@ class PickledObjectField(models.Field):
             return super(PickledObjectField, self).get_db_prep_lookup(lookup_type, value)
         else:
             raise TypeError('Lookup type %s is not supported.' % lookup_type)
+
+class MarkupField(TextField):
+
+
+    def __init__(self, renderer=None, *args, **kwargs):
+        self._renderer_callback = renderer or self._defaultrenderer
+
+        super(MarkupField, self).__init__(*args, **kwargs)
+
+    @classmethod
+    def _defaultrenderer(cls, txt):
+
+        return txt, '', textilize(txt), {}
+
+
+    def contribute_to_class(self, cls, name):
+
+        self._html_field = name + "_html"
+        self._type_field = name + "_type"
+        self._version_field = name + "_version"
+        self._summary_field = name + "_summary_html"
+        self._text_field = name + "_text"
+        self._data_field = name + "_data"
+
+        CharField("Markup type", blank=False, max_length=20, choices=MARKUP_TYPES, default="postmarkup").contribute_to_class(cls, self._type_field)
+        IntegerField(default=0).contribute_to_class(cls, self._version_field)
+        TextField(editable=True, blank=True, default="").contribute_to_class(cls, self._html_field)
+        TextField(editable=True, blank=True, default="").contribute_to_class(cls, self._summary_field)
+        TextField(editable=False, blank=True, default="").contribute_to_class(cls, self._text_field)
+        PickledObjectField(editable=False, default={}, blank=True).contribute_to_class(cls, self._data_field)
+
+        super(MarkupField, self).contribute_to_class(cls, name)
+
+
+    def pre_save(self, model_instance, add):
+
+        markup = getattr(model_instance, self.attname)
+        markup_type = getattr(model_instance, self._type_field)
+
+        html, summary_html, text, data = self._renderer_callback(markup, markup_type)
+
+        setattr(model_instance, self._html_field, html)
+        setattr(model_instance, self._summary_field, summary_html)
+        setattr(model_instance, self._text_field, text)
+        setattr(model_instance, self._data_field, data)
+        return markup
