@@ -40,6 +40,8 @@
     {% endcomment %}
 <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
 
+<div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
+
 {% if not post.content_summary_html %}
     {{ post.content_html|first_paragraph|safe }}
 {% endif %}

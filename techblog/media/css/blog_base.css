@@ -620,8 +620,12 @@ strong {font-weight:bold;}
     border-bottom:1px dashed #bbb;
 }
 
-.post a
-{font-weight:normal;}
+
+.post h1 a
+{
+    /*font-weight:normal;*/
+    color:#555;
+}
 
 .pullquote
 {
