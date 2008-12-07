@@ -26,7 +26,7 @@
     </div>
     {% endcomment %}
 
-<h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
+<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
 
 <div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
 
@@ -48,13 +48,13 @@
 {% if older_page_url or newer_page_url %}
 <div class="summary-navigation">
     {% if older_page_url %}
-    <div class="prev-entry">
+    <div class="prev-post">
         <a href="{{ older_page_url }}">Older posts</a>
     </div>
     {% endif %}
 
     {% if newer_page_url %}
-    <div class="next-entry">
+    <div class="next-post">
         <a href="{{ newer_page_url }}">Newer posts</a>
     </div>{% endif %}
     <div class="clear"> </div>

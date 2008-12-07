@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import models
+from django.core.urlresolvers import reverse
 from itertools import groupby
 
 def collate_archives(blog):
@@ -22,8 +23,12 @@ def collate_archives(blog):
         display_time = post['display_time']
         return (display_time.year, display_time.month)
 
-    months = [(year, month, count_iterable(post_group)) for (year, month),post_group in groupby(posts, year_month)]
+    def month_details(year, month, post_group):
+        url = reverse("blog_month", kwargs=dict(blog_slug=blog.slug, year=year, month=month))
+        return url, year, month, count_iterable(post_group)
 
-    years = [(year,list(months)) for (year, months) in groupby(months, lambda m:m[0])]
+    months = [month_details(year, month, post_group) for (year, month),post_group in groupby(posts, year_month)]
+
+    years = [(year,list(months)) for (year, months) in groupby(months, lambda m:m[1])]
 
     return years

@@ -4,7 +4,7 @@ from django import forms
 class CommentForm(forms.Form):
 
     name = forms.CharField(label="Name (required)", required=True)
-    email = forms.EmailField(label="Email (required)", required=False)
+    email = forms.EmailField(label="Email (not published)", required=False)
     url = forms.CharField(label="Website", required=False)
     content = forms.CharField(label="Comment", widget=forms.Textarea(), required=True)
 

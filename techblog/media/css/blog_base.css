@@ -465,22 +465,37 @@ a:active
 
 #column1 h1
 {
-    font-size:20px;
+    font-size:24px;
     font-weight:400;
     margin:10px -2px;
 
     color:#555;
-    color:#0066cc;
-    color:#194c7f;
+
+    font-weight:bold;
+
+    /*letter-spacing:-1px;*/
+
+    background-position:0 1px;
+    background-repeat:repeat-x;
+    padding:1px 2px 20px 2px;
+    font-family:arial,sans-serif;
+    text-align:center;
+
+}
+
+
+#column1 h2
+{
+    font-size:20px;
+    font-weight:400;
+    margin:10px -2px;
+
     color:#555;
 
     font-weight:bold;
 
     letter-spacing:-1px;
 
-    /*border-top:1px solid #ccc;
-    border-bottom:1px solid #ccc;*/
-    /*background-image:url("/media/images/subtlegradient.png");*/
     background-position:0 1px;
     background-repeat:repeat-x;
     padding:0px 2px 6px 0px;
@@ -488,7 +503,7 @@ a:active
 }
 
 
-#column1 h2
+#column1 h3
 {
     font-size:80%;
 
@@ -508,7 +523,7 @@ a:active
     font-family:arial,sans-serif;
 }
 
-#column1 h3
+#column1 h4
 {
     font-size:80%;
     font-weight:bold;
@@ -621,7 +636,7 @@ strong {font-weight:bold;}
 }
 
 
-.post h1 a
+.post h2 a
 {
     /*font-weight:normal;*/
     color:#555;
@@ -779,8 +794,8 @@ ul.links-list
 {
     color:#333;
     padding-bottom:1px;
-    border-bottom:4px solid #07825D !important;
-    text-decoration:none;
+    /*border-bottom:4px solid #0066CC !important;*/
+    /*text-decoration:none;*/
 }
 
 .links-list li a:visited

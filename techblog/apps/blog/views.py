@@ -10,6 +10,83 @@ import tools
 
 from itertools import groupby
 
+
+def get_blog_list_data(request, posts, get_page_url, page_no):
+
+
+    paginator = Paginator(posts, 2)
+
+    if page_no > paginator.num_pages:
+        raise Http404
+
+    page = paginator.page(page_no)
+    posts = page.object_list
+
+    num_pages = paginator.num_pages
+
+    newer_page_url = get_page_url(page_no - 1, num_pages)
+    older_page_url = get_page_url(page_no + 1, num_pages)
+
+
+    td = dict(page = page,
+              page_no = page_no,
+              posts = posts,
+              older_page_url = older_page_url,
+              newer_page_url = newer_page_url)
+
+    return td
+
+
+
+def blog_month(request, blog_slug, year, month, page_no=1):
+
+    page_no = int(page_no)
+    #if page_no < 1:
+    #    raise Http404
+    #if month < 1 or month > 12:
+    #    raise Http404
+
+    year = int(year)
+    month = int(month)
+
+    blog = get_object_or_404(models.Blog, slug=blog_slug)
+
+    start_date = datetime(year, month, 1)
+    year_end = year
+    next_month = month + 1
+    if next_month == 13:
+        next_month = 1
+        year_end += 1
+    end_date = datetime(year_end, next_month, 1)
+
+    title = blog.title
+
+
+    posts = blog.posts().filter(display_time__gte=start_date, display_time__lt=end_date)
+    archives = tools.collate_archives(blog)
+
+    def get_page_url(page_no, num_pages):
+        if page_no < 1 or page_no > num_pages:
+            return ""
+        if page_no == 1:
+            return reverse("blog_month", kwargs = dict(blog_slug=blog_slug, year=year, month=month))
+        else:
+            return reverse("blog_month_with_page", kwargs = dict(blog_slug=blog_slug, year=year, month=month, page_no=page_no))
+
+
+    td = get_blog_list_data(request, posts, get_page_url, page_no)
+
+    td.update(  dict(blog = blog,
+                title = title,
+                page_title = title,
+                tagline = blog.tagline,
+                archives = archives,
+                month = month,
+                year = year) )
+
+    return render_to_response("blog_month.html", td)
+
+
 def blog_front(request, blog_slug, page_no=1):
 
     page_no = int(page_no)
@@ -21,27 +98,46 @@ def blog_front(request, blog_slug, page_no=1):
     title = blog.title
     posts = blog.posts()
 
-
-    paginator = Paginator(posts, 5)
-
-    if page_no > paginator.num_pages:
-        raise Http404
-
-    page = paginator.page(page_no)
-    posts = page.object_list
-
     archives = tools.collate_archives(blog)
 
-    def get_page_url(page_no):
-        if page_no < 1 or page_no > paginator.num_pages:
+    def get_page_url(page_no, num_pages):
+        if page_no < 1 or page_no > num_pages:
             return ""
         if page_no == 1:
             return reverse("blog_front", kwargs={"blog_slug":blog_slug})
         else:
             return reverse("blog_front_with_page", kwargs={"blog_slug":blog_slug, "page_no":str(page_no)})
 
-    newer_page_url = get_page_url(page_no - 1)
-    older_page_url = get_page_url(page_no + 1)
+    td = get_blog_list_data(request, posts, get_page_url, page_no)
+
+    td.update(  dict(blog = blog,
+                title = title,
+                page_title = title,
+                tagline = blog.tagline,
+                archives = archives) )
+
+    return render_to_response("blog.html", td)
+
+    #paginator = Paginator(posts, 5)
+    #
+    #if page_no > paginator.num_pages:
+    #    raise Http404
+    #
+    #page = paginator.page(page_no)
+    #posts = page.object_list
+    #
+    #archives = tools.collate_archives(blog)
+    #
+    #def get_page_url(page_no):
+    #    if page_no < 1 or page_no > paginator.num_pages:
+    #        return ""
+    #    if page_no == 1:
+    #        return reverse("blog_front", kwargs={"blog_slug":blog_slug})
+    #    else:
+    #        return reverse("blog_front_with_page", kwargs={"blog_slug":blog_slug, "page_no":str(page_no)})
+    #
+    #newer_page_url = get_page_url(page_no - 1)
+    #older_page_url = get_page_url(page_no + 1)
 
 
     td = dict(blog = blog,

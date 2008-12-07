@@ -28,7 +28,7 @@
 {% endif %}
 
 
-<h1>{{ post.title }}</h1>
+<h2>{{ post.title }}</h2>
 <div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
 
 {{ post.content_html|safe }}
@@ -51,7 +51,7 @@
 </div>
 
 <div class="blog-comment-form">
-<h3>Leave a Comment</h3>
+<h2>Leave a Comment</h2>
 {% comment_form post %}
 <p class="comment-form-options">
     <a href="#" title="Click before posting comment">Preview</a>

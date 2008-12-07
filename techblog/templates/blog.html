@@ -23,39 +23,7 @@
 
 {% block column1 %}
 
-{% for post in posts %}
-
-<div class="post">
-    {% comment %}
-    <div class="post-date">
-    <div class="date-inner">
-        <span class="month">{{ post.display_time.month|shortmonth }}</span>
-        <br/>
-        <span class="day">{{ post.display_time.day }}</span>
-        <br/>
-        <span class="year">{{ post.display_time.year }}</span>
-        {# {{ post.display_time|timesince }} ago #}
-    </div>
-    </div>
-    {% endcomment %}
-<h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
-
-<div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
-
-{% if not post.content_summary_html %}
-    {{ post.content_html|first_paragraph|safe }}
-{% endif %}
-
-
-{% if post.content_summary_html %}
-    {{ post.content_summary_html|safe }}
-{% endif %}
-
-<div class="read-more"><a href="{{ post.get_absolute_url }}">Read more...</a></div>
-
-</div>
-<br/>
-{% endfor %}
+{% include "includes/post_list.html" %}
 
 {% if older_page_url or newer_page_url %}
 <div class="summary-navigation">
@@ -96,10 +64,10 @@
     {% for year,months in archives %}
     <div class="archive-year">{{ year }}</div>
     <ul class="archive-months">
-        {% for year, month, count in months %}
+        {% for month_url, year, month, count in months %}
         <li>
             <div class="archive-month">
-                <a href="#" title="{{ count }} posts">{{ month|longmonth }}</a>
+                <a href="{{ month_url }}" title="{{ count }} posts">{{ month|longmonth }}</a>
             </div>
         </li>
         {% endfor %}
