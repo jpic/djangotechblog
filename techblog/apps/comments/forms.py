@@ -8,6 +8,7 @@ class CommentForm(forms.Form):
     url = forms.CharField(label="Website", required=False)
     content = forms.CharField(label="Comment", widget=forms.Textarea(), required=True)
 
+    content_format = forms.CharField(widget=forms.HiddenInput(), required=True, initial="bbcode")
 
     content_type = forms.CharField(widget=forms.HiddenInput(), required=True)
     object_id = forms.IntegerField(widget=forms.HiddenInput(), required=True)

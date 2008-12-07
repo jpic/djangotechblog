@@ -9,7 +9,7 @@ class BlogAdmin(admin.ModelAdmin):
     fields = ('title',
               'slug',
               'tagline',
-              'description_type',
+              'description_markup_type',
               'description',
               'description_html',
               )

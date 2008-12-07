@@ -62,15 +62,15 @@ class MarkupField(TextField):
         super(MarkupField, self).__init__(*args, **kwargs)
 
     @classmethod
-    def _defaultrenderer(cls, txt):
+    def _defaultrenderer(cls, markup, markup_type):
 
-        return txt, '', textilize(txt), {}
+        return markup, '', textilize(markup), {}
 
 
     def contribute_to_class(self, cls, name):
 
         self._html_field = name + "_html"
-        self._type_field = name + "_type"
+        self._type_field = name + "_markup_type"
         self._version_field = name + "_version"
         self._summary_field = name + "_summary_html"
         self._text_field = name + "_text"

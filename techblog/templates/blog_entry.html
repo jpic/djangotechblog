@@ -15,13 +15,13 @@
 <div class="post-navigation">
     {% if prev_post %}
     <div class="prev-post">
-        <a href="{{prev_post.get_absolute_url }}" title="Older post">{{ prev_post.title }}</a>
+        <a href="{{ prev_post.get_absolute_url }}" title="Older post">{{ prev_post.title }}</a>
     </div>
     {% endif %}
 
     {% if next_post %}
     <div class="next-post">
-        <a href="{{next_post.get_absolute_url }}" title="Newer post">{{ next_post.title }}</a>
+        <a href="{{ next_post.get_absolute_url }}" title="Newer post">{{ next_post.title }}</a>
     </div>{% endif %}
     <div class="clear"> </div>
 </div>
@@ -52,11 +52,79 @@
 
 <div class="blog-comment-form">
 <h2>Leave a Comment</h2>
-{% comment_form post %}
-<p class="comment-form-options">
-    <a href="#" title="Click before posting comment">Preview</a>
-    <input type="button" value="Post Comment"></input>
-</p>
+<form id="comment-form" action="post" target="">
+    {% comment_form post %}
+    <p class="comment-form-options">
+        <a id="comment-preview" href="#" title="Click before posting comment">Preview</a>
+        <input id="comment-submit" type="submit" value="Post Comment"></input>
+        <span id="comment-submit-working">Posting... </span>
+    </p>
+</form>
+</div>
+
+<script type="text/javascript">
+
+$('#comment-preview').click(function(){
+    var name = $("#id_name").val();
+    var url = $("#id_url").val();
+    var email = $('#id_email').val();
+    var comment = $("#id_content").val();
+
+    data = {'name':name, 'url':url, 'email':email, 'bbcode':comment };
+    $('#comment-preview-working').show();
+    $("#comment-preview-content").hide();
+    $("#comment-preview-content").load("{% url xhr_preview_comment %}", data, function(){
+        $('#comment-preview-working').hide();
+        $("#comment-preview-content").show();
+
+        });
+    return false;
+});
+
+$('#comment-submit').click(function(){
+
+    data = {};
+    $('#comment-form input, #comment-form textarea').each(function(){
+        var $this = $(this);
+        var name = $this.attr('name');
+        var value = $this.val();
+        data[name]=value;
+
+    });
+
+    $('#comment-submit').hide();
+    $('#comment-submit-working').show();
+
+    $.post("{% url xhr_post_comment %}", data, function(json){
+
+        var response = eval("("+json+")");
+        if (response.status=='ok')
+        {
+            alert("hai!");
+            window.location.reload( true );
+        }
+        else
+        {
+            $('#comment-submit-working').hide();
+            $('#comment-submit').show();
+        }
+
+    });
+
+
+
+    return false;
+});
+
+
+</script>
+
+
+<div id="comment-preview-working">
+    <div class="content">Previewing comment, please wait a moment...</div>
+    <img src="/media/images/throbber.gif"> </img>
+</div>
+<div id="comment-preview-content">
 </div>
 
 

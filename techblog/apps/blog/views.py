@@ -4,11 +4,20 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import Http404
 from django.core.paginator import Paginator
+from django.conf import settings
 
 from datetime import datetime, timedelta
 import tools
+from techblog import broadcast
 
 from itertools import groupby
+
+
+@broadcast.reciever()
+def allow_comment(object):
+    if isinstance(object, models.Post):
+        return True
+    return False
 
 
 def get_blog_list_data(request, posts, get_page_url, page_no):
@@ -118,41 +127,6 @@ def blog_front(request, blog_slug, page_no=1):
 
     return render_to_response("blog.html", td)
 
-    #paginator = Paginator(posts, 5)
-    #
-    #if page_no > paginator.num_pages:
-    #    raise Http404
-    #
-    #page = paginator.page(page_no)
-    #posts = page.object_list
-    #
-    #archives = tools.collate_archives(blog)
-    #
-    #def get_page_url(page_no):
-    #    if page_no < 1 or page_no > paginator.num_pages:
-    #        return ""
-    #    if page_no == 1:
-    #        return reverse("blog_front", kwargs={"blog_slug":blog_slug})
-    #    else:
-    #        return reverse("blog_front_with_page", kwargs={"blog_slug":blog_slug, "page_no":str(page_no)})
-    #
-    #newer_page_url = get_page_url(page_no - 1)
-    #older_page_url = get_page_url(page_no + 1)
-
-
-    td = dict(blog = blog,
-              title = title,
-              page_title = title,
-              tagline = blog.tagline,
-              archives = archives,
-              page = page,
-              page_no = page_no,
-              posts = posts,
-              older_page_url = older_page_url,
-              newer_page_url = newer_page_url)
-
-
-    return render_to_response("blog.html", td)
 
 
 def get_related_posts(blog, post, count=10):
@@ -275,52 +249,24 @@ def tag(request, blog_slug, tag_slug, page_no=1):
 
     return render_to_response("blog_tag.html", td)
 
+from postmarkup import render_bbcode
 
-#def tag(request, blog_slug, tag_slug, page_no=1):
-#
-#    page_no = int(page_no)
-#    if page_no < 1:
-#        raise Http404
-#
-#    blog = get_object_or_404(models.Blog, slug=blog_slug)
-#    tag = get_object_or_404(models.Tag, slug=tag_slug)
-#
-#    posts = tag.post_set.all().order_by('-display_time')
-#
-#    post_paginator = Paginator(posts, 5)
-#
-#    if page_no > post_paginator.num_pages:
-#        raise Http404
-#
-#    page = post_paginator.page(page_no)
-#
-#    next_page = ""
-#    prev_page = ""
-#
-#    def get_url(page_no):
-#        if page_no < 1 or page_no > paginator.num_pages:
-#            return ""
-#        if page_no == 1:
-#            return reverse("blog_tag", kwargs=dict(blog_slug=blog_slug, tag_slug=tag_slug))
-#        else:
-#            return reverse("blog_tag_with_page", kwargs=dict(blog_slug=blog_slug, tag_slug=tag_slug, page_no=page_no))
-#
-#    if page.has_next():
-#        next_page = get_url(page.next_page_number())
-#    if page.has_previous():
-#        prev_page = get_url(page.previous_page_number())
-#
-#    td = dict(blog = blog,
-#              tag = tag,
-#              posts = posts,
-#              post_paginator = post_paginator,
-#              page = page,
-#              next_page = next_page,
-#              prev_page = prev_page )
-#
-#    return render_to_response("blog_tag.html", td)
+def xhr_preview_comment(request):
 
+    if settings.DEBUG:
+        import time
+        time.sleep(3)
 
+    bbcode = request.REQUEST.get('bbcode', '')
+    comment = render_bbcode(bbcode)
+
+    td = {}
+    td['comment'] = comment
+
+#    import time
+#    time.sleep(3);
+
+    return render_to_response("xhr_comment_preview.html", td)
 
 
 

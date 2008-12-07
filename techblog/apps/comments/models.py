@@ -15,6 +15,8 @@ class Comment(models.Model):
     moderated = models.BooleanField(default=False)
 
     created_time = models.DateTimeField(auto_now_add=True)
+
     name = models.CharField("Author's name", max_length=100)
+    email = models.EmailField("Author's email")
     url = models.URLField(verify_exists=False, default="")
     content = MarkupField(default="")

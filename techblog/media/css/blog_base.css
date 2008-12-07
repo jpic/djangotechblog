@@ -1073,8 +1073,54 @@ blockquote p
     background-position:left center;
 }
 
-.comment-form-options input[type=button]
+.comment-form-options input[type=submit]
 {
     float:right;
     width:150px;
+}
+
+#comment-preview-content
+{
+    clear:both;
+    font-size:80%;
+    /*
+    border-top:4px solid #B2CC99;
+    border-bottom:4px solid #B2CC99;
+    */
+}
+
+#comment-preview-working
+{
+    clear:both;
+    text-align:center;
+    font-size:80%;
+    font-weight:bold;
+    color:#555;
+    margin-top:20px;
+    display:none;
+}
+
+#comment-preview-working .content
+{
+    padding:20px;
+}
+
+
+#comment-preview-working img
+{
+    padding-bottom:20px;
+}
+#comment-preview-working .content
+{
+   padding:20px;
+}
+
+#comment-submit-working
+{
+    float:right;
+    display:none;
+    padding-right:220px;
+    background-image:url(/media/images/throbber.gif);
+    background-repeat:no-repeat;
+    background-position:right center;
 }
