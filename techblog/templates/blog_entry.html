@@ -100,8 +100,7 @@ $('#comment-submit').click(function(){
         var response = eval("("+json+")");
         if (response.status=='ok')
         {
-            alert("hai!");
-            window.location.reload( true );
+            window.location = window.location;
         }
         else
         {
