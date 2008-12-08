@@ -138,13 +138,14 @@ if __name__ == "__main__":
             print what, "2"
             return 2
 
-        @reciever("go")
-        def printer1(what):
+        @reciever()
+        def printer3(what):
             print what, "3"
             return 3
 
         print call.go("Hello!")
         print all.go("Hello!")
         print all.notexist("Hello!")
+        call.printer3("test")
 
     main()
