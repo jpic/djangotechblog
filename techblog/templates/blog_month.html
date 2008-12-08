@@ -1,0 +1,88 @@
+{% extends "blog_base.html" %}
+
+{% load blogtags %}
+{% load humanize %}
+
+{% block title %}{{ blog.title }}, Archive for {{ month|longmonth }}, {{ year }} {% ifnotequal page 1 %} - {{ page_no|ordinal }} page{% endifnotequal %}{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="/media/js/blog_base.js"> </script>
+{% endblock %}
+
+
+{% block above_columns %}
+<div class="links-area">
+    <ul class="links-list">
+    <li><a href="#df">Link 1</a></li>
+    <li><a href="#qwrqwr">A Second Link</a></li>
+    <li><a href="#gsdg">Link number 3</a></li>
+    <li><a href="#sd">Yet another link</a></li>
+    </ul>
+</div>
+<div class="clear"> </div>
+{% endblock %}
+
+{% block column1 %}
+
+<h1>Archive for {{ month|longmonth }}, {{ year }}</h1>
+{% include "includes/post_list.html" %}
+
+{% if older_page_url or newer_page_url %}
+<div class="summary-navigation">
+    {% if older_page_url %}
+    <div class="prev-post">
+        <a href="{{ older_page_url }}">Older posts</a>
+    </div>
+    {% endif %}
+
+    {% if newer_page_url %}
+    <div class="next-post">
+        <a href="{{ newer_page_url }}">Newer posts</a>
+    </div>{% endif %}
+    <div class="clear"> </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+
+{% block column2 %}
+
+
+<h1>Tag Cloud</h1>
+<div class="tag-cloud">
+
+{% for scale, font_size, tag in blog.get_tag_cloud %}
+    <span class="tag" style="font-size:{{ font_size }}px;">
+        <a href="{{ tag.get_absolute_url }}" title="{{ tag.count }} posts">{{ tag.name|title }}</a>
+    </span>
+{% endfor %}
+
+</div>
+<div class="clear"> </div>
+
+<h1>Archives</h1>
+<div class="archives">
+    {% for year,months in archives %}
+    <div class="archive-year">{{ year }}</div>
+    <ul class="archive-months">
+        {% for month_url, year, month, count in months %}
+        <li>
+            <div class="archive-month">
+                <a href="{{ month_url }}" title="{{ count }} posts">{{ month|longmonth }}</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="clear"> </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+
+{% block summary_area %}
+<div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
+<h1>{{ blog.tagline }}</h1>
+<div class="summary-area">{{ blog.description_html|safe }}</div>
+{% endblock %}
