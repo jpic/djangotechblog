@@ -1,0 +1,22 @@
+
+{% if comments %}
+
+<ul>
+{% for comment in comments %}
+    <li class="comment {% cycle '' 'odd' %}">
+        <a name="comment{{ comment.id }}"></a>
+        <div class="comment-header">
+            <div class="comment-author">
+                <cite>{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}{{ comment.name }}</cite>{% if comment.url %}</a>{% endif %} comments...
+                <a href="#comment{{ comment.id }}"><img src="/media/images/icons/anchor.png"></img></a>
+            </div>
+            <div class="comment-time">
+                {{ comment.created_time|timesince }} ago
+            </div>
+        </div>
+        <p>{{ comment.content_html|safe }}</p>
+    </li>
+{% endfor %}
+</ul>
+
+{% endif %}

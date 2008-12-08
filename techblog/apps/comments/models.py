@@ -20,3 +20,4 @@ class Comment(models.Model):
     email = models.EmailField("Author's email")
     url = models.URLField(verify_exists=False, default="")
     content = MarkupField(default="")
+    

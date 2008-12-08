@@ -60,6 +60,7 @@ def xhr_post_comment(request):
             broadcast.call.new_comment(object, comment)
 
             comment.save()
+            response['comment_id'] = comment.id
 
     json = simplejson.dumps(response)
     return HttpResponse(json, mimetype='application/json')

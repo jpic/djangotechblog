@@ -998,7 +998,8 @@ blockquote p
 
 .blog-comment-form
 {
-    /*width:100%;*/
+    width:100%;
+    float:left;
     padding:16px 0px;
 }
 
@@ -1041,7 +1042,7 @@ blockquote p
 
 .blog-comment-form textarea
 {
-    width:98%;
+    width:99%;
     height:200px;
     border:1px solid #b2cc99;
     padding:2px;
@@ -1123,4 +1124,40 @@ blockquote p
     background-image:url(/media/images/throbber.gif);
     background-repeat:no-repeat;
     background-position:right center;
+}
+
+.comments
+{
+    margin-top:30px;
+}
+
+.comment
+{
+    padding:4px;
+    margin:2px 0px;
+    color:#333;
+}
+
+.comment-author
+{
+    font-size:80%;
+    font-weight:bold;
+}
+
+.comment-time
+{
+    font-size:70%;
+    color:#555;
+}
+
+.comment-header
+{
+    margin-bottom:10px;
+}
+
+.comment.odd
+{
+    background-color:#f9f9f9;
+    border-top:1px solid #e9e9e9;
+    border-bottom:1px solid #e9e9e9;
 }

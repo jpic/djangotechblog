@@ -50,6 +50,13 @@
 </ul>
 </div>
 
+<div class="comments">
+{% get_comments for post as comments %}
+<h2>{{ comments.count }} Responses to "{{ post.title }}"</h2>
+{% include "includes/comments.html" %}
+</div>
+
+<a name="comment-form"></a>
 <div class="blog-comment-form">
 <h2>Leave a Comment</h2>
 <form id="comment-form" action="post" target="">
@@ -83,7 +90,7 @@ $('#comment-preview').click(function(){
 
 $('#comment-submit').click(function(){
 
-    data = {};
+    var data = {};
     $('#comment-form input, #comment-form textarea').each(function(){
         var $this = $(this);
         var name = $this.attr('name');
@@ -100,7 +107,9 @@ $('#comment-submit').click(function(){
         var response = eval("("+json+")");
         if (response.status=='ok')
         {
-            window.location = window.location;
+            history.go(0);
+            //window.location.reload(0);
+            //window.location.href = window.location.href;// + '#comment'+response.comment_id;
         }
         else
         {
