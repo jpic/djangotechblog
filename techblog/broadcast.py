@@ -47,6 +47,7 @@ class Broadcaster(object):
 
 
     def call(self, func_name, *args, **kwargs):
+
         """Return the result of the highest priority callable that doesn't reject the broadcast."""
 
         recievers = self._get_recievers(func_name)
@@ -59,7 +60,8 @@ class Broadcaster(object):
 
 
     def first(self, func_name, *args, **kwargs):
-        """Return the first result that doesn't avaluate to False."""
+
+        """Return the first result that doesn't evaluate to False."""
 
         recievers = self._get_recievers(func_name)
         for reciever in recievers:
