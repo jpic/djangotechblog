@@ -169,6 +169,8 @@ class Post(models.Model):
     slug = models.SlugField("Post Slug", unique=True)
     published = models.BooleanField("Published?", default=False)
 
+    allow_comments = models.BooleanField("Allow Comments?", default=True)
+
     created_time = models.DateTimeField(auto_now_add=True)
     edit_time = models.DateTimeField(auto_now=True)
     display_time = models.DateTimeField("Post Time", default=datetime.datetime.now)
