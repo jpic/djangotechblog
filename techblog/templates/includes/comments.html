@@ -1,10 +1,11 @@
-
+{% load comments %}
 {% if comments %}
 
-<ul>
+<ul class="comments-list">
 {% for comment in comments %}
     <li class="comment {% cycle '' 'odd' %}">
         <a name="comment{{ comment.id }}"></a>
+        {% gravatar comment.email 40 "identicon" %}
         <div class="comment-header">
             <div class="comment-author">
                 <cite>{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}{{ comment.name }}</cite>{% if comment.url %}</a>{% endif %} comments...
@@ -14,7 +15,9 @@
                 {{ comment.created_time|timesince }} ago
             </div>
         </div>
-        <p>{{ comment.content_html|safe }}</p>
+        <div class="comment-body">
+            <p>{{ comment.content_html|safe }}</p>
+        </div>
     </li>
 {% endfor %}
 </ul>

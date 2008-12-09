@@ -1126,6 +1126,11 @@ blockquote p
     background-position:right center;
 }
 
+.comments-list li
+{
+    float:left;
+}
+
 .comments
 {
     margin-top:30px;
@@ -1136,6 +1141,7 @@ blockquote p
     padding:4px;
     margin:2px 0px;
     color:#333;
+    width:100%;
 }
 
 .comment-author
@@ -1148,11 +1154,14 @@ blockquote p
 {
     font-size:70%;
     color:#555;
+    margin-top:4px;
 }
 
 .comment-header
 {
     margin-bottom:10px;
+    width:90%;
+    float:right;
 }
 
 .comment.odd
@@ -1160,4 +1169,18 @@ blockquote p
     background-color:#f9f9f9;
     border-top:1px solid #e9e9e9;
     border-bottom:1px solid #e9e9e9;
+}
+
+.gravatar
+{
+    padding:4px 8px 4px 4px;
+    float:left;
+    padding:2px;
+    /*border:1px solid #ddd;*/
+}
+
+.comment-body
+{
+    width:90%;
+    float:right;
 }

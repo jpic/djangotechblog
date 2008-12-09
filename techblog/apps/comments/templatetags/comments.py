@@ -59,3 +59,18 @@ def get_comments(parser, token):
     value_name = match.group(2)
 
     return GetCommentsNode(object_name, value_name)
+
+import urllib, hashlib
+
+@register.simple_tag
+def gravatar(email, size=None, default=None):
+
+    size = size or 40
+    gravatar_url = "http://www.gravatar.com/avatar.php?"
+
+    params = {'gravatar_id':hashlib.md5(email).hexdigest(), 'size':str(size)}
+    if default is not None:
+        params['default'] = default
+
+    gravatar_url += urllib.urlencode(params)
+    return '<img class="gravatar" src="%s">' % gravatar_url
