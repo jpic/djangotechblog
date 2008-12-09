@@ -50,11 +50,16 @@
 </ul>
 </div>
 
-<div class="comments">
+
 {% get_comments for post as comments %}
-<h2>{{ comments.count }} Responses to "{{ post.title }}"</h2>
-{% include "includes/comments.html" %}
+
+{% if comments %}
+<div class="comments">
+    <h2>{{ comments.count }} Responses to "{{ post.title }}"</h2>
+    {% include "includes/comments.html" %}
 </div>
+{% endif %}
+
 
 <a name="comment-form"></a>
 <div class="blog-comment-form">
