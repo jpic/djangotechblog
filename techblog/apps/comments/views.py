@@ -1,7 +1,7 @@
 from models import Comment
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.conf import settings
@@ -10,12 +10,13 @@ from techblog import broadcast
 from forms import CommentForm
 
 import simplejson
+import urllib
 
 def xhr_post_comment(request):
 
-    if settings.DEBUG:
-        import time
-        time.sleep(3)
+    #if settings.DEBUG:
+    #    import time
+    #    time.sleep(3)
 
     errors = []
 
@@ -34,6 +35,8 @@ def xhr_post_comment(request):
 
         content_type = form.cleaned_data.get('content_type')
         object_id = int(form.cleaned_data.get('object_id'))
+
+        success_url = form.cleaned_data.get('success_url')
 
         app_label, model = content_type.split('.')
 
@@ -61,6 +64,14 @@ def xhr_post_comment(request):
 
             comment.save()
             response['comment_id'] = comment.id
+            response['fwd'] = '%s?%s#comment%d' % (reverse('post_success'), urllib.urlencode(dict(fwd = success_url)), comment.id)
 
     json = simplejson.dumps(response)
     return HttpResponse(json, mimetype='application/json')
+
+
+def post_success(request):
+
+    url = request.GET.get('fwd', '/')
+
+    return HttpResponseRedirect(url)

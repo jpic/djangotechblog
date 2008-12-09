@@ -1021,7 +1021,8 @@ blockquote p
     padding:2px;
     float:left;
     text-align:right;
-    width:28%;
+    width:32%;
+    font-size:80%;
 }
 
 .blog-comment-form label[for=id_content]
@@ -1032,7 +1033,7 @@ blockquote p
 
 .blog-comment-form input[type=text]
 {
-    width:68%;
+    width:65%;
     border:1px solid #b2cc99;
     padding:2px;
     float:right;
@@ -1183,4 +1184,20 @@ blockquote p
 {
     width:90%;
     float:right;
+}
+
+.comment-form-help
+{
+    clear:both;
+    background-color:#f9f9f9;
+    border-top:1px solid #e9e9e9;
+    border-bottom:1px solid #e9e9e9;
+    font-size:65%;
+    width:97.5%;
+    float:left;
+    color:#333;
+    line-height:125%;
+    padding:6px;
+    margin-top:8px;
+    margin-bottom:6px;
 }

@@ -21,5 +21,5 @@ if settings.DEBUG:
 
 urlpatterns += patterns('',
     (r'^blog/', include('apps.blog.urls')),
-    (r'^', include('apps.comments.urls')),
+    (r'^comments/', include('apps.comments.urls')),
 )

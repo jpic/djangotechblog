@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import Http404
 from django.core.paginator import Paginator
 from django.conf import settings
+import urllib
 
 from datetime import datetime, timedelta
 import tools
