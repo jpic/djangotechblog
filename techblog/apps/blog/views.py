@@ -14,7 +14,7 @@ from techblog import broadcast
 from itertools import groupby
 
 
-@broadcast.reciever()
+@broadcast.recieve()
 def allow_comment(object):
     if isinstance(object, models.Post):
         return True
@@ -250,19 +250,19 @@ def tag(request, blog_slug, tag_slug, page_no=1):
 
     return render_to_response("blog_tag.html", td)
 
-from postmarkup import render_bbcode
+from markup import render_comment
 
 def xhr_preview_comment(request):
 
-    if settings.DEBUG:
-        import time
-        time.sleep(3)
+    #if settings.DEBUG:
+    #    import time
+    #    time.sleep(3)
 
     bbcode = request.REQUEST.get('bbcode', '')
-    comment = render_bbcode(bbcode)
+    html, summary, text, data = render_comment(bbcode, 'comment_bbcode')
 
     td = {}
-    td['comment'] = comment
+    td['comment'] = html
 
 #    import time
 #    time.sleep(3);

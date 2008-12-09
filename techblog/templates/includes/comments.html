@@ -5,21 +5,28 @@
 {% for comment in comments %}
     <li class="comment {% cycle '' 'odd' %}">
         <a name="comment{{ comment.id }}"></a>
-        {% gravatar comment.email 40 "identicon" %}
+        <a href="#comment{{ comment.id }}">{% gravatar comment.email 40 "identicon" %}</a>
         <div class="comment-header">
             <div class="comment-author">
-                <cite>{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}{{ comment.name }}</cite>{% if comment.url %}</a>{% endif %} comments...
-                <a href="#comment{{ comment.id }}"><img src="/media/images/icons/anchor.png"></img></a>
+                <cite>{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}{{ comment.name }}</cite>{% if comment.url %}</a>{% endif %}
+                {# <a href="#comment{{ comment.id }}"><img width="16" height="16" src="/media/images/icons/anchor.png"></img></a> #}
             </div>
             <div class="comment-time">
                 {{ comment.created_time|timesince }} ago
             </div>
         </div>
         <div class="comment-body">
-            <p>{{ comment.content_html|safe }}</p>
+            {{ comment.content_html|safe }}
+            {% comment %}
+            <div class="comment-reply">
+                <a href="#" id="replyto-{{ comment.id }}">Reply to this</a>
+            </div>
+            {% endcomment %}
         </div>
+
     </li>
 {% endfor %}
 </ul>
+
 
 {% endif %}

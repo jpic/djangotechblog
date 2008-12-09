@@ -4,6 +4,9 @@ from threading import RLock
 class RejectBroadcast(Exception):
     pass
 
+class NoReciever(Exception):
+    pass
+
 class _Reciever(object):
 
     def __init__(self, name, callable, priority):
@@ -56,7 +59,7 @@ class Broadcaster(object):
                 return reciever(*args, **kwargs)
             except RejectBroadcast:
                 continue
-        return None
+        raise NoReciever("No reciever for %s broadcast call" % func_name)
 
 
     def first(self, func_name, *args, **kwargs):
@@ -71,7 +74,7 @@ class Broadcaster(object):
                     return result
             except RejectBroadcast:
                 continue
-        return None
+        raise NoReciever("No reciever for %s broadcast first call" % func_name)
 
 
     def call_all(self, func_name, *args, **kwargs):
@@ -108,14 +111,27 @@ class CallProxy(object):
             return self._callable(func_name, *args, **kwargs)
         return do_call
 
+class SafeCallProxy(CallProxy):
+
+    def __getattr__(self, func_name):
+        def do_call(*args, **kwargs):
+            try:
+                return self._callable(func_name, *args, **kwargs)
+            except NoReciever:
+                return None
+        return do_call
+
 
 broadcaster = Broadcaster()
 
 call = CallProxy(broadcaster, broadcaster.call)
-all = CallProxy(broadcaster, broadcaster.call_all)
 first = CallProxy(broadcaster, broadcaster.first)
+all = CallProxy(broadcaster, broadcaster.call_all)
 
-def reciever(func_name=None, priority=100):
+safe_call = SafeCallProxy(broadcaster, broadcaster.call)
+safe_first = SafeCallProxy(broadcaster, broadcaster.first)
+
+def recieve(func_name=None, priority=100):
     """Register a callable as a recievers."""
     def wrap(f):
         broadcaster.register(func_name or f.__name__, f, priority)

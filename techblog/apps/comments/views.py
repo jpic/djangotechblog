@@ -43,7 +43,7 @@ def xhr_post_comment(request):
         ct = ContentType.objects.get(app_label=app_label, model=model)
         object = ct.get_object_for_this_type(id=object_id)
 
-        if not broadcast.first.allow_comment(object):
+        if not broadcast.safe_first.allow_comment(object):
 
             response['status'] = "fail"
             response['errors'].append('Commenting not permited on this object')
@@ -60,7 +60,7 @@ def xhr_post_comment(request):
             comment.content_markup_type
             comment.content = content
 
-            broadcast.call.new_comment(object, comment)
+            broadcast.safe_call.new_comment(object, comment)
 
             comment.save()
             response['comment_id'] = comment.id

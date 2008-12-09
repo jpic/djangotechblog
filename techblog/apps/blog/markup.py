@@ -2,6 +2,7 @@
 import postmarkup
 import markuptags
 from fields import PickledObjectField, MarkupField
+from techblog import broadcast
 
 from markuprender import *
 
@@ -10,7 +11,7 @@ VERSION = 1
 
 def render_post_markup(markup, markup_type):
 
-    if markup_type =="postmarkup":
+    if markup_type == "postmarkup":
 
         tag_data = {}
         html = post_markup( markup,
@@ -31,6 +32,13 @@ def render_post_markup(markup, markup_type):
         if summary_markup.strip():
             summary = post_markup(output.get("summary" , ""), paragraphs=True, clean=True)
             summary_html = summary
+
+    elif markup_type == "comment_bbcode":
+
+        html = postmarkup.render_bbcode(markup, paragraphs=True, clean=True)
+        text = postmarkup.textilize(html)
+        return html, html, text, {}
+
     else:
 
         html = markup
@@ -39,3 +47,9 @@ def render_post_markup(markup, markup_type):
         data = {}
 
     return html, summary_html, text, data
+
+
+@broadcast.recieve()
+def render_comment(markup, markup_type):
+
+    return render_post_markup(markup, markup_type)

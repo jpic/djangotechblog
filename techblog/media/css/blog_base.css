@@ -1084,7 +1084,7 @@ blockquote p
 #comment-preview-content
 {
     clear:both;
-    font-size:80%;
+    /*font-size:80%;*/
     /*
     border-top:4px solid #B2CC99;
     border-bottom:4px solid #B2CC99;
@@ -1139,16 +1139,20 @@ blockquote p
 
 .comment
 {
-    padding:4px;
-    margin:2px 0px;
+    padding:10px 10px 0px 10px;
+    margin:10px 5px 0px 5px;
     color:#333;
     width:100%;
+    /*margin:10px;*/
+    float:left;
 }
 
 .comment-author
 {
     font-size:80%;
-    font-weight:bold;
+    /*font-weight:bold;*/
+
+
 }
 
 .comment-time
@@ -1161,7 +1165,7 @@ blockquote p
 .comment-header
 {
     margin-bottom:10px;
-    width:90%;
+    width:85%;
     float:right;
 }
 
@@ -1177,12 +1181,12 @@ blockquote p
     padding:4px 8px 4px 4px;
     float:left;
     padding:2px;
-    /*border:1px solid #ddd;*/
+    border:1px solid #ddd;
 }
 
 .comment-body
 {
-    width:90%;
+    width:85%;
     float:right;
 }
 
@@ -1200,4 +1204,22 @@ blockquote p
     padding:6px;
     margin-top:8px;
     margin-bottom:6px;
+}
+
+blockquote em
+{
+    font-size: 80%;
+    font-style:italic;
+}
+
+.comment-reply
+{
+    float:right;
+    font-size:70%;
+    padding-left:20px;
+    background-image:url(/media/images/icons/comments_add.png);
+    background-repeat:no-repeat;
+    height:16px;
+    margin-right:20px;
+    margin-bottom:10px;
 }

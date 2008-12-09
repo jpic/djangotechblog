@@ -3,7 +3,15 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from techblog.apps.blog.fields import MarkupField
 
+from techblog import broadcast
+
 # Create your models here.
+
+
+def _comment_renderer(markup, markup_type):
+
+    html, summary_html, text, data = broadcast.call.render_comment(markup, markup_type)
+    return html, summary_html, text, data
 
 class Comment(models.Model):
 
@@ -19,5 +27,4 @@ class Comment(models.Model):
     name = models.CharField("Author's name", max_length=100)
     email = models.EmailField("Author's email")
     url = models.URLField(verify_exists=False, default="")
-    content = MarkupField(default="")
-    
+    content = MarkupField(default="", renderer=_comment_renderer)
