@@ -23,14 +23,12 @@
 {% get_comments_count for post as num_comments %}
 {% if num_comments %}<a class="comments-link" href="{{ post.get_absolute_url }}#comments">{{ num_comments }} comments</a>{% endif %}
 {% if not num_comments %}<a  class="comments-link" href="{{ post.get_absolute_url }}#comments">No comments</a>{% endif %}
-<p>
-<p class="tag-list">
-Tags: {% for tag in post.get_tags %}<a href="{{ tag.get_absolute_url }}">{{ tag.name|title }}</a>{% if not forloop.last%}, {% endif %}{% endfor %}
-</p>
-
 </p>
 
 <div class="read-more"><a href="{{ post.get_absolute_url }}">Read more...</a></div>
+<p class="tag-list">
+Tags: {% for tag in post.get_tags %}<a href="{{ tag.get_absolute_url }}">{{ tag.name|title }}</a>{% if not forloop.last%}, {% endif %}{% endfor %}
+</p>
 
 </div>
 <br/>
