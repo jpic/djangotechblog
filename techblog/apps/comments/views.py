@@ -70,6 +70,31 @@ def xhr_post_comment(request):
     return HttpResponse(json, mimetype='application/json')
 
 
+def xhr_delete_comment(request):
+
+    print "xhr_delete_comment"
+
+    if request.user.is_anonymous():
+        raise Http404
+
+    result = ""
+
+    comment_id = request.GET.get('comment_id', None)
+    if comment_id is None:
+        result = "fail"
+    else:
+        try:
+            comment = Comment.objects.get(id=comment_id)
+            comment.delete()
+            result = "success"
+        except Comment.DoesNotExist:
+            result = "fail"
+
+    response = dict(result=result)
+    json = simplejson.dumps(response)
+    return HttpResponse(json, mimetype='application/json')
+
+
 def post_success(request):
 
     url = request.GET.get('fwd', '/')

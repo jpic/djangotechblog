@@ -50,6 +50,26 @@
 </ul>
 </div>
 
+{% if not user.is_anonymous %}
+<script type="text/javascript">
+
+function delete_comment(comment_id)
+{
+    var data = {'comment_id':comment_id};
+    $.getJSON('{% url xhr_delete_comment %}', data, function(json){
+        if (json.result=="success")
+        {
+            $('#comment'+comment_id).fadeOut('slow');
+        }
+        else
+        {
+            alert("Unable to delete this comment.");
+        }
+    })
+}
+
+</script>
+{% endif %}
 
 {% get_comments for post as comments %}
 
@@ -69,10 +89,25 @@
 
 <form id="comment-form" action="post" target="">
 
-        <p><label for="id_name"><strong>Name</strong> (required):</label> <input type="text" id="id_name" name="name"/></p>
-        <p><label for="id_email"><strong>Email</strong> (not published):</label> <input type="text" id="id_email" name="email"/></p>
-        <p><label for="id_url"><strong>Website</strong>:</label> <input type="text" id="id_url" name="url"/></p>
-        <p><label for="id_content"><strong>Comment</strong>:</label> <textarea name="content" cols="40" rows="10" id="id_content" ></textarea></p>
+        <p>
+            <label for="id_name"><strong>Name</strong> (required):</label> <input type="text" id="id_name" name="name"/>
+            <div class="comment-form-errors" id="id_name_errors"></div>
+        </p>
+
+        <p>
+            <label for="id_email"><strong>Email</strong> (not published):</label> <input type="text" id="id_email" name="email"/>
+            <div class="comment-form-errors" id="id_email_errors"></div>
+        </p>
+
+        <p>
+            <label for="id_url"><strong>Website</strong>:</label> <input type="text" id="id_url" name="url"/>
+            <div class="comment-form-errors" id="id_url_errors"></div>
+        </p>
+
+        <p>
+            <label for="id_content"><strong>Comment</strong>:</label> <textarea name="content" cols="40" rows="10" id="id_content" ></textarea>
+            <div class="comment-form-errors" id="id_content_errors"></div>
+        </p>
 
 {% for field in comment_form %}
 {% if field.is_hidden %}{{ field }}{% endif %}
@@ -138,6 +173,14 @@ $('#comment-submit').click(function(){
         {
             $('#comment-submit-working').hide();
             $('#comment-submit').show();
+
+            $('.comment-form-errors').html('')
+
+            for (error in response.errors)
+            {
+                var error_id = "#id_" + error + "_errors";
+                $(error_id).html(response.errors[error]);
+            }
         }
 
     });

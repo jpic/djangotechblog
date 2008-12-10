@@ -1142,15 +1142,22 @@ blockquote p
     padding:10px 10px 0px 10px;
     margin:10px 5px 0px 5px;
     color:#333;
-    width:100%;
+    /*width:100%;*/
     /*margin:10px;*/
     float:left;
+    width:96%;
+}
+
+
+.comment p
+{
+    text-align:left !important;
 }
 
 .comment-author
 {
     font-size:80%;
-    /*font-weight:bold;*/
+    font-weight:bold;
 
 
 }
@@ -1222,4 +1229,37 @@ blockquote em
     height:16px;
     margin-right:20px;
     margin-bottom:10px;
+}
+
+.delete-comment-link
+{
+    float:right;
+    font-size:80%;
+    background-image:url(/media/images/icons/comment_delete.png);
+    background-repeat:no-repeat;
+    height:16px;
+    padding-left:20px;
+}
+
+.comment-form-errors
+{
+    clear:both;
+    font-size:80%;
+    color:#990000;
+    float:right;
+}
+
+.comment-form-errors .errorlist
+{
+    padding-bottom:8px;
+    margin-top:4px;
+}
+
+.errorlist li
+{
+    height:16px;
+    padding-left:20px;
+    background-image:url(/media/images/icons/exclamation.png);
+    background-repeat:no-repeat;
+
 }

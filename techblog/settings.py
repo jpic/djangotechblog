@@ -75,6 +75,13 @@ TEMPLATE_DIRS = (
     join(settings_path, 'templates'),
 )
 
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+
+    'django.core.context_processors.auth',
+
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',

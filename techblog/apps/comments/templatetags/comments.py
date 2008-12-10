@@ -90,7 +90,7 @@ class GetCommentsNode(template.Node):
         if object is None:
             return ''
         ct = ContentType.objects.get_for_model(object)
-        comments = models.Comment.objects.filter(object_id=object.id, content_type=ct)
+        comments = models.Comment.objects.filter(object_id=object.id, content_type=ct, visible=True, moderated=True)
         context[self.value_name] = comments
         return ''
 

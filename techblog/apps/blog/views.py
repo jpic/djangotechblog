@@ -20,6 +20,11 @@ def allow_comment(object):
         return True
     return False
 
+@broadcast.recieve()
+def new_comment(object, comment):
+    comment.moderated = True
+    comment.visible = True
+
 
 def get_blog_list_data(request, posts, get_page_url, page_no):
 

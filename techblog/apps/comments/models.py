@@ -28,3 +28,18 @@ class Comment(models.Model):
     email = models.EmailField("Author's email")
     url = models.URLField(verify_exists=False, default="")
     content = MarkupField(default="", renderer=_comment_renderer)
+
+    def __unicode__(self):
+        return self.name
+
+    def site_link(self):
+        object_url = self.object_url() + '#comment' +str(self.id)
+        url = '''<a href="%s">comment by %s</a>''' % (object_url, self.name)
+        return url
+    site_link.allow_tags = True
+
+    def object_url(self):
+        return self.content_object.get_absolute_url()
+
+    def comment_object_description(self):
+        return unicode(self.content_object)
