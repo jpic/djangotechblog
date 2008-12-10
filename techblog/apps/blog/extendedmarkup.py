@@ -9,70 +9,164 @@ except ImportError:
 
 postmarkup_renderer = postmarkup.create()
 
+class ExtendedMarkupError(Exception):
+    pass
+
 def render_postmarkup(text):
     tag_tada = {}
     postmarkup_renderer(text, paragraphs=False)
 
-class EMarkup(object):
+class Chunk(object):
+
+    def __init__(self, text, chunk_type='text'):
+        self.text = text
+        self.chunk_type = chunk_type
+
+    def __str__(self):
+        return "%s: %s" % (self.chunk_type, repr(self.text))
+
+    __repr__ = __str__
+
+class EMarkupParser(object):
 
     def __init__(self, renderer=None):
         if renderer is None:
             self.renderer = postmarkup.create()
 
-    def render(text):
+    def parse(self, text, default_section = "main", default_chunk_type = "text"):
+
 
         lines = StringIO(text)
 
-        sections = {}
-        self.current_section = "main"
-        chunks = []
-        current_lines = []
+        self._current_section = default_section
+        self._default_section = default_section
+
+        self.sections = {}
+        sections = self.sections
+
+        self._chunks = []
+        chunks = self._chunks
+
+        self.current_lines = []
+        current_lines = self.current_lines
 
         line_no = 0
-        blank_count = 2
+
+        new_chunk = True
+
+        self._current_chunk_type = default_chunk_type
 
 
-        while True:
+        def make_chunk():
 
-            line = lines.readline()
-            blank_line = bool(line.strip())
-            if blank_line:
-                blank_count += 1
-            else:
-                blank_count = 0
+            if current_lines:
 
-            if blank_count > 1:
+                chunk = "\n".join(current_lines)
+                chunks.append(Chunk(chunk, self._current_chunk_type))
+                del current_lines[:]
+
+        for line_no, line in enumerate(lines):
+
+            line = line.rstrip()
+            if not line:
+                new_chunk = True
+                continue
+
+
+            if new_chunk:
+
+                make_chunk()
 
                 if line.startswith('.'):
-                    
-                    directive_name, data = line.split(' ', 1)
-                    directive_name = directive.lower().strip()
+
+                    section_name = line[1:] or default_section
+                    self.set_section(section_name)
+                    continue
+
+                elif line.startswith('#'):
+
+                    self._current_chunk_type = line[1:] or default_chunk_type
+                    continue
+
+                elif line.startswith('%'):
+
+                    directive_name, data = line[1:].split(' ', 1)
+                    directive_name = directive_name.lower().strip()
                     data = data.strip()
 
                     directive_func = getattr(self, "directive_"+directive_name, None)
                     if directive_func is not None:
-                        directive_func()
+                        directive_func(directive_name, data)
+                    continue
 
                 else:
-                    chunk_text = "".join(current_lines)
-                    del current_lines[:]
+                    current_lines.append(line)
 
-                    sections.setdefault(current_section, [])
-                    sections[current_section].append(chunk_text)
+                new_chunk = False
+                continue
 
-                    chunks.append(chunk_text)
 
-            else:
+            current_lines.append(line)
+            new_chunk = False
 
-                chunks.append(line)
+        make_chunk()
+        self.set_section(None)
 
+        return self.sections
+
+    __call__ = parse
 
     def set_section(self, section_name):
 
-        self.current_section = section_name
+        section = self.sections.setdefault(self._current_section, [])
+        section += self._chunks
+        del self._chunks [:]
 
-    def directive_in(self, data):
+        self._current_section = section_name or self._default_section
 
-        section_name = data.split(' ', 1).strip()
+
+    def directive_in(self, directive_name, data):
+
+        section_name = data
+        if not section_name:
+            raise ExtendedMarkupError(".in directive requires a parameter")
+
         if section_name:
             self.set_section(section_name)
+
+
+if __name__ == "__main__":
+    test = """.title
+This is the title
+
+.body
+
+This is a pragraph, with [b]bbcode[/b]..
+
+.main
+This is part of the same paragraph
+
+
+This is a another [i]paragraph[/i]
+
+#code python
+
+import this
+
+.html
+<a href="#">Hello, World!</a>
+
+#
+Not python code
+
+.sidebar
+
+This is sidebar content
+
+"""
+
+    emarkup = EMarkupParser()
+    sections = emarkup(test)
+
+    import pprint
+    print pprint.pprint(emarkup.sections)

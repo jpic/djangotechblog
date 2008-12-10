@@ -243,6 +243,7 @@ def tag(request, blog_slug, tag_slug, page_no=1):
 
 
     td = dict(blog = blog,
+              tag = tag,
               title = title,
               page_title = title,
               tagline = blog.tagline,
