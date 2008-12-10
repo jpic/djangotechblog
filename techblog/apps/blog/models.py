@@ -254,10 +254,14 @@ class Post(models.Model):
 
                 self.tags.add(tag)
 
-
-
     def save(self, *args, **kwargs):
 
         self._remove_tags()
         super(Post, self).save(*args, **kwargs)
         self._add_tags()
+
+    def get_tags(self):
+
+        tags = list(self.tags.all())
+        tags.sort(key=lambda t:t.name.lower())
+        return tags

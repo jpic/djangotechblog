@@ -40,7 +40,7 @@
     on {{ post.display_time|date:"l F jS, Y" }}
     at {{ post.display_time|time:"g:sA" }}
     <br/><br/>
-    Tags: {% for tag in tags %}<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>{% if not forloop.last%}, {% endif %}{% endfor %}
+    Tags: {% for tag in post.get_tags %}<a href="{{ tag.get_absolute_url }}">{{ tag.name|title }}</a>{% if not forloop.last%}, {% endif %}{% endfor %}
     <br/><br/>
     Possibly related posts:
 <ul class="related-posts-list">
@@ -70,10 +70,9 @@ function delete_comment(comment_id)
 
 </script>
 {% endif %}
-
 {% get_comments for post as comments %}
 
-{% if comments %}
+<a name="comments"> </a>{% if comments %}
 <div class="comments">
     <h2>{{ comments.count }} Responses to "{{ post.title }}"</h2>
     {% include "includes/comments.html" %}

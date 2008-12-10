@@ -1263,3 +1263,20 @@ blockquote em
     background-repeat:no-repeat;
 
 }
+
+.comments-link
+{
+    background-image:url(/media/images/icons/comment.png);
+    background-repeat:no-repeat;
+    padding-left:20px;
+    min-height:16px;
+}
+
+.tag-list
+{
+    font-size:70% !important;
+    background-image:url(/media/images/icons/tag_blue.png);
+    background-repeat:no-repeat;
+    padding-left:20px;
+    min-height:16px;
+}

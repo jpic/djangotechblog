@@ -89,8 +89,7 @@ class GetCommentsNode(template.Node):
         object = context.get(self.object_name, None)
         if object is None:
             return ''
-        ct = ContentType.objects.get_for_model(object)
-        comments = models.Comment.objects.filter(object_id=object.id, content_type=ct, visible=True, moderated=True)
+        comments = models.Comment.objects.filter_for_object(object)
         context[self.value_name] = comments
         return ''
 
@@ -108,6 +107,38 @@ def get_comments(parser, token):
     value_name = match.group(2)
 
     return GetCommentsNode(object_name, value_name)
+
+
+
+class GetCommentsCountNode(template.Node):
+    def __init__(self, object_name, value_name):
+        self.object_name = object_name
+        self.value_name = value_name
+
+    def render(self, context):
+
+        object = context.get(self.object_name, None)
+        if object is None:
+            return ''
+        comments = models.Comment.objects.filter_for_object(object)
+        context[self.value_name] = comments.count()
+        return ''
+
+@register.tag
+def get_comments_count(parser, token):
+
+    directive = token.contents.strip().split(' ', 1)[1]
+
+    match = _re_comments_tag.match(directive)
+
+    if match is None:
+        raise template.TemplateSyntaxError("Syntax error")
+
+    object_name = match.group(1)
+    value_name = match.group(2)
+
+    return GetCommentsCountNode(object_name, value_name)
+
 
 
 @register.simple_tag

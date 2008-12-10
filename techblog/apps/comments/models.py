@@ -13,7 +13,17 @@ def _comment_renderer(markup, markup_type):
     html, summary_html, text, data = broadcast.call.render_comment(markup, markup_type)
     return html, summary_html, text, data
 
+class CommentManager(models.Manager):
+
+    def filter_for_object(self, object):
+        ct = ContentType.objects.get_for_model(object)
+        comments = Comment.objects.filter(object_id=object.id, content_type=ct, visible=True, moderated=True)
+        comments.order_by('created_time')
+        return comments
+
 class Comment(models.Model):
+
+    objects = CommentManager()
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
@@ -31,6 +41,8 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
 
     def site_link(self):
         object_url = self.object_url() + '#comment' +str(self.id)
