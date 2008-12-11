@@ -34,6 +34,11 @@ class Section(list):
         list.__init__(self, *args, **kwargs)
         self.vars = {}
 
+    def __str__(self):
+        return "%s, %s" % ( repr(list(self)), self.vars )
+
+    __repr__ = __str__
+
 
 class EMarkupParser(object):
 
@@ -71,8 +76,6 @@ class EMarkupParser(object):
         comment_mode = 0
 
         def make_chunk():
-            if comment_mode:
-                return
             if current_lines:
                 chunk = "\n".join(current_lines)
                 chunk = Chunk(chunk, self._current_chunk_type)
@@ -99,12 +102,10 @@ class EMarkupParser(object):
 
             if new_chunk:
 
+                if line.startswith('//'):
+                    continue
 
-                make_chunk()
-
-                # Chunk vars
-
-                if line.startswith('/*'):
+                elif line.startswith('/*'):
                     comment_mode += 1
                     continue
 
@@ -116,10 +117,9 @@ class EMarkupParser(object):
                 if comment_mode:
                     continue
 
-                if line.startswith('//'):
-                    continue
+                make_chunk()
 
-                elif line.startswith('..?'):
+                if line.startswith('..?'):
                     line = line[3:]
                     process_vars(self._chunk_vars, line)
                     continue
@@ -198,6 +198,7 @@ This is a comment
 
 .body
 
+..? style=float:left;
 This is a pragraph, with [b]bbcode[/b]..
 
 .main
@@ -218,7 +219,7 @@ Oh Hai!
 
 import this
 
-;This is a comment
+//This is a comment
 ..html
 <a href="#">Hello, World!</a>
 
