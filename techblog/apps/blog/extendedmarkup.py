@@ -21,11 +21,19 @@ class Chunk(object):
     def __init__(self, text, chunk_type='text'):
         self.text = text
         self.chunk_type = chunk_type
+        self.vars = {}
 
     def __str__(self):
-        return "%s: %s" % (self.chunk_type, repr(self.text))
+        return "%s: %s, %s" % (self.chunk_type, repr(self.text), repr(self.vars))
 
     __repr__ = __str__
+
+class Section(list):
+
+    def __init__(self, *args, **kwargs):
+        list.__init__(self, *args, **kwargs)
+        self.vars = {}
+
 
 class EMarkupParser(object):
 
@@ -40,6 +48,8 @@ class EMarkupParser(object):
 
         self._current_section = default_section
         self._default_section = default_section
+        self._default_chunk_type = default_chunk_type
+        self._current_chunk_type = default_chunk_type
 
         self.sections = {}
         sections = self.sections
@@ -50,20 +60,35 @@ class EMarkupParser(object):
         self.current_lines = []
         current_lines = self.current_lines
 
-        line_no = 0
-
         new_chunk = True
 
-        self._current_chunk_type = default_chunk_type
+        self.vars = {}
+        vars = self.vars
 
+        self._section_vars = {}
+        self._chunk_vars = {}
+
+        comment_mode = 0
 
         def make_chunk():
-
+            if comment_mode:
+                return
             if current_lines:
-
                 chunk = "\n".join(current_lines)
-                chunks.append(Chunk(chunk, self._current_chunk_type))
+                chunk = Chunk(chunk, self._current_chunk_type)
+                chunk.vars.update(self._chunk_vars)
+                self._chunk_vars.clear()
+                chunks.append(chunk)
                 del current_lines[:]
+
+        def process_vars(vars, line):
+            if '=' in line:
+                key, value = line.split('=', 1)
+                key = key.strip()
+                value = value.strip()
+                vars[key] = value
+            else:
+                vars[line.strip()] = '1'
 
         for line_no, line in enumerate(lines):
 
@@ -72,32 +97,64 @@ class EMarkupParser(object):
                 new_chunk = True
                 continue
 
-
             if new_chunk:
+
 
                 make_chunk()
 
-                if line.startswith('.'):
+                # Chunk vars
 
+                if line.startswith('/*'):
+                    comment_mode += 1
+                    continue
+
+                elif line.startswith('*/'):
+                    if comment_mode:
+                        comment_mode -= 1
+                    continue
+
+                if comment_mode:
+                    continue
+
+                if line.startswith('//'):
+                    continue
+
+                elif line.startswith('..?'):
+                    line = line[3:]
+                    process_vars(self._chunk_vars, line)
+                    continue
+
+                # Section vars
+                elif line.startswith('.?'):
+                    line = line[2:]
+                    process_vars(self._section_vars, line)
+                    continue
+
+                # Chunk type
+                elif line.startswith('..'):
+                    self._current_chunk_type = line[2:] or default_chunk_type
+                    continue
+
+                # Section
+                elif line.startswith('.'):
                     section_name = line[1:] or default_section
                     self.set_section(section_name)
                     continue
 
-                elif line.startswith('#'):
+                ## Directive
+                #elif line.startswith('.!'):
+                #    directive_name, data = line[2:].split(' ', 1)
+                #    directive_name = directive_name.lower().strip()
+                #    data = data.strip()
+                #
+                #    directive_func = getattr(self, "directive_"+directive_name, None)
+                #    if directive_func is not None:
+                #        directive_func(directive_name, data)
+                #    continue
 
-                    self._current_chunk_type = line[1:] or default_chunk_type
-                    continue
-
-                elif line.startswith('%'):
-
-                    directive_name, data = line[1:].split(' ', 1)
-                    directive_name = directive_name.lower().strip()
-                    data = data.strip()
-
-                    directive_func = getattr(self, "directive_"+directive_name, None)
-                    if directive_func is not None:
-                        directive_func(directive_name, data)
-                    continue
+                elif line.startswith('?'):
+                    line = line[1:]
+                    process_vars(vars, line)
 
                 else:
                     current_lines.append(line)
@@ -118,46 +175,57 @@ class EMarkupParser(object):
 
     def set_section(self, section_name):
 
-        section = self.sections.setdefault(self._current_section, [])
+        section = self.sections.setdefault(self._current_section, Section())
+        self.sections[self._current_section].vars.update(self._section_vars)
         section += self._chunks
         del self._chunks [:]
 
         self._current_section = section_name or self._default_section
+        self._current_chunk_type = self._default_chunk_type
 
+        self._section_vars = {}
 
-    def directive_in(self, directive_name, data):
-
-        section_name = data
-        if not section_name:
-            raise ExtendedMarkupError(".in directive requires a parameter")
-
-        if section_name:
-            self.set_section(section_name)
 
 
 if __name__ == "__main__":
     test = """.title
 This is the title
 
+/*
+This is a comment
+*/
+// This is also a comment
+
 .body
 
 This is a pragraph, with [b]bbcode[/b]..
 
 .main
+.?a section var
+..html
+..?avar
 This is part of the same paragraph
 
 
 This is a another [i]paragraph[/i]
 
-#code python
+.plain
+
+Oh Hai!
+
+
+..code python
 
 import this
 
-.html
+;This is a comment
+..html
 <a href="#">Hello, World!</a>
 
-#
+..
 Not python code
+
+?will=cool
 
 .sidebar
 
@@ -169,4 +237,5 @@ This is sidebar content
     sections = emarkup(test)
 
     import pprint
-    print pprint.pprint(emarkup.sections)
+    pprint.pprint(emarkup.sections)
+    pprint.pprint(emarkup.vars)
