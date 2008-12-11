@@ -10,40 +10,9 @@
 
 {% block column1 %}
 
-{% for post in posts %}
+<h1>{{ tag.name }} posts</h1>
+{% include "includes/post_list.html" %}
 
-<div class="post">
-    {% comment %}
-    <div class="post-date">
-    <div class="date-inner">
-        <span class="month">{{ post.display_time.month|shortmonth }}</span>
-        <br/>
-        <span class="day">{{ post.display_time.day }}</span>
-        <br/>
-        <span class="year">{{ post.display_time.year }}</span>
-        {# {{ post.display_time|timesince }} ago #}
-    </div>
-    </div>
-    {% endcomment %}
-
-<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
-
-<div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
-
-{% if not post.content_summary_html %}
-    {{ post.content_html|first_paragraph|safe }}
-{% endif %}
-
-
-{% if post.content_summary_html %}
-    {{ post.content_summary_html|safe }}
-{% endif %}
-
-<div class="read-more"><a href="{{ post.get_absolute_url }}">Read more...</a></div>
-
-</div>
-<br/>
-{% endfor %}
 
 {% if older_page_url or newer_page_url %}
 <div class="summary-navigation">
