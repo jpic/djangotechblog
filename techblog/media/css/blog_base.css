@@ -1030,6 +1030,14 @@ blockquote p
     display:none;
     float:right;
 }
+/*
+.blog-comment-form textarea:focus, .blog-comment-form input:focus
+{
+    border:1px solid #0066CC;
+    background-color:#b2cc99;
+
+}
+*/
 
 .blog-comment-form input[type=text]
 {
