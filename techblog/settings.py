@@ -91,6 +91,9 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'django.contrib.admin',
+
+    'techblog.markup',
+
     'techblog.apps.blog',
     'techblog.apps.comments',
     'techblog.apps.pages'

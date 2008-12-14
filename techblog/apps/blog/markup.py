@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import postmarkup
 import markuptags
-from fields import PickledObjectField, MarkupField
+from techblog.markup.fields import PickledObjectField, MarkupField
 from techblog import broadcast
+from techblog.markup import extendedmarkup
 
 from markuprender import *
 
@@ -33,6 +34,16 @@ def render_post_markup(markup, markup_type):
             summary = post_markup(output.get("summary" , ""), paragraphs=True, clean=True)
             summary_html = summary
 
+    elif markup_type == "epostmarkup":
+
+        sections = extendedmarkup.parse(markup)
+
+        html = sections['main']
+        summary_html = html
+        text = postmarkup.textilize(html)
+        data = dict(sections = sections)
+
+
     elif markup_type == "comment_bbcode":
 
         html = postmarkup.render_bbcode(markup, paragraphs=True, clean=True)
@@ -47,6 +58,7 @@ def render_post_markup(markup, markup_type):
         data = {}
 
     return html, summary_html, text, data
+
 
 
 @broadcast.recieve()

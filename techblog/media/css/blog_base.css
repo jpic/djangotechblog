@@ -103,7 +103,7 @@ body
 .title-area .faded-title
 {
     font-size:300%;
-    opacity:.2;
+    opacity:.4;
     font-weight:bold;
     z-index:20;
     font-family:"Courier New", Courier, monospace;
@@ -622,7 +622,7 @@ strong {font-weight:bold;}
 .read-more
 {
     font-style:italic;
-    text-align:right;
+    /*text-align:right;*/
     font-size:80%;
     width:100%;
 }
@@ -1280,11 +1280,19 @@ blockquote em
     min-height:16px;
 }
 
-.tag-list
+.tag-link
 {
-    font-size:70% !important;
+    /*font-size:70% !important;*/
     background-image:url(/media/images/icons/tag_blue.png);
     background-repeat:no-repeat;
-    padding-left:20px;
-    min-height:16px;
+    padding-left:18px;
+    /*min-height:16px;*/
+}
+
+.post-info
+{
+    /*text-align:left !important;*/
+    font-family:"Helvetica";
+    margin-top:24px;
+    text-align:center !important;
 }

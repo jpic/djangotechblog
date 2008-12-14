@@ -172,6 +172,8 @@ def blog_post(request, blog_slug, year, month, day, slug):
                              slug=slug,
                              published=True)
 
+    sections = post.content_data.get('sections', '')
+
     prev_post = None
     next_post = None
     try:
@@ -200,7 +202,8 @@ def blog_post(request, blog_slug, year, month, day, slug):
                 page_title = post.title,
                 tagline = post.blog.title,
                 tags = tags,
-                related_posts = related_posts)
+                related_posts = related_posts,
+                sections = sections)
 
     return render_to_response("blog_entry.html", td)
 

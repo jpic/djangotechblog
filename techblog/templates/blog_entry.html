@@ -7,6 +7,7 @@
 {% block summary_area %}
 <div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
 <h1>{{ blog.tagline }}</h1>
+<div class="summary-area">{{ sections.intro }}</div>
 {% endblock %}
 
 {% block column1 %}
@@ -163,10 +164,7 @@ $('#comment-submit').click(function(){
         var response = eval("("+json+")");
         if (response.status=='ok')
         {
-            //alert(response.fwd);
             window.location.href = response.fwd;
-            //window.location.reload(0);
-            //window.location.href = window.location.href;// + '#comment'+response.comment_id;
         }
         else
         {
@@ -203,5 +201,8 @@ $('#comment-submit').click(function(){
 
 {% endblock %}
 
+{% block column2 %}
+{{ sections.column2|safe }}
+{% endblock %}
 
 {% block tagline %}<a href="{{ post.blog.get_absolute_url }}">{{ tagline }}</a>{% endblock %}
