@@ -25,7 +25,7 @@
 {% get_comments_count for post as num_comments %}
 {% if num_comments %}<a class="comments-link" href="{{ post.get_absolute_url }}#comments">{{ num_comments }} comments</a>{% endif %}
 {% if not num_comments %}<a  class="comments-link" href="{{ post.get_absolute_url }}#comments">No comments</a>{% endif %}
-| Tags: {% for tag in post.get_tags %}<a class="tag-link" href="{{ tag.get_absolute_url }}">{{ tag.name|title }}</a> {% endfor %}
+<span class="tag-list">Tags: {% for tag in post.get_tags %}<a class="tag-link" href="{{ tag.get_absolute_url }}">{{ tag.name|title }}</a> {% endfor %}</a>
 </p>
 
 

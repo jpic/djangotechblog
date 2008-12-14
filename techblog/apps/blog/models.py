@@ -59,7 +59,7 @@ class Channel(models.Model):
 
 class TagCloud(object):
 
-    def __init__(self, blog, max_tags = 50):
+    def __init__(self, blog, max_tags = 25):
 
         self.blog = blog
 
@@ -68,7 +68,7 @@ class TagCloud(object):
             self.tags = self.tags[:max_tags]
 
         self.min_font = 12.0
-        self.max_font = 25.0
+        self.max_font = 20.0
 
     def set_scale(min_font, max_font):
 
