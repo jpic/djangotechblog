@@ -29,7 +29,7 @@ def new_comment(object, comment):
 def get_blog_list_data(request, posts, get_page_url, page_no):
 
 
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 10)
 
     if page_no > paginator.num_pages:
         raise Http404
