@@ -77,7 +77,7 @@ class EMarkupParser(object):
 
         def make_chunk():
             if current_lines:
-                chunk = "\n".join(current_lines)
+                chunk = current_lines[:]
                 chunk = Chunk(chunk, self._current_chunk_type)
                 chunk.vars.update(self._chunk_vars)
                 self._chunk_vars.clear()
@@ -90,13 +90,15 @@ class EMarkupParser(object):
                 key = key.strip()
                 value = value.strip()
                 vars[key] = value
-            else:
-                vars[line.strip()] = '1'
+                return True
+            return False
+
 
         for line_no, line in enumerate(lines):
 
             line = line.rstrip()
             if not line:
+                current_lines.append("");
                 new_chunk = True
                 continue
 
@@ -117,28 +119,22 @@ class EMarkupParser(object):
                 if comment_mode:
                     continue
 
-                make_chunk()
-
-                if line.startswith('..?'):
-                    line = line[3:]
-                    process_vars(self._chunk_vars, line)
-                    continue
-
-                # Section vars
-                elif line.startswith('.?'):
-                    line = line[2:]
-                    process_vars(self._section_vars, line)
-                    continue
-
                 # Chunk type
-                elif line.startswith('..'):
-                    self._current_chunk_type = line[2:] or default_chunk_type
+                if line.startswith('..'):
+                    line = line[2:]
+                    if not process_vars(self._chunk_vars, line):
+                        make_chunk()
+                        self._current_chunk_type = line or default_chunk_type
+
                     continue
 
                 # Section
                 elif line.startswith('.'):
-                    section_name = line[1:] or default_section
-                    self.set_section(section_name)
+                    line = line[1:]
+                    if not process_vars(self._section_vars, line):
+                        make_chunk()
+                        section_name = line or default_section
+                        self.set_section(section_name)
                     continue
 
                 ## Directive
@@ -152,7 +148,7 @@ class EMarkupParser(object):
                 #        directive_func(directive_name, data)
                 #    continue
 
-                elif line.startswith('?'):
+                elif line.startswith('!'):
                     line = line[1:]
                     process_vars(vars, line)
 
@@ -178,7 +174,7 @@ class EMarkupParser(object):
         section = self.sections.setdefault(self._current_section, Section())
         self.sections[self._current_section].vars.update(self._section_vars)
         section += self._chunks
-        del self._chunks [:]
+        del self._chunks[:]
 
         self._current_section = section_name or self._default_section
         self._current_chunk_type = self._default_chunk_type
@@ -187,50 +183,43 @@ class EMarkupParser(object):
 
 
 
+
+
 if __name__ == "__main__":
-    test = """.title
+    test = """!hello=world
+.title
 This is the title
 
-/*
-This is a comment
-*/
-// This is also a comment
-
 .body
+.template=test.html
 
-..? style=float:left;
-This is a pragraph, with [b]bbcode[/b]..
+This is in the body
 
-.main
-.?a section var
-..html
-..?avar
-This is part of the same paragraph
+This is also in the body
 
+..pullquote
+..location=left
 
-This is a another [i]paragraph[/i]
+This is in a pullquote
 
-.plain
-
-Oh Hai!
+This is also in a pullquote
 
 
-..code python
+..code
+..lang=python
 
-import this
+    elif line.startswith('*/'):
+        if comment_mode:
+            comment_mode -= 1
+        continue
 
-//This is a comment
-..html
-<a href="#">Hello, World!</a>
+    if comment_mode:
+        continue
 
-..
-Not python code
+.
 
-?will=cool
+import
 
-.sidebar
-
-This is sidebar content
 
 """
 
