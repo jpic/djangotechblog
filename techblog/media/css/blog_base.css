@@ -258,7 +258,7 @@ body
 
 #column2
 {
-    width: 306px;
+    width: 268px;
     float:left;
     overflow:hidden;
     /*border-left:1px solid #bbb;*/
@@ -1325,20 +1325,32 @@ blockquote em
 
 .module p
 {
-   /* text-align:left !important;
+    text-align:left !important;
+    /*
     font-size:75% !important;
     font-weight:bold;
     color:#888 !important;*/
 }
 
+/*
 .module-header
 {
     background-color:#B2CC99;
     color:white;
     font-size:14px;
     font-weight:bold;
-    /* letter-spacing:-1px; */
     padding:4px;
     font-family:Arial,sans-serif;
     text-align:center;
+}
+*/
+.module-header {
+    background-color:#B2CC99;
+    color:white;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+    font-weight:bold;
+    padding:2px;
+    text-align:center;
+    text-transform:uppercase;
 }
