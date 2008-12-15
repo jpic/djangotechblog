@@ -270,8 +270,15 @@ def xhr_preview_comment(request):
     bbcode = request.REQUEST.get('bbcode', '')
     html, summary, text, data = render_comment(bbcode, 'comment_bbcode')
 
+    comment = {}
+    comment['content_html'] = html
+    comment['url'] = request.REQUEST.get('url')
+    comment['name'] = request.REQUEST.get('name')
+    comment['email'] = request.REQUEST.get('email')
+    comment['created_time'] = datetime.now()
+
     td = {}
-    td['comment'] = html
+    td['comment'] = comment
 
 #    import time
 #    time.sleep(3);

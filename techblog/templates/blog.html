@@ -46,7 +46,20 @@
 
 {% block column2 %}
 
+<div class="module-header">
+    Tag Cloud
+</div>
+<div class="module">
+    <p>
+{% for scale, font_size, tag in blog.get_tag_cloud %}
+    <span class="tag" style="font-size:{{ font_size }}px;">
+        <a href="{{ tag.get_absolute_url }}" title="{{ tag.count }} posts">{{ tag.name|title }}</a>
+    </span>
+{% endfor %}
+    </p>
+</div>
 
+{% comment %}
 <h1>Tag Cloud</h1>
 <div class="tag-cloud">
 
@@ -57,8 +70,32 @@
 {% endfor %}
 
 </div>
+
+{% endcomment %}
 <div class="clear"> </div>
 
+<div class="module-header">
+    Archives
+</div>
+<div class="module">
+
+    {% for year,months in archives %}
+    <span class="archive-year">{{ year }}</span>
+    <ul class="archive-months">
+        {% for month_url, year, month, count in months %}
+        <li>
+            <div class="archive-month">
+                <a href="{{ month_url }}" title="{{ count }} posts">{{ month|longmonth }}</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+
+
+
+</div>
+{% comment %}
 <h1>Archives</h1>
 <div class="archives">
     {% for year,months in archives %}
@@ -75,6 +112,7 @@
     <div class="clear"> </div>
     {% endfor %}
 </div>
+{% endcomment %}
 
 {% endblock %}
 

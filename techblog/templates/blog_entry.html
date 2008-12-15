@@ -7,7 +7,7 @@
 {% block summary_area %}
 <div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
 <h1>{{ blog.tagline }}</h1>
-<div class="summary-area">{{ sections.intro }}</div>
+{% if section.intro %}<div class="summary-area">{{ sections.intro }}</div>{% endif %}
 {% endblock %}
 
 {% block column1 %}
@@ -75,7 +75,7 @@ function delete_comment(comment_id)
 
 <a name="comments"> </a>{% if comments %}
 <div class="comments">
-    <h2>{{ comments.count }} Responses to "{{ post.title }}"</h2>
+    <h2>{{ comments.count }} Response{{ comments.count|pluralize }} to "{{ post.title }}"</h2>
     {% include "includes/comments.html" %}
 </div>
 {% endif %}

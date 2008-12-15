@@ -60,7 +60,31 @@
             </div>
 
             <div id="column2">
-                <div class="inner">
+                <div class="module-header">
+                    This is a Module Header
+                </div>
+                <div class="module">
+                    <p>
+                        <img class="mug-shot" src="/media/images/avatarwill.png"/>
+                        I'm a software developer and author, living in London.
+                        I develop websites in Python and Django for a living.
+                    </p>
+                </div>
+
+
+                <div class="module-header">
+                    This is A Module Header
+                </div>
+                <div class="module">
+                    <p>
+                        <img class="mug-shot" src="/media/images/avatarwill.png"/>
+                        I'm a software developer and author, living in London.
+                        I develop websites in Python and Django for a living.
+                    </p>
+                </div>
+
+
+                {#<div class="inner">#}
                     <div class="column2-content">
                         {% block column2 %}
                         <h1>About Me</h1>
@@ -72,8 +96,7 @@
                         <div class="clear"> </div>
                         {% endblock %}
                     </div>
-
-                </div>
+                {#</div>#}
 
             </div>
             <div class="clear"> </div>

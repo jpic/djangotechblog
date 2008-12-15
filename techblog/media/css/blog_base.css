@@ -2,7 +2,7 @@ body
 {
     background-color:#eee;
     background-color:#555;
-    font-family:"Verdana","Arial","Helvetica",sans-serif;
+    font-family:"Arial","Helvetica",sans-serif;
 
     background-color:#ededed;
     background-color:#929292;
@@ -103,13 +103,14 @@ body
 
 .title-area .faded-title
 {
-    font-size:300%;
+    font-size:250%;
     opacity:.2;
     font-weight:bold;
     z-index:20;
-    font-family:"Courier New", Courier, monospace;
+    /*font-family:"Courier New", Courier, monospace;*/
     text-align:center;
     color:white;
+    margin-bottom:4px;
 }
 
 .title-area .faded-title a:visited, .title-area .faded-title a:link
@@ -245,6 +246,7 @@ body
     overflow:hidden;
     /*background-image:url("/media/images/bottomshadow.png");*/
     background-repeat:repeat-x;
+    font-family:Garamond;
 }
 #column1 .inner
 {
@@ -263,7 +265,7 @@ body
     /*background-color:#eee;*/
     /*background-image:url("/media/images/bottomshadow.png");*/
     background-repeat:repeat-x;
-    border-top:6px solid #B2CC99
+    /*border-top:6px solid #B2CC99*/
 }
 
 #column2 h1
@@ -308,14 +310,15 @@ body
     /*padding:10px;*/
     padding-left:44px;
 }
+/*
 
 .column2-content
 {
     padding:6px 20px 20px 20px;
     background-color:#f9f9f9;
-    /*padding:10px;*/
 
 }
+*/
 
 #footer .inner
 {
@@ -388,7 +391,7 @@ body
 {
     float:left;
     padding:4px;
-    font-family:Helvetica,Arial,sans-serif;
+    font-family:Arial,sans-serif;
     padding:4px 20px 4px 30px;
 }
 
@@ -612,7 +615,7 @@ strong {font-weight:bold;}
 .summary-area p
 {
     color:white;
-    line-height:120%;
+    line-height:normal;
 }
 
 .summary-area a
@@ -632,8 +635,13 @@ strong {font-weight:bold;}
 {
     clear:both;
 
-    padding-bottom:16px;
-    border-bottom:1px dashed #bbb;
+    padding-bottom:20px;
+    border-bottom:1px dotted #bbb;
+}
+
+.post > h2
+{
+    margin-top:16px !important;
 }
 
 
@@ -657,6 +665,8 @@ strong {font-weight:bold;}
     padding-left:16px;
     /*font-family:Georgia, serif, cursive;*/
     text-align:justify;
+    font-family:arial,sans-serif;
+    font-size:20px;
 
     font-weight:bold;
     letter-spacing:-1px;
@@ -1294,7 +1304,7 @@ blockquote em
 .post-info
 {
     /*text-align:left !important;*/
-    font-family:"Helvetica";
+    /*font-family:"Helvetica";*/
     margin-top:24px;
     text-align:center !important;
     font-size:75% !important;
@@ -1304,4 +1314,31 @@ blockquote em
 .tag-list
 {
     margin-left:10px;
+}
+
+.module
+{
+    background-color:#f5f5f5;
+    margin-bottom:16px;
+    padding:10px;
+}
+
+.module p
+{
+   /* text-align:left !important;
+    font-size:75% !important;
+    font-weight:bold;
+    color:#888 !important;*/
+}
+
+.module-header
+{
+    background-color:#B2CC99;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    /* letter-spacing:-1px; */
+    padding:4px;
+    font-family:Arial,sans-serif;
+    text-align:center;
 }
