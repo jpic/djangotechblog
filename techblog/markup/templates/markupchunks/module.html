@@ -1,0 +1,12 @@
+{% load markuptags %}
+<!-- Chunk: {{ chunk.chunk_type }} -->
+<!-- Vars: {{ chunk.vars|pprint }} -->
+
+<div class="module-header">
+    {{ chunk.vars.title }}
+</div>
+<div class="module">
+    {% for line in chunk %}{% if line %}<p{% if chunk.vars.class %} class="{{ chunk.vars.class }}"{% endif %}>{{ line|postmarkup }}</p>
+    {% endif %}{% endfor %}
+    <div class="clear"> </div>
+</div>

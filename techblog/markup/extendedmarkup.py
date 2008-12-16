@@ -38,10 +38,10 @@ class Chunk(object):
 
 class Section(list):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, name, *args, **kwargs):
         list.__init__(self, *args, **kwargs)
         self.vars = {}
-        self.name = ""
+        self.name = name
 
     def __str__(self):
         return "%s, %s" % ( repr(list(self)), self.vars )
@@ -169,8 +169,7 @@ class EMarkupParser(object):
 
     def set_section(self, section_name):
 
-        section = self.sections.setdefault(self._current_section, Section())
-        self.sections[self._current_section].name = section_name
+        section = self.sections.setdefault(self._current_section, Section(self._current_section or self._default_section))
         self.sections[self._current_section].vars.update(self._section_vars)
         section += self._chunks
         del self._chunks[:]
@@ -254,6 +253,18 @@ import
 
 
 """
+
+
+    test=""".main
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras non tortor. Sed nunc. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis vitae eros. Phasellus dui nisl, porta sed, tristique non, feugiat eu, metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis tincidunt est sit amet quam. Praesent lacus mauris, lacinia vitae, suscipit ac, dignissim ut, massa. Sed rutrum, magna consectetuer sollicitudin auctor, urna tortor suscipit dolor, ac suscipit dui eros gravida erat. Morbi molestie, ligula vitae sagittis adipiscing, felis risus laoreet metus, nec accumsan sem libero ut elit. Pellentesque augue nibh, sollicitudin eu, porttitor sit amet, ultricies quis, odio. Nam id est. Nunc libero urna, hendrerit ut, suscipit et, mollis id, mi. Praesent lobortis leo at neque. Vivamus mattis aliquet ligula. Duis dui sem, posuere eu, porta ac, hendrerit et, ante. Nulla porttitor magna vel ante pharetra viverra.
+
+.column2
+..module
+..title=This is a Module
+
+This should be displayed inside a module box in column2"""
+
 
     #emarkup = EMarkupParser()
     #sections = emarkup(test)
