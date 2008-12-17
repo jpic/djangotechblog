@@ -527,7 +527,7 @@ a:active
     margin:10px -2px;
 
     color:#555;
-    color:#CC7F33;
+    /*color:#CC7F33;*/
     /*color:#B2CC99;*/
 
     /*font-weight:bold;*/
@@ -682,9 +682,9 @@ strong {font-weight:bold;}
 .post h2 a
 {
     /*font-weight:normal;*/
-    color:#555;
     color:#5488C5;
     color:#CC7F33;
+    color:#555;
     /*color:#CC7F33;*/
     /*color:#B2CC99;*/
 }
