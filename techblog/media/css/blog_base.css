@@ -103,12 +103,7 @@ body
     /*background-color:#575773;*/
     clear:both;
 
-}
-
-
-.title-area .faded-title
-{
-    font-size:250%;
+    font-size:180%;
     opacity:.3;
     font-weight:bold;
     z-index:20;
@@ -117,6 +112,25 @@ body
     color:white;
     margin-bottom:4px;
     letter-spacing:-2px;
+    width:80%;
+    margin: 0 auto;
+
+}
+
+
+.title-area .faded-title
+{
+    font-size:270%;
+    opacity:.5;
+    font-weight:bold;
+    z-index:20;
+    /*font-family:"Courier New", Courier, monospace;*/
+    text-align:center;
+    color:white;
+    margin-bottom:4px;
+    letter-spacing:-2px;
+    width:80%;
+    margin: 0 auto;
 }
 
 .title-area .faded-title a:visited, .title-area .faded-title a:link
