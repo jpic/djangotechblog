@@ -100,12 +100,9 @@ class EMarkupParser(object):
                 return True
             return False
 
-        lines = text.replace('\r', '').split('\n')
+        lines = [line.rstrip() for line in text.replace('\r', '').split('\n')]
         for line_no, line in enumerate(lines):
 
-            print repr(line)
-
-            line = line.rstrip()
             if not line:
                 current_lines.append("");
                 new_chunk = True
@@ -128,34 +125,33 @@ class EMarkupParser(object):
                 if comment_mode:
                     continue
 
-                # Chunk type
-                if line.startswith('..'):
-                    line = line[2:]
-                    if not process_vars(self._chunk_vars, line):
-                        make_chunk()
-                        self._current_chunk_type = line or default_chunk_type
+                if line[0] in ".!":
 
-                    continue
+                    # Chunk type
+                    if line.startswith('..'):
+                        line = line[2:]
+                        if not process_vars(self._chunk_vars, line):
+                            make_chunk()
+                            self._current_chunk_type = line or default_chunk_type
+                        continue
 
-                # Section
-                elif line.startswith('.'):
-                    line = line[1:]
-                    if not process_vars(self._section_vars, line):
-                        make_chunk()
-                        section_name = line or default_section
-                        self.set_section(section_name)
-                    continue
+                    # Section
+                    elif line.startswith('.'):
+                        line = line[1:]
+                        if not process_vars(self._section_vars, line):
+                            make_chunk()
+                            section_name = line or default_section
+                            self.set_section(section_name)
+                        continue
 
-                elif line.startswith('!'):
-                    line = line[1:]
-                    process_vars(vars, line)
+                    elif line.startswith('!'):
+                        line = line[1:]
+                        process_vars(vars, line)
 
-                else:
-                    current_lines.append(line)
+                    else:
+                        current_lines.append(line)
 
                 new_chunk = False
-                continue
-
 
             current_lines.append(line)
             new_chunk = False
@@ -276,11 +272,11 @@ This should be displayed inside a module box in column2"""
 
     sections = parse(test)
 
-    #import pprint
+    import pprint
     #pprint.pprint(sections)
 
     for section, html in sections.iteritems():
         print "<h1>%s</h1>" % section
         print html
-    #pprint.pprint(emarkup.sections)
+    pprint.pprint(sections)
     #pprint.pprint(emarkup.vars)
