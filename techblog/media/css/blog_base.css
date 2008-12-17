@@ -6,9 +6,13 @@ body
 
     background-color:#ededed;
     background-color:#929292;
-    background-color:#666;
-    /*background-image:url("/media/images/blueback.png");*/
-    background-repeat:repeat-x;
+    background-color:#494949;
+    /*
+    background-image:url("/media/images/backblend.png");
+    background-position:center top;
+    background-repeat:repeat-y;
+    */
+
 }
 
 
@@ -105,7 +109,7 @@ body
 .title-area .faded-title
 {
     font-size:250%;
-    opacity:.2;
+    opacity:.3;
     font-weight:bold;
     z-index:20;
     /*font-family:"Courier New", Courier, monospace;*/
@@ -183,7 +187,7 @@ body
 {
     margin:0 auto;
     width:938px;
-    margin-top:40px;
+    margin-top:0px;
     padding-top:0px;
 
     /*border:1px solid #444;*/
@@ -504,11 +508,12 @@ a:active
 
 #column1 h2
 {
-    font-size:30px;
-    font-weight:400;
+    font-size:20px;
+    font-weight:bold;
     margin:10px -2px;
 
     color:#555;
+    color:#CC7F33;
     /*color:#B2CC99;*/
 
     /*font-weight:bold;*/
@@ -663,7 +668,10 @@ strong {font-weight:bold;}
 .post h2 a
 {
     /*font-weight:normal;*/
+    color:#555;
+    color:#5488C5;
     color:#CC7F33;
+    /*color:#CC7F33;*/
     /*color:#B2CC99;*/
 }
 
@@ -792,6 +800,7 @@ strong {font-weight:bold;}
     margin: 20px auto;
     /*background-color:#f6f6f6;*/
 }
+
 
 ul.links-list
 {
