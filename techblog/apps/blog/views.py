@@ -126,7 +126,6 @@ def blog_front(request, blog_slug, page_no=1):
     td = get_blog_list_data(request, posts, get_page_url, page_no)
 
     sections = blog.description_data.get('sections', '')
-    print sections
 
     td.update(  dict(   blog = blog,
                         title = title,
