@@ -1308,7 +1308,7 @@ blockquote em
 .comment-form-errors
 {
     clear:both;
-    font-size:80%;
+    font-size:90%;
     color:#990000;
     float:right;
 }
@@ -1325,6 +1325,7 @@ blockquote em
     padding-left:20px;
     background-image:url(/media/images/icons/exclamation.png);
     background-repeat:no-repeat;
+    padding-top:3px;
 
 }
 
