@@ -25,6 +25,8 @@ class Tag(models.Model):
 
     count = models.IntegerField(default=0, editable=False)
 
+    description = markup.MarkupField(default="", renderer=markup.render_post_markup)
+
     def decrement(self):
         count = self.count
         if count:

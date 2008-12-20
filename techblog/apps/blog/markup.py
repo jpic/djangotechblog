@@ -38,7 +38,7 @@ def render_post_markup(markup, markup_type):
 
         sections = extendedmarkup.parse(markup)
 
-        html = sections['main']
+        html = extendedmarkup.chunks_to_html(sections['main'])
         summary_html = html
         text = postmarkup.textilize(html)
         data = dict(sections = sections)

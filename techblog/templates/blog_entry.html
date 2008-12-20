@@ -1,4 +1,5 @@
 {% extends "blog_base.html" %}
+{% load markuptags %}
 
 {% load comments %}
 
@@ -7,7 +8,7 @@
 {% block summary_area %}
 <div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
 <h1>{{ blog.tagline }}</h1>
-{% if section.intro %}<div class="summary-area">{{ sections.intro }}</div>{% endif %}
+{% if section.intro %}<div class="summary-area">{% markupsection sections "intro" %}</div>{% endif %}
 {% endblock %}
 
 {% block column1 %}
@@ -201,8 +202,5 @@ $('#comment-submit').click(function(){
 
 {% endblock %}
 
-{% block column2 %}
-{{ sections.column2|safe }}
-{% endblock %}
 
 {% block tagline %}<a href="{{ post.blog.get_absolute_url }}">{{ tagline }}</a>{% endblock %}

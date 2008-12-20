@@ -1,5 +1,5 @@
 {% load markuptags %}
 <!-- Chunk: {{ chunk.chunk_type }} Vars: {{ chunk.vars|pprint }} -->
-<div class="pullout-left">
+<blockquote>
 {% for line in chunk %}{% if line %}<p>{{ line|postmarkup }}</p>{% endif %}{% endfor %}
-</div>
+</blockquote>

@@ -112,7 +112,7 @@ body
     color:white;
     margin-bottom:4px;
     letter-spacing:-2px;
-    width:80%;
+    width:600px;
     margin: 0 auto;
 
 }
@@ -129,7 +129,7 @@ body
     color:white;
     margin-bottom:4px;
     letter-spacing:-2px;
-    width:80%;
+    width:600px;
     margin: 0 auto;
 }
 
@@ -501,22 +501,21 @@ a:active
 
 #column1 h1
 {
-    font-size:24px;
+    font-size:36px;
     font-weight:400;
     margin:10px -2px;
 
-    color:#555;
+    color:#B2CC99;
 
     font-weight:bold;
 
-    /*letter-spacing:-1px;*/
+    letter-spacing:-2px;
 
     background-position:0 1px;
     background-repeat:repeat-x;
     padding:1px 2px 20px 2px;
     font-family:arial,sans-serif;
     text-align:center;
-
 }
 
 
@@ -661,7 +660,7 @@ strong {font-weight:bold;}
 {
     font-style:italic;
     /*text-align:right;*/
-    font-size:80%;
+    font-size:90%;
     width:100%;
 }
 
@@ -754,14 +753,14 @@ strong {font-weight:bold;}
 {
     padding:2px;
     float:left;
-    font-size:85%;
+    font-size:90%;
 }
 
 .next-post
 {
     padding:2px;
     float:right;
-    font-size:85%;
+    font-size:90%;
 }
 
 .prev-post a
@@ -805,7 +804,7 @@ strong {font-weight:bold;}
 
 .summary-navigation
 {
-    font-size:80%;
+    /*font-size:80%;*/
     padding-top:6px;
     padding-bottom:6px;
     margin-top:20px;
@@ -1075,7 +1074,7 @@ blockquote p
     float:left;
     text-align:right;
     width:32%;
-    font-size:80%;
+    font-size:90%;
 }
 
 .blog-comment-form label[for=id_content]

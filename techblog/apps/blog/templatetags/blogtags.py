@@ -38,3 +38,14 @@ def first_paragraph(value):
     if not match:
         return value
     return match.group(0)
+
+
+@register.filter
+@stringfilter
+def smart_title(value):
+    def title(word):
+        for c in word:
+            if c.isupper():
+                return word
+        return word.title()
+    return u" ".join(title(value) for value in value.split())

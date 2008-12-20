@@ -34,7 +34,22 @@ class Chunk(object):
     def __iter__(self):
         return iter(self.text)
 
+    def __cmp__(self, other):
+        def priority(s):
+            try:
+                return int(s)
+            except:
+                return s
+        return -cmp( self.get_priority(), other.get_priority() )
+
+    def get_priority(self):
+        try:
+            return int(self.vars.get('priority', '100'))
+        except:
+            return 100
+
     __repr__ = __str__
+
 
 class Section(list):
 
@@ -110,14 +125,11 @@ class EMarkupParser(object):
 
             if new_chunk:
 
-                if line.startswith('//'):
-                    continue
-
-                elif line.startswith('/*'):
+                if line == ';/*':
                     comment_mode += 1
                     continue
 
-                elif line.startswith('*/'):
+                elif line == ';*/':
                     if comment_mode:
                         comment_mode -= 1
                     continue
@@ -125,8 +137,12 @@ class EMarkupParser(object):
                 if comment_mode:
                     continue
 
-                if line[0] in ".!":
+                if line.startswith(';//'):
+                    continue
 
+                if line[0] == ';':
+
+                    line = line[1:]
                     # Chunk type
                     if line.startswith('..'):
                         line = line[2:]
@@ -144,12 +160,13 @@ class EMarkupParser(object):
                             self.set_section(section_name)
                         continue
 
-                    elif line.startswith('!'):
-                        line = line[1:]
-                        process_vars(vars, line)
-
                     else:
-                        current_lines.append(line)
+                        process_vars(vars, line)
+                        continue
+
+                else:
+                    current_lines.append(line)
+                    continue
 
                 new_chunk = False
 
@@ -178,14 +195,14 @@ class EMarkupParser(object):
         self._section_vars = {}
 
 
-def parse(markup):
+def parse(markup, sections=None):
 
     parser = EMarkupParser()
     parser.parse(markup)
     sections = parser.sections
     vars = parser.vars
 
-    rendered_sections = {}
+    rendered_sections = sections or {}
 
     for section, chunks in sections.iteritems():
 
@@ -196,46 +213,68 @@ def parse(markup):
             chunk_filename = "markupchunks/%s.html" % chunk.chunk_type.encode()
             chunk_template = select_template([chunk_filename, "markupchunks/paragraph.html"])
 
-            chunk_data = dict(  chunk=chunk)
+            chunk_data = dict(chunk=chunk, content="\n".join(chunk))
             chunk_html = chunk_template.render(Context(chunk_data))
 
-            content_chunks.append(chunk_html)
+            content_chunks.append((chunk.get_priority(), chunk_html))
 
-        section_filename = "markupsections/%s.html" % section.encode()
-        section_template = select_template([section_filename, "markupsections/default.html"])
+        #section_filename = "markupsections/%s.html" % section.encode()
+        #section_template = select_template([section_filename, "markupsections/default.html"])
 
-        section_data = dict(    section = chunks,
-                                content_chunks = content_chunks )
+        #section_data = dict(    section = chunks,
+        #                        content_chunks = content_chunks )
 
-        section_html = section_template.render(Context(section_data))
+        #section_html = section_template.render(Context(section_data))
 
-        rendered_sections[section] = section_html
+        rendered_sections[section] = content_chunks
 
     return rendered_sections
 
-if __name__ == "__main__":
-    test = """!hello=world
+def chunks_to_html(chunks):
+    return "\n".join( chunk[1] for chunk in sorted(chunks, key=lambda chunk:chunk[0]) )
 
-.title
+def combine_sections(*sections_list):
+
+    combined = {}
+    for sections in filter(None, sections_list):
+
+        for name_section in sections.iteritems():
+            if name_section is None:
+                continue
+
+            section_name, section = name_section
+
+            if section_name not in combined:
+                new_section = Section(section_name)
+                combined[section_name] = new_section
+
+            combined[section_name] += section
+
+    return combined
+
+if __name__ == "__main__":
+    test = """;hello=world
+
+;.title
 This is the title
 
-.body
-.template=test.html
+;.body
+;.template=test.html
 
 This is in the body
 
 This is also in the body
 
-..pullquote
-..location=left
+;..pullquote
+;..location=left
 
 This is in a pullquote
 
 This is also in a pullquote
 
 
-..code
-..lang=python
+;..code
+;..lang=python
 
     elif line.startswith('*/'):
         if comment_mode:

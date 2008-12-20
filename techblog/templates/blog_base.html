@@ -1,3 +1,5 @@
+{% load markuptags %}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -60,53 +62,16 @@
             </div>
 
             <div id="column2">
-                <div class="module-header">
-                    This is a Module Header
-                </div>
-                <div class="module">
-                    <p>
-                        <img class="mug-shot" src="/media/images/avatarwill.png"/>
-                        I'm a software developer and author, living in London.
-                        I develop websites in Python and Django for a living.
-                    </p>
-                    <div class="clear"> </div>
-                </div>
-
-
-                <div class="module-header">
-                    This is A Module Header
-                </div>
-                <div class="module">
-                    <p>
-                        <img class="mug-shot" src="/media/images/avatarwill.png"/>
-                        I'm a software developer and author, living in London.
-                        I develop websites in Python and Django for a living.
-                    </p>
-                    <div class="clear"> </div>
-                </div>
-
-
-                {#<div class="inner">#}
-                    <div class="column2-content">
-                        {% block column2 %}
-                        <h1>About Me</h1>
-                        <p>
-                            <img class="mug-shot" src="/media/images/avatarwill.png"/>
-                            I'm a software developer and author, living in London.
-                            I develop websites in Python and Django for a living.
-                        </p>
-                        <div class="clear"> </div>
-                        {% endblock %}
-                    </div>
-                {#</div>#}
-
+                {% block column2 %}
+                {% markupsection sections "column2" %}
+                {% endblock %}
             </div>
             <div class="clear"> </div>
 
             <div id="footer">
                 <div class="inner">
                     <div class="footer-content">
-                        {{ sections.footer }}
+                        {% markupsection sections "footer" %}
                     </div>
                 </div>
 

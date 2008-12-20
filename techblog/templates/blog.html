@@ -2,6 +2,7 @@
 
 {% load blogtags %}
 {% load humanize %}
+{% load markuptags %}
 
 {% block title %}{{ blog.title }}{% ifnotequal page 1 %} - {{ page_no|ordinal }} page{% endifnotequal %}{% endblock %}
 
@@ -48,7 +49,7 @@
 
 {% block column2 %}
 
-{{ sections.column2|safe }}
+{% markupsection sections "column2" %}
 
 
 <div class="module-header">
@@ -85,9 +86,6 @@
     {% endfor %}
 </div>
 </div>
-
-
-
 
 {% endblock %}
 

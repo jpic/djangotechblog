@@ -1,2 +1,3 @@
+{% load markuptags %}
 <!-- Section: {{ section.name }} Vars: {{ section.vars|pprint }} -->
-{% for content in content_chunks %}{{ content|safe }}{% endfor %}
+{% code content chunk.vars.language %}

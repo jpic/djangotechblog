@@ -6,11 +6,12 @@
 {% block summary_area %}
 <div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
 <h1>{{ blog.tagline }}</h1>
+<div class="summary-area">{{ tag.description_html|safe }}</div>
 {% endblock %}
 
 {% block column1 %}
 
-<h1>{{ tag.name }} posts</h1>
+<h1>{{ tag.name|smart_title }} Posts</h1>
 {% include "includes/post_list.html" %}
 
 

@@ -10,6 +10,7 @@ import urllib
 from datetime import datetime, timedelta
 import tools
 from techblog import broadcast
+from techblog.markup.extendedmarkup import combine_sections
 
 from itertools import groupby
 
@@ -91,7 +92,10 @@ def blog_month(request, blog_slug, year, month, page_no=1):
 
     td = get_blog_list_data(request, posts, get_page_url, page_no)
 
+    sections = blog.description_data.get('sections', None)
+
     td.update(  dict(blog = blog,
+                sections = sections,
                 title = title,
                 page_title = title,
                 tagline = blog.tagline,
@@ -125,7 +129,7 @@ def blog_front(request, blog_slug, page_no=1):
 
     td = get_blog_list_data(request, posts, get_page_url, page_no)
 
-    sections = blog.description_data.get('sections', '')
+    sections = blog.description_data.get('sections', None)
 
     td.update(  dict(   blog = blog,
                         title = title,
@@ -175,7 +179,9 @@ def blog_post(request, blog_slug, year, month, day, slug):
                              slug=slug,
                              published=True)
 
-    sections = post.content_data.get('sections', '')
+    sections = combine_sections( blog.description_data.get('sections', None),
+                                 post.content_data.get('sections', None) )
+
 
     prev_post = None
     next_post = None
@@ -247,6 +253,9 @@ def tag(request, blog_slug, tag_slug, page_no=1):
     newer_page_url = get_page_url(page_no - 1)
     older_page_url = get_page_url(page_no + 1)
 
+    sections = combine_sections( blog.description_data.get('sections', None),
+                                 tag.description_data.get('sections', None) )
+
 
     td = dict(blog = blog,
               tag = tag,
@@ -257,6 +266,7 @@ def tag(request, blog_slug, tag_slug, page_no=1):
               page = page,
               page_no = page_no,
               posts = posts,
+              sections = sections,
               older_page_url = older_page_url,
               newer_page_url = newer_page_url)
 
