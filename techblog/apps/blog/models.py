@@ -90,7 +90,7 @@ class Channel(models.Model):
 
 class TagCloud(object):
 
-    def __init__(self, blog, max_tags = 50):
+    def __init__(self, blog, max_tags = 30):
 
         self.blog = blog
 
