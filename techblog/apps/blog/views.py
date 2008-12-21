@@ -131,12 +131,15 @@ def blog_front(request, blog_slug, page_no=1):
 
     sections = blog.description_data.get('sections', None)
 
+    feeds = [blog.get_feed()]
+
     td.update(  dict(   blog = blog,
                         title = title,
                         page_title = title,
                         tagline = blog.tagline,
                         archives = archives,
-                        sections = sections ) )
+                        sections = sections,
+                        feeds = feeds) )
 
     return render_to_response("blog.html", td)
 
@@ -229,7 +232,7 @@ def tag(request, blog_slug, tag_slug, page_no=1):
     tag = get_object_or_404(models.Tag, slug=tag_slug)
 
     title = blog.title
-    posts = tag.post_set.all().order_by('-display_time')
+    posts = tag.posts()
 
 
     paginator = Paginator(posts, 5)
@@ -256,6 +259,7 @@ def tag(request, blog_slug, tag_slug, page_no=1):
     sections = combine_sections( blog.description_data.get('sections', None),
                                  tag.description_data.get('sections', None) )
 
+    feeds = [tag.get_feed()]
 
     td = dict(blog = blog,
               tag = tag,
@@ -268,7 +272,8 @@ def tag(request, blog_slug, tag_slug, page_no=1):
               posts = posts,
               sections = sections,
               older_page_url = older_page_url,
-              newer_page_url = newer_page_url)
+              newer_page_url = newer_page_url,
+              feeds = feeds)
 
     return render_to_response("blog_tag.html", td)
 

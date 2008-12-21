@@ -27,6 +27,13 @@ class Tag(models.Model):
 
     description = markup.MarkupField(default="", renderer=markup.render_post_markup)
 
+    def get_summary(self):
+        if self.description_summary_html:
+            return self.description_summary_html
+        else:
+            return self.description_html
+
+
     def decrement(self):
         count = self.count
         if count:
@@ -41,11 +48,21 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.name
 
+    def posts(self):
+        posts = self.post_set.all().order_by('-display_time')
+        return posts
+
     @models.permalink
     def get_absolute_url(self):
         return ("apps.blog.views.tag", (),
                 dict(blog_slug=self.blog.slug, tag_slug=self.slug))
 
+
+    def get_feed(self):
+        import feeds
+        title = "%s RSS Feed" % self.name
+        url = feeds.BlogTagFeed.get_url(self)
+        return dict(title=title, url=url)
 
 
 class Channel(models.Model):
@@ -162,6 +179,12 @@ class Blog(models.Model):
         tag_cloud = tag_cloud[::2][::-1] + tag_cloud[1::2]
 
         return tag_cloud
+
+    def get_feed(self):
+        import feeds
+        title = "%s RSS Feed"%self.title
+        url = feeds.BlogFeed.get_url(self)
+        return dict(title=title, url=url)
 
 class Post(models.Model):
 

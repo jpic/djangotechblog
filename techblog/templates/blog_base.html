@@ -13,6 +13,12 @@
 
     <script type="text/javascript" src="/media/js/jquery-1.2.6.min.js"> </script>
     {% block js %}{% endblock %}
+
+    {% if feeds %}
+        {% for feed in feeds %}
+            <link href="{{ feed.url }}" rel="alternate" type="application/rss+xml" title="{{ feed.title }}" />
+        {% endfor %}
+    {% endif %}
 </head>
 
 <body>
@@ -24,11 +30,13 @@
 
     <div id="content">
 
+        {% if feeds %}
         <div class="feed-icon-container">
-                <div class="feed-icon-large">
-                    <a href="#" title="RSS feed">&nbsp;</a>
-                </div>
+            <div class="feed-icon-large">
+                <a href="{{ feeds.0.url }}" title="{{ feeds.0.title }}">&nbsp;</a>
             </div>
+        </div>
+        {% endif %}
 
         <div id="header">
             <div class="title-area">
