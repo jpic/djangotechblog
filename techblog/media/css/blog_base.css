@@ -954,11 +954,11 @@ blockquote p
 
     /*float:left;*/
 
-    /*
+
     vertical-align:super;
     padding-left:4px;
     padding-right:4px;
-    */
+    
 }
 
 
@@ -970,7 +970,7 @@ blockquote p
 
 .tagscale3 a, .tagscale4 a, .tagscale5 a, .tagscale6 a
 {
-    font-size:120%;
+    font-size:110%;
     font-weight:bold;
     color:#B8BA81;
 }
@@ -978,14 +978,14 @@ blockquote p
 .tagscale7 a, .tagscale8 a
 {
     font-weight:bold;
-    font-size:180%;
+    font-size:120%;
     color:#B8BA81;
 }
 
 .tagscale9 a, .tagscale10 a
 {
     font-weight:bold;
-    font-size:220%;
+    font-size:150%;
     color:#CC7F33 !important;
 }
 
