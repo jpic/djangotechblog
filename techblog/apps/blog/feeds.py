@@ -12,8 +12,6 @@ class BlogFeed(Feed):
     def get_url(self, blog):
         return reverse('blog_feeds', kwargs={'url':'blog/%s'%blog.slug})
 
-
-
     def get_object(self, bits):
         if len(bits) != 1:
             raise FeedDoesNotExist
@@ -48,7 +46,6 @@ class BlogTagFeed(Feed):
         if len(bits) != 2:
             raise FeedDoesNotExist
 
-        print bits
         blog_slug = bits[0]
         tag_slug = bits[1]
 
@@ -71,7 +68,3 @@ class BlogTagFeed(Feed):
 
     def item_pubdate(self, post):
         return post.display_time
-
-
-    #def item_author_name(self, post):
-    #    return item.

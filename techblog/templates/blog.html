@@ -55,10 +55,10 @@
 <div class="module-header">
     Tag Cloud
 </div>
-<div class="module">
-    <p>
-{% for scale, font_size, tag in blog.get_tag_cloud %}
-    <span class="tag" style="font-size:{{ font_size }}px;">
+<div>
+    <p class="tag-cloud">
+{% for scale, tag in blog.get_tag_cloud %}
+    <span class="tag tagscale{{ scale }}" ">
         <a href="{{ tag.get_absolute_url }}" title="{{ tag.count }} posts">{{ tag.name|title }}</a>
     </span>
 {% endfor %}

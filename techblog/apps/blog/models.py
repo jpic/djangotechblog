@@ -7,6 +7,7 @@ from django.template.defaultfilters import slugify
 import datetime
 
 import markup
+from django.contrib.auth.models import User
 
 #
 #from django.db.models.signals import post_save
@@ -17,11 +18,20 @@ import markup
 #
 #post_save.connect(process_tags, sender=Post)
 
+class Author(models.Model):
+
+    user = models.ForeignKey(User)
+
+    bio = markup.MarkupField(default="", renderer=markup.render_post_markup)
+
+
 class Tag(models.Model):
 
     blog = models.ForeignKey("Blog")
     name = models.CharField("Tag name", max_length=100)
     slug = models.SlugField()
+
+    template = models.CharField("Template", max_length=100)
 
     count = models.IntegerField(default=0, editable=False)
 
@@ -60,12 +70,14 @@ class Tag(models.Model):
 
     def get_feed(self):
         import feeds
-        title = "%s RSS Feed" % self.name
+        title = "RSS Feed for %s posts in %s" % (self.name, self.blog.title)
         url = feeds.BlogTagFeed.get_url(self)
         return dict(title=title, url=url)
 
 
 class Channel(models.Model):
+
+    template = models.CharField("Template", max_length=100)
 
     title = models.CharField("Channel Title", max_length=100)
     tagline = models.CharField("Tag line", max_length=200)
@@ -78,7 +90,7 @@ class Channel(models.Model):
 
 class TagCloud(object):
 
-    def __init__(self, blog, max_tags = 25):
+    def __init__(self, blog, max_tags = 50):
 
         self.blog = blog
 
@@ -111,14 +123,11 @@ class TagCloud(object):
 
         tag_cloud = []
         for place, tag in zip(places, self.tags):
-            if count_range:
-                tag_scale = (place - min_count) / count_range
-            else:
-                tag_scale = .25
 
-            font_size = int(round(self.min_font + tag_scale * font_size_range))
+            tag_scale = (place - min_count) / count_range
+            tag_scale = int(round(tag_scale * 10))
 
-            tag_cloud.append( (tag_scale, font_size, tag) )
+            tag_cloud.append( (tag_scale, tag) )
 
         tag_cloud = tag_cloud[::2][::-1] + tag_cloud[1::2]
         #tag_cloud = tag_cloud[::-1]
@@ -135,6 +144,8 @@ class Blog(models.Model):
     tagline = models.CharField("Tag line", max_length=200)
     slug = models.SlugField(unique=True)
     posts_per_page = models.IntegerField(default=10)
+
+    template = models.CharField("Template", max_length=100)
 
     description = markup.MarkupField(default="", renderer=markup.render_post_markup)
 
@@ -160,25 +171,6 @@ class Blog(models.Model):
 
         return TagCloud(self)
 
-
-        tags = list( Tag.objects.filter(blog=self).order_by("-count") )
-        if tag_count is not None:
-            tags = tags[:tag_count]
-
-        tag_counts = [tag.count for tag in tags]
-        max_count = max(tag_counts)
-        min_count = min(tag_counts)
-        count_range = float(max_count - min_count)
-
-        tag_cloud = []
-        for tag in tags:
-            tag_scale = (tag.count - min_count) / count_range
-            tag_scale = int(tag_scale * 10.0) + 1
-            tag_cloud.append( (tag_scale, tag) )
-
-        tag_cloud = tag_cloud[::2][::-1] + tag_cloud[1::2]
-
-        return tag_cloud
 
     def get_feed(self):
         import feeds

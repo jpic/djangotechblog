@@ -953,43 +953,79 @@ blockquote p
     /*display:table-row;*/
 
     /*float:left;*/
+
+    /*
     vertical-align:super;
+    padding-left:4px;
+    padding-right:4px;
+    */
+}
+
+
+.tagscale0 a, .tagscale1 a, .tagscale2 a
+{
+    font-weight:bold;
+    color:#B2CC99;
+}
+
+.tagscale3 a, .tagscale4 a, .tagscale5 a, .tagscale6 a
+{
+    font-size:120%;
+    font-weight:bold;
+    color:#B8BA81;
+}
+
+.tagscale7 a, .tagscale8 a
+{
+    font-weight:bold;
+    font-size:180%;
+    color:#B8BA81;
+}
+
+.tagscale9 a, .tagscale10 a
+{
+    font-weight:bold;
+    font-size:220%;
+    color:#CC7F33 !important;
 }
 
 .archives
 {
 }
 
+
 .tag-cloud
 {
-    text-align:center;
-    margin-bottom:30px;
     /*font-family:courier, monospace;*/
     /*display:inline;*/
     font-weight:normal;
     font-family:arial;
-    text-align:center;
-
+    text-align:center !important;
+    padding-top:16px;
+    margin-bottom:24px;
 }
 
+.tag-cloud p
+{
+    text-align:center !important;
+}
 
+/*
 .tag a
 {
 
     list-style: none;
-    /*font-weight:bold;*/
-    /*color:#666;*/
-    /*font-family:courier, sans-serif;*/
+
     padding:1px;
     padding-left:4px;
     padding-right:4px;
 
     padding:1px;
-    /*border-bottom:4px solid transparent;*/
+
     margin-bottom:4px;
-    /*color:#777;
-    color:#CC7F33;*/
+
 }
+*/
 
 /*
 .tag a:hover
@@ -1417,11 +1453,11 @@ blockquote em
 
 .feed-icon-large
 {
-    background-image:url(/media/images/icons/feed128.png);
+    background-image:url(/media/images/icons/feed64.png);
     background-repeat:no-repeat;
 
-    width:128px;
-    height:128px;
+    width:64px;
+    height:64px;
     margin:16px auto;
     background-position:right top;
     /*position:absolute;*/
