@@ -52,7 +52,7 @@ def create_blog(title="Test Blog", num_posts = 100):
 
     blog = models.Blog(title = title,
                 description = paragraphs(1),
-                tagline = "Blog about Life, the Universe and Everything Else",
+                tagline = "A blog about Life, the Universe and Everything Else",
                 slug = slugify(title) )
 
     blog.save()

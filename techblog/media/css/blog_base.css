@@ -103,7 +103,7 @@ body
     /*background-color:#575773;*/
     clear:both;
 
-    font-size:180%;
+    font-size:150%;
     opacity:.3;
     font-weight:bold;
     z-index:20;
@@ -111,7 +111,7 @@ body
     text-align:center;
     color:white;
     margin-bottom:4px;
-    letter-spacing:-2px;
+    /*letter-spacing:-2px;*/
     width:600px;
     margin: 0 auto;
 
@@ -970,9 +970,9 @@ blockquote p
     /*float:left;*/
 
 
-    vertical-align:super;
-    padding-left:4px;
-    padding-right:4px;
+    /*vertical-align:super;*/
+    padding-left:1px;
+    padding-right:1px;
 
 }
 
@@ -1021,6 +1021,7 @@ blockquote p
     text-align:center !important;
     padding-top:16px;
     margin-bottom:24px;
+    font-family:courier, "courier new", arial, sans-serif;
 }
 
 .tag-cloud p
@@ -1489,4 +1490,14 @@ blockquote em
     display:block;
     width:128px;
     height:128px;
+}
+
+pre.techblog-error
+{
+    color:#000;
+    line-height:150%;
+    font-size:85%;
+    font-family:"Bitstream Vera Sans Mono","Courier new","Courier",monospace;
+
+    border:2px solid #e00;
 }

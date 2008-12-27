@@ -12,6 +12,8 @@ except ImportError:
 from django.template.loader import get_template, select_template
 from django.template.context import Context
 
+import re
+
 postmarkup_renderer = postmarkup.create()
 
 class ExtendedMarkupError(Exception):
@@ -65,6 +67,9 @@ class Section(list):
 
 
 class EMarkupParser(object):
+
+
+    re_extended_directive = re.compile(r"^\{.+?\}$")
 
     def __init__(self, renderer=None):
         if renderer is None:
@@ -140,9 +145,9 @@ class EMarkupParser(object):
                 if line.startswith(';//'):
                     continue
 
-                if line[0] == ';':
+                if self.re_extended_directive.match(line):
 
-                    line = line[1:]
+                    line = line[1:-1]
                     # Chunk type
                     if line.startswith('..'):
                         line = line[2:]
@@ -204,6 +209,8 @@ def parse(markup, sections=None):
 
     rendered_sections = sections or {}
 
+    error_template = select_template(['markupchunks/error.html'])
+
     for section, chunks in sections.iteritems():
 
         content_chunks = []
@@ -214,17 +221,13 @@ def parse(markup, sections=None):
             chunk_template = select_template([chunk_filename, "markupchunks/paragraph.html"])
 
             chunk_data = dict(chunk=chunk, content="\n".join(chunk))
-            chunk_html = chunk_template.render(Context(chunk_data))
+            try:
+                chunk_html = chunk_template.render(Context(chunk_data))
+            except Exception, e:
+                error = str(e)
+                chunk_html = error_template.render(Context(dict(error=error)))
 
             content_chunks.append((chunk.get_priority(), chunk_html))
-
-        #section_filename = "markupsections/%s.html" % section.encode()
-        #section_template = select_template([section_filename, "markupsections/default.html"])
-
-        #section_data = dict(    section = chunks,
-        #                        content_chunks = content_chunks )
-
-        #section_html = section_template.render(Context(section_data))
 
         rendered_sections[section] = content_chunks
 

@@ -129,7 +129,7 @@ class TagCloud(object):
 
             tag_cloud.append( (tag_scale, tag) )
 
-        tag_cloud = tag_cloud[::2][::-1] + tag_cloud[1::2]
+        #tag_cloud = tag_cloud[::2][::-1] + tag_cloud[1::2]
         #tag_cloud = tag_cloud[::-1]
 
         for size_tag in tag_cloud:
