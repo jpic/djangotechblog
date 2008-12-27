@@ -1,5 +1,4 @@
-{% load markuptags %}
-<!-- Chunk: {{ chunk.chunk_type }} Vars: {{ chunk.vars|pprint }} -->
+{% load markuptags %}<!-- Chunk: {{ chunk.chunk_type }} Vars: {{ chunk.vars|pprint }} -->
 <div class="pullquote">
 {% for line in chunk %}{% if line %}{{ line|postmarkup }}{% endif %}{% endfor %}
 </div>

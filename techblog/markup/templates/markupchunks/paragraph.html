@@ -1,4 +1,3 @@
-{% load markuptags %}
-<!-- Chunk: {{ chunk.chunk_type }} Vars: {{ chunk.vars|pprint }} -->
+{% load markuptags %}<!-- Chunk: {{ chunk.chunk_type }} Vars: {{ chunk.vars|pprint }} -->
 {% for line in chunk %}{% if line %}<p{% if chunk.vars.class %} class="{{ chunk.vars.class }}"{% endif %}>{{ line|postmarkup }}</p>
 {% endif %}{% endfor %}
