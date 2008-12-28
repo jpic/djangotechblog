@@ -41,17 +41,12 @@ def markupsection(chunk_dict, key):
 def code(content, language):
     try:
         lexer = get_lexer_by_name(language, stripall=True)
-        print lexer
     except ClassNotFound:
         content = postmarkup._escape(content)
         return '<div class="code"><pre>%s</pre></div>' % content
 
     formatter = HtmlFormatter(linenos=False, cssclass="code")
-    print formatter
-
     highlighted = highlight(content, lexer, formatter).strip()
-
-    print highlighted
 
     return mark_safe( highlighted )
 

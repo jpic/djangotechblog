@@ -13,6 +13,7 @@ from django.template.loader import get_template, select_template
 from django.template.context import Context
 
 import re
+from collections import defaultdict
 
 postmarkup_renderer = postmarkup.create()
 
@@ -28,7 +29,7 @@ class Chunk(object):
     def __init__(self, text, chunk_type='text'):
         self.text = text
         self.chunk_type = chunk_type
-        self.vars = {}
+        self.vars = defaultdict(lambda: None)
 
     def __str__(self):
         return "%s: %s, %s" % (self.chunk_type, repr(self.text), repr(self.vars))

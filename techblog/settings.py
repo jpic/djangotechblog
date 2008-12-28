@@ -96,7 +96,8 @@ INSTALLED_APPS = (
 
     'techblog.apps.blog',
     'techblog.apps.comments',
-    'techblog.apps.pages'
+    'techblog.apps.pages',
+    'techblog.apps.resources'
 )
 
 try:

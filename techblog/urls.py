@@ -23,3 +23,4 @@ urlpatterns += patterns('',
     (r'^blog/', include('apps.blog.urls')),
     (r'^comments/', include('apps.comments.urls')),
 )
+

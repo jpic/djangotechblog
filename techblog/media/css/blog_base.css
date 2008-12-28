@@ -945,6 +945,7 @@ blockquote
     margin-bottom:12px;
     width:80%;
     border-left:6px solid #b2cc99;
+    clear:both;
 }
 
 .pullout-left p, .pullout-right p
@@ -1520,4 +1521,34 @@ h1 span.tag-name
 {
     font-weight:bold;
     letter-spacing:0px;
+}
+
+.img-caption
+{
+    padding:4px;
+    border:1px solid #d5d5d5;
+    background-color:#f8f8f8;
+    display:table;
+    clear:both;
+    margin:16px;
+}
+
+.left
+{
+    float:left;
+    margin:4px 16px 16px 4px;
+}
+
+.right
+{
+    float:right;
+    margin:4px 4px 16px 16px;
+}
+
+
+.img-caption p
+{
+    font-size:12px !important;
+    padding:2px !important;
+    font-style:italic;
 }
