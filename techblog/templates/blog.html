@@ -56,7 +56,7 @@
     Tag Cloud
 </div>
 <div>
-            {% comment %}
+
     <p class="tag-cloud">
 
 {% for scale, tag in blog.get_tag_cloud %}
@@ -65,15 +65,6 @@
     </span>
 {% endfor %}
     </p>
-        {% endcomment %}
-
-
-<ul class="links-list">
-{% for scale, tag in blog.get_tag_cloud %}
-        <li><a href="{{ tag.get_absolute_url }}" title="{{ tag.count }} posts" href={{ tag.name|title }}>{{ tag.name|title }}</a></li>
-{% endfor %}
-</ul>
-
 
 </div>
 
@@ -91,7 +82,7 @@
             <div class="archive-month">
                 <a href="{{ month_url }}" title="{{ count }} posts">{{ month|longmonth }}</a>
             </div>
-            <div class="archive-count"><strong>{{ count }}</strong> post{{ count|pluralize }}</div>
+            <div class="archive-count">{{ count }} post{{ count|pluralize }}</div>
         </li>
         {% endfor %}
     </ul>

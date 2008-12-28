@@ -65,3 +65,14 @@ def code_linenumbers(content, language):
 
     formatter = HtmlFormatter(linenos=True, cssclass="code")
     return mark_safe( highlight(content, lexer, formatter).strip() )
+
+@register.filter
+@stringfilter
+def link(link):
+    if '|' not in link:
+        return link
+    text, url = link.split('|', 1)
+    text = text.strip()
+    url = url.strip()
+
+    return mark_safe('<a href="%s">%s</a>' % (url, text))
