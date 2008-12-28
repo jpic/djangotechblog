@@ -910,7 +910,8 @@ ul.links-list
     color:#777;
     width:30%;
     font-size:90%;
-    text-align:center;
+    text-align:right;
+    padding-right:3px;
 }
 
 blockquote
