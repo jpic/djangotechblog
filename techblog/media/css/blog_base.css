@@ -200,7 +200,7 @@ body
 #content
 {
     margin:0 auto;
-    width:938px;
+    width:898px;
     margin-top:0px;
     padding-top:0px;
 
@@ -261,7 +261,7 @@ body
 
 #column1
 {
-    width:628px;
+    width:610px;
     float:left;
     overflow:hidden;
     /*background-image:url("/media/images/bottomshadow.png");*/
@@ -273,14 +273,14 @@ body
 {
 
     /*margin-left:44px;*/
-    margin-right:44px;
+    margin-right:14px;
 
 }
 
 #column2
 {
-    width: 268px;
-    float:left;
+    width: 258px;
+    float:right;
     overflow:hidden;
     /*border-left:1px solid #bbb;*/
     /*background-color:#eee;*/
@@ -288,6 +288,7 @@ body
     background-repeat:repeat-x;
     /*border-top:6px solid #B2CC99*/
     margin-top:24px;
+    margin-right:24px;
 }
 
 #column2 h1
@@ -330,7 +331,7 @@ body
 .column1-content
 {
     /*padding:10px;*/
-    padding-left:44px;
+    padding-left:24px;
 }
 /*
 
@@ -837,7 +838,7 @@ ul.links-list
     font-size:80%;
     /*font-family:courier, sans-serif;*/
     background-color:#eef3e8;
-    margin:2px;
+    margin:2px 0px;
     border-left:6px solid #B2CC99;
 
 }
@@ -890,7 +891,7 @@ ul.links-list
     padding-left:5px;
     float:left;
     clear:both;
-    width:260px;
+    width:248px;
 }
 
 .archive-year
@@ -1468,18 +1469,19 @@ blockquote em
     font-family:Arial,sans-serif;
     font-size:11px;
     font-weight:bold;
-    padding:2px;
+    padding:2px 0px;
     text-align:center;
     text-transform:uppercase;
-    background-image:url(/media/images/moduleback.png);
-    height:11px;
+    /*background-image:url(/media/images/moduleback.png);*/
+    /*height:11px;*/
+    background-image:url(/media/images/moduleheader.png);
 }
 
 .feed-icon-container
 {
     /*display:block;*/
 
-    width:920px;
+    width:880px;
     margin:10px auto;
     height:0px;
     position:absolute;
@@ -1503,8 +1505,8 @@ blockquote em
 .feed-icon-large a
 {
     display:block;
-    width:128px;
-    height:128px;
+    width:64px;
+    height:64px;
 }
 
 pre.techblog-error
