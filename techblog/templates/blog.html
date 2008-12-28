@@ -79,7 +79,7 @@
             <div class="archive-month">
                 <a href="{{ month_url }}" title="{{ count }} posts">{{ month|longmonth }}</a>
             </div>
-            <div class="archive-count">{{ count }} post{{ count|pluralize }}</div>
+            <div class="archive-count"><strong>{{ count }}</strong> post{{ count|pluralize }}</div>
         </li>
         {% endfor %}
     </ul>
