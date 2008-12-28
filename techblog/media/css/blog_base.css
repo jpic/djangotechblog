@@ -819,41 +819,50 @@ strong {font-weight:bold;}
 
 ul.links-list
 {
-    padding:4px;
-    margin-bottom:30px;
+    padding-top:16px;
+    padding-bottom:30px;
+    /*margin-left:12px;
+    margin-right:12px;*/
 }
 
 .links-list li
 {
 
     list-style: none;
-    float:left;
     font-weight:bold;
-    color:#aaa;
-    margin-right:22px;
+
     font-size:80%;
     /*font-family:courier, sans-serif;*/
+    background-color:#eef3e8;
+    margin:2px;
+    border-left:6px solid #B2CC99;
+
 }
+
+
 
 .links-list li a
 {
-    padding-bottom:1px;
-    border-bottom:4px solid white;
-    color:#aaa;
+    display:block;
+    font-weight:normal;
+    color:#333;
+    padding:5px;
+    padding-left:10px;
 }
 
 .links-list li a:hover
 {
-    color:#333;
-    padding-bottom:1px;
+
+
     /*border-bottom:4px solid #0066CC !important;*/
-    /*text-decoration:none;*/
+    text-decoration:none;
+    background-color:#dae6ce;
+    color:black;
 }
 
 .links-list li a:visited
 {
-    padding-bottom:1px;
-    border-bottom:4px solid white;
+
 
 }
 
@@ -878,7 +887,7 @@ ul.links-list
     padding-left:5px;
     float:left;
     clear:both;
-    width:100%;
+    width:260px;
 }
 
 .archive-year
@@ -1425,7 +1434,7 @@ blockquote em
 {
     /*background-color:#f5f5f5;*/
     margin-bottom:16px;
-    padding:8px 10px;
+    padding:8px 1px;
 }
 
 .module p
