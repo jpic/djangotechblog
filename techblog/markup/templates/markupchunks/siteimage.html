@@ -1,0 +1,16 @@
+{% load markuptags %}{% load resourcestags %}<!-- Chunk: {{ chunk.chunk_type }} Vars: {{ chunk.vars|pprint }} -->
+<div class="img-caption {{ chunk.vars.float }}">
+    <div{% if chunk.vars.width %} style="width:{{ chunk.vars.width }}px;"{% endif %}>
+    {% if chunk.vars.link %}
+        <a href="{{ chunk.vars.link }}">
+    {% endif %}
+    {% if not chunk.vars.link %}
+    <a href="{% siteimage_url chunk.vars.name %}" target="_blank">
+    {% endif %}
+        {% siteimage chunk.vars.name chunk.vars.width chunk.vars.height %}
+    </a>
+    <div class="caption">
+    {% for line in chunk %}{% if line %}<p>{{ line|postmarkup }}</p>{% endif %}{% endfor %}
+    </div>
+    </div>
+</div>
