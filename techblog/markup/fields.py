@@ -6,7 +6,7 @@ from django.db.models import CharField, TextField, IntegerField
 
 MARKUP_TYPES = [ ("html", "Raw HTML"),
                 ("postmarkup", "Postmarkup (BBCode like)"),
-                ("epostmarkup", "Multi-markup system based on BBCode") ]
+                ("epostmarkup", "Extended markup") ]
 
 
 try:
