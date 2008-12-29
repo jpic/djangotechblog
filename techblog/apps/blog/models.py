@@ -146,7 +146,7 @@ class Channel(models.Model):
         return posts
 
 
-    def get_channel_tag(self, tag_slug):
+    def get_tag(self, tag_slug):
 
         channel_tag = ChannelTag(self.slug, tag_slug)
         return channel_tag
@@ -174,9 +174,6 @@ class Channel(models.Model):
         collated_tags.sort(key=lambda t:-t.count)
 
         return collated_tags
-
-
-
 
 
     def get_tag_cloud(self, tag_cout=50):
@@ -228,6 +225,9 @@ class TagCloud(object):
 
         places = [sorted_counts.index(tag.count) for tag in self.tags]
 
+        if not places:
+            return
+
         max_count = max(places)
         min_count = min(places)
         count_range = float(max_count - min_count)
@@ -278,6 +278,8 @@ class Blog(models.Model):
                                      display_time__lte=now).order_by("-display_time")
         return posts
 
+    def get_tag(self, tag_slug):
+        return Tag.objecs.get(tag_slug)
 
     def tags(self):
         return self.tag_set.all().order_by("-count")

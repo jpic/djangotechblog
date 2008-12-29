@@ -1,10 +1,15 @@
 #!/usr/bin/env python
-from models import Blog, Post, Tag
+from models import Blog, Channel, Post, Tag
 from django.contrib.syndication.feeds import Feed
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.contrib.syndication.feeds import FeedDoesNotExist
 
+def get_channel_or_blog(slug):
+    try:
+        return Channel.objects.get(slug=slug)
+    except Channel.DoesNotExist:
+        return get_object_or_404(models.Blog, slug=slug)
 
 class BlogFeed(Feed):
 
@@ -15,7 +20,8 @@ class BlogFeed(Feed):
     def get_object(self, bits):
         if len(bits) != 1:
             raise FeedDoesNotExist
-        blog = Blog.objects.get(slug=bits[0])
+        #blog = Blog.objects.get(slug=bits[0])
+        blog = get_channel_or_blog(bits[0])
         return blog
 
     def items(self, blog):
@@ -59,7 +65,11 @@ class BlogTagFeed(Feed):
         blog_slug = bits[0]
         tag_slug = bits[1]
 
-        tag = Tag.objects.get(blog__slug = blog_slug, slug=tag_slug)
+        blog = get_channel_or_blog(bits[0])
+
+        tag = blog.get_tag(tag_slug)
+
+        #tag = Tag.objects.get(blog__slug = blog_slug, slug=tag_slug)
         return tag
 
     def items(self, tag):
