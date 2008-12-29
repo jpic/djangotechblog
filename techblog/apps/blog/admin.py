@@ -15,8 +15,25 @@ class BlogAdmin(admin.ModelAdmin):
               )
     prepopulated_fields = {"slug": ("title",)}
     list_display = ['__unicode__', 'tagline']
+    search_fields=('title', 'tagline', 'description')
 
 admin.site.register(models.Blog, BlogAdmin)
+
+
+class ChannelAdmin(admin.ModelAdmin):
+    fields = ('title',
+              'slug',
+              'tagline',
+              'blogs',
+              'description_markup_type',
+              'description',
+              'description_html',
+              )
+    prepopulated_fields = {"slug": ("title",)}
+    list_display = ['__unicode__', 'tagline']
+    search_fields=('title', 'tagline', 'description')
+
+admin.site.register(models.Channel, ChannelAdmin)
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -30,16 +47,20 @@ class PostAdmin(admin.ModelAdmin):
               'content',
               'content_html',
               'content_summary_html')
-    list_display = ['__unicode__', 'display_time', 'get_admin_abbrev']
-    list_filter = ('display_time', 'published', 'tags')
+    list_display = ['__unicode__', 'display_time', 'blog']
+    list_filter = ('blog', 'display_time', 'published')
     prepopulated_fields = {'slug': ('title',)}
     date_hierarchy = 'display_time'
+    search_fields=('title', 'tags_text', 'content')
+    radio_fields={'content_markup_type':admin.HORIZONTAL}
+    ordering=('-display_time', 'title')
 
 admin.site.register(models.Post, PostAdmin)
 
 
 class TagAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
-    list_display = ('name', 'slug', 'count')
+    list_display = ('name', 'blog', 'count')
+    search_fields= ['name']
 
 admin.site.register(models.Tag, TagAdmin)

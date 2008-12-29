@@ -27,6 +27,13 @@ def new_comment(object, comment):
     comment.visible = True
 
 
+def get_channel_or_blog(slug):
+    try:
+        return models.Channel.objects.get(slug=slug)
+    except models.Channel.DoesNotExist:
+        return get_object_or_404(models.Blog, slug=slug)
+
+
 def get_blog_list_data(request, posts, get_page_url, page_no):
 
 
@@ -65,7 +72,7 @@ def blog_month(request, blog_slug, year, month, page_no=1):
     year = int(year)
     month = int(month)
 
-    blog = get_object_or_404(models.Blog, slug=blog_slug)
+    blog = get_channel_or_blog(blog_slug)
 
     start_date = datetime(year, month, 1)
     year_end = year
@@ -103,7 +110,7 @@ def blog_month(request, blog_slug, year, month, page_no=1):
                 month = month,
                 year = year) )
 
-    return render_to_response("blog_month.html", td)
+    return render_to_response(blog.get_template_names("blog_month.html"), td)
 
 
 def blog_front(request, blog_slug, page_no=1):
@@ -112,7 +119,7 @@ def blog_front(request, blog_slug, page_no=1):
     if page_no < 1:
         raise Http404
 
-    blog = get_object_or_404(models.Blog, slug=blog_slug)
+    blog = get_channel_or_blog(blog_slug)
 
     title = blog.title
     posts = blog.posts()
@@ -141,7 +148,7 @@ def blog_front(request, blog_slug, page_no=1):
                         sections = sections,
                         feeds = feeds) )
 
-    return render_to_response("blog.html", td)
+    return render_to_response(blog.get_template_names("blog.html"), td)
 
 
 
@@ -164,7 +171,7 @@ def get_related_posts(blog, post, count=10):
 
 def blog_post(request, blog_slug, year, month, day, slug):
 
-    blog = get_object_or_404(models.Blog, slug=blog_slug)
+    blog = get_channel_or_blog(slug=blog_slug)
 
     year = int(year)
     month = int(month)
@@ -180,6 +187,7 @@ def blog_post(request, blog_slug, year, month, day, slug):
                              display_time__gte=post_day_start,
                              display_time__lt=post_day_end,
                              slug=slug,
+                             blog__slug=blog_slug,
                              published=True)
 
     sections = combine_sections( blog.description_data.get('sections', None),
@@ -217,7 +225,7 @@ def blog_post(request, blog_slug, year, month, day, slug):
                 related_posts = related_posts,
                 sections = sections)
 
-    return render_to_response("blog_entry.html", td)
+    return render_to_response(blog.get_template_names("blog_entry.html"), td)
 
 
 
@@ -228,7 +236,7 @@ def tag(request, blog_slug, tag_slug, page_no=1):
     if page_no < 1:
         raise Http404
 
-    blog = get_object_or_404(models.Blog, slug=blog_slug)
+    blog = get_channel_or_blog(blog_slug)
     tag = get_object_or_404(models.Tag, slug=tag_slug)
 
     title = blog.title

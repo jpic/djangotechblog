@@ -36,6 +36,16 @@ class BlogFeed(Feed):
     def item_pubdate(self, post):
         return post.display_time
 
+class ChannelFeed(BlogFeed):
+
+    def get_object(self, bits):
+        if len(bits) != 1:
+            raise FeedDoesNotExist
+        channel = Channel.objects.get(slug=bits[0])
+        return channel
+
+
+
 class BlogTagFeed(Feed):
 
     @classmethod
@@ -68,3 +78,18 @@ class BlogTagFeed(Feed):
 
     def item_pubdate(self, post):
         return post.display_time
+
+
+class ChannelTagFeed(BlogTagFeed):
+
+    def get_object(self, bits):
+        if len(bits) != 2:
+            raise FeedDoesNotExist
+
+        channel = Channel.objects.get(slug=bits[0])
+
+        blog_slug = bits[0]
+        tag_slug = bits[1]
+
+        tag = channel.get_channel_tag(tag_slug)
+        return tag

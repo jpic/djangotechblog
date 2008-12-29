@@ -14,7 +14,7 @@ def collate_archives(blog):
 
     """
 
-    posts = blog.post_set.all().values('display_time').order_by("-display_time")
+    posts = blog.posts().values('display_time').order_by("-display_time")
 
     def count_iterable(i):
         return sum(1 for _ in i)
