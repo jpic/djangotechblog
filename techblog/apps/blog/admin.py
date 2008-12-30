@@ -16,6 +16,7 @@ class BlogAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     list_display = ['__unicode__', 'tagline']
     search_fields=('title', 'tagline', 'description')
+    radio_fields={'description_markup_type':admin.HORIZONTAL}
 
 admin.site.register(models.Blog, BlogAdmin)
 
