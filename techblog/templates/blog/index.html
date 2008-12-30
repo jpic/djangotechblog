@@ -10,20 +10,6 @@
 <script type="text/javascript" src="/media/js/blog_base.js"> </script>
 {% endblock %}
 
-{% block above_columns %}
-{% comment %}
-<div class="links-area">
-    <ul class="links-list">
-    <li><a href="#df">Link 1</a></li>
-    <li><a href="#qwrqwr">A Second Link</a></li>
-    <li><a href="#gsdg">Link number 3</a></li>
-    <li><a href="#sd">Yet another link</a></li>
-    </ul>
-</div>
-<div class="clear"> </div>
-{% endcomment %}
-{% endblock %}
-
 {% block column1 %}
 
 {% include "includes/post_list.html" %}
@@ -96,6 +82,6 @@
 
 {% block summary_area %}
 <div class="faded-title">{{ blog.title }}</div>
-<h1>{{ blog.tagline }}</h1>
-<div class="summary-area">{{ blog.description_html|safe }}</div>
+{% if blog.tagline %}<h1>{{ blog.tagline }}</h1>{% endif %}
+{% if blog.description_html %}<div class="summary-area">{{ blog.description_html|safe }}</div>{% endif %}
 {% endblock %}
