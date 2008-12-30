@@ -134,15 +134,6 @@ class EMarkupParser(object):
 
             if new_chunk:
 
-                if line == ';/*':
-                    comment_mode += 1
-                    continue
-
-                elif line == ';*/':
-                    if comment_mode:
-                        comment_mode -= 1
-                    continue
-
                 if comment_mode:
                     continue
 
@@ -224,7 +215,7 @@ def parse(markup, sections=None):
             chunk_filename = "markupchunks/%s.html" % chunk.chunk_type.encode()
             chunk_template = select_template([chunk_filename, "markupchunks/paragraph.html"])
 
-            chunk_data = dict(chunk=chunk, content="\n".join(chunk))
+            chunk_data = dict(vars=vars, chunk=chunk, content="\n".join(chunk))
             try:
                 chunk_html = chunk_template.render(Context(chunk_data))
             except Exception, e:
