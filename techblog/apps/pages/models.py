@@ -1,17 +1,19 @@
 from django.db import models
 
-import markup
+from techblog import markup
+from techblog.markup.fields import MarkupField
 from techblog.markup.extendedmarkup import combine_sections
+from techblog.markup.render import render
 
-class PageBase(modesl.Model):
+class PageBase(models.Model):
     
-    content = markup.MarkupField(default="", renderer=markup.render_post_markup)
+    content = MarkupField(default="", renderer=render)
 
 
 class Page(models.Model):
 
-    base = ForeignKey(PageBase, null=True)
-    parent = ForeignKey(Page, null=True)    
+    base = models.ForeignKey(PageBase, null=True)
+    parent = models.ForeignKey("Page", null=True)    
     inherit = models.BooleanField(default=False)
 
     created_time = models.DateTimeField(auto_now_add=True)
@@ -20,7 +22,7 @@ class Page(models.Model):
 
     title = models.CharField("Page Title", max_length=100)
     slug = models.SlugField("Slug", max_length=100)
-    content = markup.MarkupField(default="", renderer=markup.render_post_markup)
+    content = MarkupField(default="", renderer=render)
     
     template = models.CharField("Template", max_length=100)
 

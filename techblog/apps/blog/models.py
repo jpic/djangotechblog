@@ -11,6 +11,9 @@ from django.contrib.auth.models import User
 
 from itertools import groupby
 
+from techblog.markup.render import render
+from techblog.markup.fields import MarkupField
+
 #
 #from django.db.models.signals import post_save
 #
@@ -24,7 +27,7 @@ class Author(models.Model):
 
     user = models.ForeignKey(User)
 
-    bio = markup.MarkupField(default="", renderer=markup.render_post_markup)
+    bio = MarkupField(default="", renderer=render)
 
 
 class Tag(models.Model):
@@ -37,7 +40,7 @@ class Tag(models.Model):
 
     count = models.IntegerField(default=0, editable=False)
 
-    description = markup.MarkupField(default="", renderer=markup.render_post_markup)
+    description = MarkupField(default="", renderer=render)
 
     def get_summary(self):
         if self.description_summary_html:
@@ -122,7 +125,7 @@ class Channel(models.Model):
 
     template = models.CharField("Template prefix", max_length=100)
 
-    description = markup.MarkupField(default="", renderer=markup.render_post_markup)
+    description = MarkupField(default="", renderer=render)
 
     blogs = models.ManyToManyField("Blog")
 
@@ -260,7 +263,7 @@ class Blog(models.Model):
 
     template = models.CharField("Template prefix", max_length=100)
 
-    description = markup.MarkupField(default="", renderer=markup.render_post_markup)
+    description = MarkupField(default="", renderer=render)
 
     def get_full_template_name(self, template_name):
         return self.template.rstrip('/') + '/' + self.template
@@ -320,7 +323,7 @@ class Post(models.Model):
     tags = models.ManyToManyField("Tag", blank=True)
     tags_text = models.TextField("Comma separated tags", default="")
 
-    content = markup.MarkupField(default="", renderer=markup.render_post_markup)
+    content = MarkupField(default="", renderer=render)
 
     #created_time = models.DateTimeField(auto_now_add=True)
 
