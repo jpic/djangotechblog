@@ -1,56 +1,19 @@
-{% extends "blog_base.html" %}
+{% extends "blog/base.html" %}
 {% load markuptags %}
 
 {% load comments %}
 
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
 
 {% block summary_area %}
-<div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
+<div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ page.title }}</a></div>
 <h1>{{ blog.tagline }}</h1>
 {% if section.intro %}<div class="summary-area">{% markupsection sections "intro" %}</div>{% endif %}
 {% endblock %}
 
 {% block column1 %}
 
-{% if prev_post or next_post %}
-<div class="post-navigation">
-    {% if prev_post %}
-    <div class="prev-post">
-        <a href="{{ prev_post.get_absolute_url }}" title="Older post">{{ prev_post.title }}</a>
-    </div>
-    {% endif %}
-
-    {% if next_post %}
-    <div class="next-post">
-        <a href="{{ next_post.get_absolute_url }}" title="Newer post">{{ next_post.title }}</a>
-    </div>{% endif %}
-    <div class="clear"> </div>
-</div>
-{% endif %}
-
-
-<h2>{{ post.title }}</h2>
-<div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
-
-{{ post.content_html|safe }}
-
-
-
-<div class="post-description">
-    This blog post was posted to <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
-    on {{ post.display_time|date:"l F jS, Y" }}
-    at {{ post.display_time|time:"g:sA" }}
-    <br/><br/>
-    Tags: {% for tag in post.get_tags %}<a href="{{ tag.get_absolute_url }}">{{ tag.name|title }}</a>{% if not forloop.last%}, {% endif %}{% endfor %}
-    <br/><br/>
-    Possibly related posts:
-<ul class="related-posts-list">
-    {% for post in related_posts %}
-    <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
-    {% endfor %}
-</ul>
-</div>
+{% markupsection sections "main" %}
 
 {% if not user.is_anonymous %}
 <script type="text/javascript">
@@ -76,7 +39,7 @@ function delete_comment(comment_id)
 
 <a name="comments"> </a>{% if comments %}
 <div class="comments">
-    <h2>{{ comments.count }} Response{{ comments.count|pluralize }} to "{{ post.title }}"</h2>
+    <h2>{{ comments.count }} Comments {{ comments.count|pluralize }} on "{{ page.title }}"</h2>
     {% include "includes/comments.html" %}
 </div>
 {% endif %}
@@ -201,6 +164,3 @@ $('#comment-submit').click(function(){
 
 
 {% endblock %}
-
-
-{% block tagline %}<a href="{{ post.blog.get_absolute_url }}">{{ tagline }}</a>{% endblock %}

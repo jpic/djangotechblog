@@ -6,14 +6,19 @@ from techblog.markup.extendedmarkup import combine_sections
 from techblog.markup.render import render
 
 class PageBase(models.Model):
-    
-    content = MarkupField(default="", renderer=render)
 
+    name = models.CharField("Name", default="", blank=True, max_length=255)
+    content = MarkupField(default="", renderer=render)
+    template = models.CharField("Page template", default="", blank=True, max_length=255)
+
+    def __unicode__(self):
+        return self.name
 
 class Page(models.Model):
 
-    base = models.ForeignKey(PageBase, null=True)
-    parent = models.ForeignKey("Page", null=True)    
+    base = models.ForeignKey(PageBase, blank=True, null=True)
+    parent = models.ForeignKey("Page", blank=True, null=True)
+    path = models.CharField("Page path", max_length=255)
     inherit = models.BooleanField(default=False)
 
     created_time = models.DateTimeField(auto_now_add=True)
@@ -22,14 +27,17 @@ class Page(models.Model):
 
     title = models.CharField("Page Title", max_length=100)
     slug = models.SlugField("Slug", max_length=100)
-    content = MarkupField(default="", renderer=render)
-    
-    template = models.CharField("Template", max_length=100)
+    content = MarkupField(default="", blank=True, renderer=render)
+
+    #allow_comments = mdoels.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.path
 
     def get_sections(self):
-        
+
         visited = set()
-        
+
         sections_to_combine = []
         page = self
         while page is not None and page.id not in visited:
@@ -37,12 +45,23 @@ class Page(models.Model):
             sections_to_combine.append(page.content_data.get('sections'))
             if not page.inherit:
                 break
-            page = page.parent            
-            
-        sections = combine_sections(sections_to_combine[::-2])
-        
-        return sections   
-        
+            page = page.parent
 
-    def __unicode__(self):
-        return title
+        sections_to_combine = sections_to_combine[::-1]
+
+        if self.base is not None:
+            sections_to_combine.append(self.base.content_data.get('sections'))
+
+        print type(sections_to_combine[0])
+
+        sections = combine_sections( *sections_to_combine )
+
+        return sections
+
+    def get_template_names(self):
+
+        templates = ["page/page.html"]
+        if self.base:
+            templates.insert(0, self.base.template)
+
+        return templates

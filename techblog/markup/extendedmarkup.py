@@ -246,10 +246,10 @@ def combine_sections(*sections_list):
                 new_section = Section(section_name)
                 combined[section_name] = new_section
 
-            if 'replace' in section.vars:
-                combined[section_name] = section
-            else:
-                combined[section_name] += section
+            #if 'replace' in section.vars:
+            #    combined[section_name] = Section(section_name)
+
+            combined[section_name] += section
 
     return combined
 
@@ -278,7 +278,7 @@ This is also in a pullquote
 """
 
 
- 
+
 
     #emarkup = EMarkupParser()
     #sections = emarkup(test)

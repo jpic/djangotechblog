@@ -110,7 +110,7 @@ def blog_month(request, blog_slug, year, month, page_no=1):
                 month = month,
                 year = year) )
 
-    return render_to_response(blog.get_template_names("blog_month.html"), td)
+    return render_to_response(blog.get_template_names("blog/month.html"), td)
 
 
 def blog_front(request, blog_slug, page_no=1):
@@ -148,7 +148,7 @@ def blog_front(request, blog_slug, page_no=1):
                         sections = sections,
                         feeds = feeds) )
 
-    return render_to_response(blog.get_template_names("blog.html"), td)
+    return render_to_response(blog.get_template_names("blog/index.html"), td)
 
 
 
@@ -225,7 +225,7 @@ def blog_post(request, blog_slug, year, month, day, slug):
                 related_posts = related_posts,
                 sections = sections)
 
-    return render_to_response(blog.get_template_names("blog_entry.html"), td)
+    return render_to_response(blog.get_template_names("blog/entry.html"), td)
 
 
 
@@ -283,9 +283,9 @@ def tag(request, blog_slug, tag_slug, page_no=1):
               newer_page_url = newer_page_url,
               feeds = feeds)
 
-    return render_to_response("blog_tag.html", td)
+    return render_to_response("blog/tag.html", td)
 
-from markup import render_comment
+from techblog.markup.render import render_comment
 
 def xhr_preview_comment(request):
 
