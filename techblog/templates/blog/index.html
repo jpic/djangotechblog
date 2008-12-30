@@ -1,0 +1,101 @@
+{% extends "blog_base.html" %}
+
+{% load blogtags %}
+{% load humanize %}
+{% load markuptags %}
+
+{% block title %}{{ blog.title }}{% ifnotequal page 1 %} - {{ page_no|ordinal }} page{% endifnotequal %}{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="/media/js/blog_base.js"> </script>
+{% endblock %}
+
+{% block above_columns %}
+{% comment %}
+<div class="links-area">
+    <ul class="links-list">
+    <li><a href="#df">Link 1</a></li>
+    <li><a href="#qwrqwr">A Second Link</a></li>
+    <li><a href="#gsdg">Link number 3</a></li>
+    <li><a href="#sd">Yet another link</a></li>
+    </ul>
+</div>
+<div class="clear"> </div>
+{% endcomment %}
+{% endblock %}
+
+{% block column1 %}
+
+{% include "includes/post_list.html" %}
+
+{% if older_page_url or newer_page_url %}
+<div class="summary-navigation">
+    {% if older_page_url %}
+    <div class="prev-post">
+        <a href="{{ older_page_url }}">Older posts</a>
+    </div>
+    {% endif %}
+
+    {% if newer_page_url %}
+    <div class="next-post">
+        <a href="{{ newer_page_url }}">Newer posts</a>
+    </div>{% endif %}
+    <div class="clear"> </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+
+{% block column2 %}
+
+{% markupsection sections "column2" %}
+
+
+<div class="module-header">
+    Tag Cloud
+</div>
+<div>
+
+    <p class="tag-cloud">
+
+{% for scale, tag in blog.get_tag_cloud %}
+    <span class="tag tagscale{{ scale }}">
+        <a href="{{ tag.get_absolute_url }}" title="{{ tag.count }} posts">{{ tag.name|title }}</a>
+    </span>
+{% endfor %}
+    </p>
+
+</div>
+
+
+<div class="clear"> </div>
+
+<div class="module-header">Archives</div>
+<div class="module">
+<div class="archives">
+    {% for year,months in archives %}
+    <div class="archive-year">{{ year }}</div>
+    <ul class="archive-months">
+        {% for month_url, year, month, count in months %}
+        <li>
+            <div class="archive-month">
+                <a href="{{ month_url }}" title="{{ count }} posts">{{ month|longmonth }}</a>
+            </div>
+            <div class="archive-count">{{ count }} post{{ count|pluralize }}</div>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="clear"> </div>
+    {% endfor %}
+</div>
+</div>
+
+{% endblock %}
+
+
+{% block summary_area %}
+<div class="faded-title">{{ blog.title }}</div>
+<h1>{{ blog.tagline }}</h1>
+<div class="summary-area">{{ blog.description_html|safe }}</div>
+{% endblock %}

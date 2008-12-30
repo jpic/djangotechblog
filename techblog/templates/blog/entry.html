@@ -1,0 +1,206 @@
+{% extends "blog_base.html" %}
+{% load markuptags %}
+
+{% load comments %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block summary_area %}
+<div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
+<h1>{{ blog.tagline }}</h1>
+{% if section.intro %}<div class="summary-area">{% markupsection sections "intro" %}</div>{% endif %}
+{% endblock %}
+
+{% block column1 %}
+
+{% if prev_post or next_post %}
+<div class="post-navigation">
+    {% if prev_post %}
+    <div class="prev-post">
+        <a href="{{ prev_post.get_absolute_url }}" title="Older post">{{ prev_post.title }}</a>
+    </div>
+    {% endif %}
+
+    {% if next_post %}
+    <div class="next-post">
+        <a href="{{ next_post.get_absolute_url }}" title="Newer post">{{ next_post.title }}</a>
+    </div>{% endif %}
+    <div class="clear"> </div>
+</div>
+{% endif %}
+
+
+<h2>{{ post.title }}</h2>
+<div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
+
+{{ post.content_html|safe }}
+
+
+
+<div class="post-description">
+    This blog post was posted to <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
+    on {{ post.display_time|date:"l F jS, Y" }}
+    at {{ post.display_time|time:"g:sA" }}
+    <br/><br/>
+    Tags: {% for tag in post.get_tags %}<a href="{{ tag.get_absolute_url }}">{{ tag.name|title }}</a>{% if not forloop.last%}, {% endif %}{% endfor %}
+    <br/><br/>
+    Possibly related posts:
+<ul class="related-posts-list">
+    {% for post in related_posts %}
+    <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>
+</div>
+
+{% if not user.is_anonymous %}
+<script type="text/javascript">
+
+function delete_comment(comment_id)
+{
+    var data = {'comment_id':comment_id};
+    $.getJSON('{% url xhr_delete_comment %}', data, function(json){
+        if (json.result=="success")
+        {
+            $('#comment'+comment_id).fadeOut('slow');
+        }
+        else
+        {
+            alert("Unable to delete this comment.");
+        }
+    })
+}
+
+</script>
+{% endif %}
+{% get_comments for post as comments %}
+
+<a name="comments"> </a>{% if comments %}
+<div class="comments">
+    <h2>{{ comments.count }} Response{{ comments.count|pluralize }} to "{{ post.title }}"</h2>
+    {% include "includes/comments.html" %}
+</div>
+{% endif %}
+
+
+<a name="comment-form"></a>
+<div class="blog-comment-form">
+<h2>Leave a Comment</h2>
+
+{% get_comment_form for post as comment_form %}
+
+<form id="comment-form" action="post" target="">
+
+        <p>
+            <label for="id_name"><strong>Name</strong> (required):</label> <input type="text" id="id_name" name="name"/>
+            <div class="comment-form-errors" id="id_name_errors"></div>
+        </p>
+
+        <p>
+            <label for="id_email"><strong>Email</strong> (not published):</label> <input type="text" id="id_email" name="email"/>
+            <div class="comment-form-errors" id="id_email_errors"></div>
+        </p>
+
+        <p>
+            <label for="id_url"><strong>Website</strong>:</label> <input type="text" id="id_url" name="url"/>
+            <div class="comment-form-errors" id="id_url_errors"></div>
+        </p>
+
+        <p>
+            <label for="id_content"><strong>Comment</strong>:</label> <textarea name="content" cols="40" rows="10" id="id_content" ></textarea>
+            <div class="comment-form-errors" id="id_content_errors"></div>
+        </p>
+
+{% for field in comment_form %}
+{% if field.is_hidden %}{{ field }}{% endif %}
+{% endfor %}
+
+    <div class="comment-form-help">
+        You can use <a href="http://en.wikipedia.org/wiki/Bbcode" target="_blank">bbcode</a> in the comment: e.g.
+        [b]This is bold[/b], [url]http://www.willmcgugan.com[/url], [code python]import this[/code]
+    </div>
+
+    <p class="comment-form-options">
+        <a id="comment-preview" href="#" title="Click before posting comment">Preview</a>
+        <input id="comment-submit" type="submit" value="Post Comment"></input>
+        <span id="comment-submit-working">Posting... </span>
+    </p>
+</form>
+</div>
+
+<script type="text/javascript">
+
+$('#comment-preview').click(function(){
+    var name = $("#id_name").val();
+    var url = $("#id_url").val();
+    var email = $('#id_email').val();
+    var comment = $("#id_content").val();
+
+    data = {'name':name, 'url':url, 'email':email, 'bbcode':comment };
+    $('#comment-preview-working').show();
+    $("#comment-preview-content").hide();
+    $("#comment-preview-content").load("{% url xhr_preview_comment %}", data, function(){
+        $('#comment-preview-working').hide();
+        $("#comment-preview-content").show();
+
+        });
+    return false;
+});
+
+$('#comment-submit').click(function(){
+
+    var data = {};
+    $('#comment-form input, #comment-form textarea').each(function(){
+        var $this = $(this);
+        var name = $this.attr('name');
+        var value = $this.val();
+        data[name]=value;
+
+    });
+
+    $('#comment-submit').hide();
+    $('#comment-submit-working').show();
+
+    $.post("{% url xhr_post_comment %}", data, function(json){
+
+        var response = eval("("+json+")");
+        if (response.status=='ok')
+        {
+            window.location.href = response.fwd;
+        }
+        else
+        {
+            $('#comment-submit-working').hide();
+            $('#comment-submit').show();
+
+            $('.comment-form-errors').html('')
+
+            for (error in response.errors)
+            {
+                var error_id = "#id_" + error + "_errors";
+                $(error_id).html(response.errors[error]);
+            }
+        }
+
+    });
+
+
+
+    return false;
+});
+
+
+</script>
+
+
+<div id="comment-preview-working">
+    <div class="content">Previewing comment, please wait a moment...</div>
+    <img src="/media/images/throbber.gif"> </img>
+</div>
+<div id="comment-preview-content">
+</div>
+
+
+{% endblock %}
+
+
+{% block tagline %}<a href="{{ post.blog.get_absolute_url }}">{{ tagline }}</a>{% endblock %}

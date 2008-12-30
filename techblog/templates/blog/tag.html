@@ -1,0 +1,34 @@
+{% extends "blog_base.html" %}
+{% block title %}Posts tagged with '{{ tag.name }}'{% endblock %}
+
+{% load blogtags %}
+
+{% block summary_area %}
+<div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
+<h1>{{ blog.tagline }}</h1>
+{% if tag.description %}<div class="summary-area">{{ tag.description_html|safe }}</div>{% endif %}
+{% endblock %}
+
+{% block column1 %}
+
+<h1><span class="tag-name">{{ tag.name|smart_title }}</span> Posts</h1>
+{% include "includes/post_list.html" %}
+
+
+{% if older_page_url or newer_page_url %}
+<div class="summary-navigation">
+    {% if older_page_url %}
+    <div class="prev-post">
+        <a href="{{ older_page_url }}">Older posts</a>
+    </div>
+    {% endif %}
+
+    {% if newer_page_url %}
+    <div class="next-post">
+        <a href="{{ newer_page_url }}">Newer posts</a>
+    </div>{% endif %}
+    <div class="clear"> </div>
+</div>
+{% endif %}
+
+{% endblock %}
