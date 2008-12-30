@@ -33,11 +33,11 @@ class Page(models.Model):
         sections_to_combine = []
         page = self
         while page is not None and page.id not in visited:
-            section_to_combine.append(page.content_data.get('sections'))
+            visited.add(page.id)
+            sections_to_combine.append(page.content_data.get('sections'))
             if not page.inherit:
                 break
-            page = page.parent
-            visited.add(page.id)            
+            page = page.parent            
             
         sections = combine_sections(sections_to_combine[::-2])
         
