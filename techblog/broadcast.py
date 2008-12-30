@@ -2,9 +2,13 @@
 from threading import RLock
 
 class RejectBroadcast(Exception):
+    """This exception should be raised in recievers, to indicate that it has
+    not handled the broadcast."""
     pass
 
 class NoReciever(Exception):
+    """This function is raised if there is no valid receiver for the broadcast,
+    or the broadcast is rejected by all recievers. """
     pass
 
 class _Reciever(object):
