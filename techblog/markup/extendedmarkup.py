@@ -119,6 +119,9 @@ class EMarkupParser(object):
                 value = value.strip()
                 vars[key] = value
                 return True
+            elif line.endswith('!'):
+                vars[line[:-1].strip()] = '1'
+                return True
             return False
 
         lines = [line.rstrip() for line in text.replace('\r', '').split('\n')]
@@ -252,58 +255,39 @@ def combine_sections(*sections_list):
                 new_section = Section(section_name)
                 combined[section_name] = new_section
 
-            combined[section_name] += section
+            if 'replace' in section.vars:
+                combined[section_name] = section
+            else:
+                combined[section_name] += section
 
     return combined
 
 if __name__ == "__main__":
-    test = """;hello=world
+    test = """{hello=world}
 
-;.title
+{.title}
 This is the title
 
-;.body
-;.template=test.html
+{.body}
+{.template=test.html}
+{..bold!}
 
 This is in the body
 
 This is also in the body
 
-;..pullquote
-;..location=left
+{..pullquote}
+{..location=left}
 
 This is in a pullquote
 
 This is also in a pullquote
 
 
-;..code
-;..lang=python
-
-    elif line.startswith('*/'):
-        if comment_mode:
-            comment_mode -= 1
-        continue
-
-    if comment_mode:
-        continue
-
-.
-
-import
-
-
 """
 
 
-    test=""".main
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras non tortor. Sed nunc. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis vitae eros. Phasellus dui nisl, porta sed, tristique non, feugiat eu, metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis tincidunt est sit amet quam. Praesent lacus mauris, lacinia vitae, suscipit ac, dignissim ut, massa. Sed rutrum, magna consectetuer sollicitudin auctor, urna tortor suscipit dolor, ac suscipit dui eros gravida erat. Morbi molestie, ligula vitae sagittis adipiscing, felis risus laoreet metus, nec accumsan sem libero ut elit. Pellentesque augue nibh, sollicitudin eu, porttitor sit amet, ultricies quis, odio. Nam id est. Nunc libero urna, hendrerit ut, suscipit et, mollis id, mi. Praesent lobortis leo at neque. Vivamus mattis aliquet ligula. Duis dui sem, posuere eu, porta ac, hendrerit et, ante. Nulla porttitor magna vel ante pharetra viverra.
-
-.column2
-..module
-..title=This is a Module
-This should be displayed inside a module box in column2"""
-
+ 
 
     #emarkup = EMarkupParser()
     #sections = emarkup(test)
