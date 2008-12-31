@@ -203,14 +203,16 @@ def parse(markup, sections=None):
 
     parser = EMarkupParser()
     parser.parse(markup)
-    sections = parser.sections
-    vars = {}    
+    sections = parser.sections    
+
+    rendered_sections = SectionsDictionary()
 
     error_template = select_template(['markupchunks/error.html'])
 
-    for section, chunks in sections.iteritems():
+    for section, chunks in sections.iteritems():                
 
-        content_chunks = []
+        content_chunks = Section(chunks.name)        
+        content_chunks.vars.update(chunks.vars)        
 
         for chunk in chunks:
 
@@ -225,8 +227,10 @@ def parse(markup, sections=None):
                 chunk_html = error_template.render(Context(dict(error=error)))
 
             content_chunks.append((chunk.get_priority(), chunk_html))
+            
 
-        rendered_sections[section] = content_chunks        
+        rendered_sections[section] = content_chunks
+        rendered_sections.vars.update( sections[section].vars )
         
 
     return rendered_sections
@@ -236,8 +240,7 @@ def chunks_to_html(chunks):
 
 def combine_sections(*sections_list):
 
-    combined = {}
-    print sections_list
+    combined = {}    
     for sections in filter(None, sections_list):
 
         for name_section in sections.iteritems():
@@ -249,9 +252,8 @@ def combine_sections(*sections_list):
             if section_name not in combined:
                 new_section = Section(section_name)
                 combined[section_name] = new_section
-            
-            print section
-            if 'replace' in sections:
+                                    
+            if 'replace' in section.vars:
                 combined[section_name] = Section(section_name)
 
             combined[section_name] += section
@@ -301,12 +303,13 @@ Hello, World
 
     test2 = """
 {.body}
-{.replace!}
+{.replace=True}
 Second body text
 """
 
     sections1 = parse(test1)
-    sections2 = parse(test2)
+    sections2 = parse(test2)    
+    
     print chunks_to_html(combine_sections(sections1, sections2)['body'])
     
     
