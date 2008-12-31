@@ -53,6 +53,11 @@ class Chunk(object):
 
     __repr__ = __str__
 
+class SectionsDictionary(dict):
+    
+    def __init__(self, *args, **kwargs):
+        self.vars = {}
+        dict.__init__(self, *args, **kwargs)
 
 class Section(list):
 
@@ -84,7 +89,7 @@ class EMarkupParser(object):
         self._current_chunk_type = ""
         self._default_chunk_type = default_chunk_type
 
-        self.sections = {}
+        self.sections = SectionsDictionary()
         sections = self.sections
 
         self._chunks = []
@@ -94,9 +99,8 @@ class EMarkupParser(object):
         current_lines = self.current_lines
 
         new_chunk = True
-
-        self.vars = {}
-        vars = self.vars
+        
+        vars = self.sections.vars
 
         self._section_vars = {}
         self._chunk_vars = {}
@@ -200,9 +204,7 @@ def parse(markup, sections=None):
     parser = EMarkupParser()
     parser.parse(markup)
     sections = parser.sections
-    vars = parser.vars
-
-    rendered_sections = sections or {}
+    vars = {}    
 
     error_template = select_template(['markupchunks/error.html'])
 
@@ -224,7 +226,8 @@ def parse(markup, sections=None):
 
             content_chunks.append((chunk.get_priority(), chunk_html))
 
-        rendered_sections[section] = content_chunks
+        rendered_sections[section] = content_chunks        
+        
 
     return rendered_sections
 
@@ -234,6 +237,7 @@ def chunks_to_html(chunks):
 def combine_sections(*sections_list):
 
     combined = {}
+    print sections_list
     for sections in filter(None, sections_list):
 
         for name_section in sections.iteritems():
@@ -245,9 +249,10 @@ def combine_sections(*sections_list):
             if section_name not in combined:
                 new_section = Section(section_name)
                 combined[section_name] = new_section
-
-            #if 'replace' in section.vars:
-            #    combined[section_name] = Section(section_name)
+            
+            print section
+            if 'replace' in sections:
+                combined[section_name] = Section(section_name)
 
             combined[section_name] += section
 
@@ -288,13 +293,35 @@ This is also in a pullquote
     sys.path.append("/home/will/projects/djangotechblog")
     os.environ["DJANGO_SETTINGS_MODULE"] = "techblog.settings"
 
-    sections = parse(test)
 
-    import pprint
+    test1 = """
+{.body}
+Hello, World
+"""
+
+    test2 = """
+{.body}
+{.replace!}
+Second body text
+"""
+
+    sections1 = parse(test1)
+    sections2 = parse(test2)
+    print chunks_to_html(combine_sections(sections1, sections2)['body'])
+    
+    
+    #print combined['body']
+    
+    print
+    print
+
+    #sections = parse(test)
+    #
+    #import pprint
+    ##pprint.pprint(sections)
+    #
+    #for section, html in sections.iteritems():
+    #    print "<h1>%s</h1>" % section
+    #    print html
     #pprint.pprint(sections)
-
-    for section, html in sections.iteritems():
-        print "<h1>%s</h1>" % section
-        print html
-    pprint.pprint(sections)
-    #pprint.pprint(emarkup.vars)
+    ##pprint.pprint(emarkup.vars)
