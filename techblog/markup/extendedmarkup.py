@@ -168,7 +168,7 @@ class EMarkupParser(object):
                         continue
 
                     else:
-                        process_vars(vars, line)
+                        process_vars(sections.vars, line)
                         continue
 
                 else:
@@ -183,7 +183,7 @@ class EMarkupParser(object):
         make_chunk()
         self.set_section(None)
 
-        return self.sections
+        return sections
 
     __call__ = parse
 
@@ -212,6 +212,8 @@ def parse(markup, sections=None):
 
     error_template = select_template(['markupchunks/error.html'])
 
+    rendered_sections.vars.update(sections.vars)
+
     for section, chunks in sections.iteritems():
 
         content_chunks = Section(chunks.name)
@@ -233,9 +235,7 @@ def parse(markup, sections=None):
             new_chunk.vars.update(chunk.vars)
             content_chunks.append(new_chunk)
 
-
         rendered_sections[section] = content_chunks
-        rendered_sections.vars.update( sections[section].vars )
 
 
     return rendered_sections
@@ -330,7 +330,7 @@ This is also in a pullquote
 
 
     test1 = """
-{doc_leval_var!}
+{doc_level_var!}
 {.body}
 {.test=1}
 Hello, World
