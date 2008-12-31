@@ -226,7 +226,9 @@ def parse(markup, sections=None):
                 error = str(e)
                 chunk_html = error_template.render(Context(dict(error=error)))
 
-            content_chunks.append((chunk.get_priority(), chunk_html))
+            new_chunk = Chunk(chunk_html, chunk.chunk_type)
+            new_chunk.vars.update(chunk.vars)
+            content_chunks.append(new_chunk)
             
 
         rendered_sections[section] = content_chunks
@@ -236,7 +238,7 @@ def parse(markup, sections=None):
     return rendered_sections
 
 def chunks_to_html(chunks):
-    return "\n".join( chunk[1] for chunk in sorted(chunks, key=lambda chunk:chunk[0]) )
+    return "\n".join( chunk.text for chunk in sorted(chunks, key=lambda chunk:chunk.vars['priority']) )
 
 def combine_sections(*sections_list):
 
