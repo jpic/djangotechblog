@@ -40,7 +40,7 @@ class Tag(models.Model):
 
     count = models.IntegerField(default=0, editable=False)
 
-    description = MarkupField(default="", renderer=render)
+    description = MarkupField(default="", blank=True, renderer=render)
 
     def get_summary(self):
         if self.description_summary_html:

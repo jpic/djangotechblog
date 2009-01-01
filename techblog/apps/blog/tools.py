@@ -3,6 +3,8 @@ import models
 from django.core.urlresolvers import reverse
 from itertools import groupby
 
+import xml.etree.ElementTree as ET
+
 def collate_archives(blog):
 
     """Groups the posts for a blog by month.
@@ -32,3 +34,11 @@ def collate_archives(blog):
     years = [(year,list(months)) for (year, months) in groupby(months, lambda m:m[1])]
 
     return years
+
+
+def import_wxr(blog_slug, wxr_file):
+
+    blog = models.Blog.objects.get(slug=blog_slug)
+
+    wxr = ET.parse(wxr_file)
+    print wxr

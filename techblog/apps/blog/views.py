@@ -312,6 +312,30 @@ def xhr_preview_comment(request):
     return render_to_response("xhr_comment_preview.html", td)
 
 
+def import_wxr(request):
+
+    from forms import ImportForm
+
+    if request.method == "POST":
+
+        form = ImportForm(request.POST, request.FILES)
+
+        if form.is_valid():
+
+            if form.cleaned_data.get('format') == "WXR":
+
+                blog_slug = form.cleaned_data['blog_slug']
+                wxr_file = request.FILES['input_file']
+                tools.import_wxr(blog_slug, wxr_file)
+    else:
+
+        form = ImportForm()
+
+    td = dict(form=form)
+
+
+    return render_to_response("blog/tools/import_wxr.html", td)
+
 
 def front(request):
     template_data = {}
