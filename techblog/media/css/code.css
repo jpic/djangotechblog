@@ -11,6 +11,14 @@ pre
     line-height:120%;
     clear:both;
     }
+code
+{
+    font-family:"Bitstream Vera Sans Mono","Courier new","Courier",monospace;
+    background: #f9f9f9;
+    font-weight:bold;
+    color:#555;
+    font-size:85%;
+}
 .code .c { color: #008800; font-style: italic } /* Comment */
 .code .err { border: 1px solid #FF0000 } /* Error */
 .code .k { color: #AA22FF; font-weight: bold } /* Keyword */

@@ -18,6 +18,7 @@ from pygments.formatters import HtmlFormatter
 
 register = template.Library()
 
+from postmarkup import _escape
 from postmarkup import render_bbcode
 
 @register.filter
@@ -27,6 +28,21 @@ def postmarkup(value):
         return u""
     html = mark_safe(render_bbcode(value))
     return html
+
+@register.filter
+@stringfilter
+def paragraphize(value):
+    try:
+        v = value.strip().lower()
+        if not v:
+            return u""
+        if not v.startswith("<"):
+            return "<p>%s</p>" % value
+        print
+        print "*",value,"*"
+        return value
+    except Exception, e:
+        print e
 
 @register.simple_tag
 def markupsection(sections, key):
@@ -38,9 +54,6 @@ def markupsection(sections, key):
     if chunks is None:
         return u""
 
-    print type(chunks[0])
-    print chunks[0]
-
     return mark_safe( u"\n".join(chunk.text for chunk in sorted(chunks, key=lambda chunk:chunk.get_priority()) if chunk )  )
 
 @register.simple_tag
@@ -48,7 +61,7 @@ def code(content, language):
     try:
         lexer = get_lexer_by_name(language, stripall=True)
     except ClassNotFound:
-        content = postmarkup._escape(content)
+        content = _escape(content)
         return '<div class="code"><pre>%s</pre></div>' % content
 
     formatter = HtmlFormatter(linenos=False, cssclass="code")
@@ -61,7 +74,7 @@ def code_linenumbers(content, language):
     try:
         lexer = get_lexer_by_name(language, stripall=True)
     except ClassNotFound:
-        content = postmarkup._escape(content)
+        content = _escape(content)
         return '<div class="code"><pre>%s</pre></div>' % content
 
     formatter = HtmlFormatter(linenos=True, cssclass="code")

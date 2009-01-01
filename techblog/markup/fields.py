@@ -4,6 +4,9 @@ from postmarkup import textilize
 from django.db import models
 from django.db.models import CharField, TextField, IntegerField
 
+from base64 import encodestring, decodestring
+import binascii
+
 MARKUP_TYPES = [ ("html", "Raw HTML"),
                 ("postmarkup", "Postmarkup (BBCode like)"),
                 ("epostmarkup", "Extended markup") ]
@@ -27,17 +30,20 @@ class PickledObjectField(models.Field):
         if isinstance(value, PickledObject):
             # If the value is a definite pickle; and an error is raised in de-pickling
             # it should be allowed to propogate.
-            return pickle.loads(str(value))
+            return pickle.loads(str(decodestring(value)))
         else:
             try:
-                return pickle.loads(str(value))
+                try:
+                    return pickle.loads(str(decodestring(value)))
+                except binascii.Error:
+                    return pickle.loads(str(value))
             except:
-                # If an error was raised, just return the plain value
                 return value
+
 
     def get_db_prep_save(self, value):
         if value is not None and not isinstance(value, PickledObject):
-            value = PickledObject(pickle.dumps(value))
+            value = PickledObject(encodestring(pickle.dumps(value)))
         return value
 
     def get_internal_type(self):

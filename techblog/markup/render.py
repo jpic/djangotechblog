@@ -13,6 +13,8 @@ VERSION = 1
 
 def render(markup, markup_type):
 
+    markup = markup or ""
+
     if markup_type == "postmarkup":
 
         tag_data = {}

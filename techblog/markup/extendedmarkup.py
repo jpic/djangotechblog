@@ -172,12 +172,12 @@ class EMarkupParser(object):
                         continue
 
                 else:
-                    current_lines.append(line)
+                    current_lines.append(line.rstrip())
                     continue
 
                 new_chunk = False
 
-            current_lines.append(line)
+            current_lines.append(line.rstrip())
             new_chunk = False
 
         make_chunk()

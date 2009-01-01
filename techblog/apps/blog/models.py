@@ -307,14 +307,14 @@ class Blog(models.Model):
         url = feeds.BlogFeed.get_url(self)
         return dict(title=title, url=url)
 
-class PublisedPageManager(models.Manager):
+class PublisedPostManager(models.Manager):
 
     def get_query_set(self):
-        pages = super(PublishedPageManager, self).get_query_set()
+        posts = super(PublisedPostManager, self).get_query_set()
         now = datetime.datetime.now()
-        pages.filter(published=True, display_time__lt=now)
+        posts.filter(published=True, display_time__lt=now)
 
-        return pages
+        return posts
 
 class Post(models.Model):
 
@@ -323,6 +323,7 @@ class Post(models.Model):
     title = models.CharField("Post Title", max_length=100)
     slug = models.SlugField("Post Slug")
     published = models.BooleanField("Published?", default=False)
+    guid = models.CharField(max_length=255, blank=True)
 
     allow_comments = models.BooleanField("Allow Comments?", default=True)
 
@@ -337,7 +338,8 @@ class Post(models.Model):
 
     #created_time = models.DateTimeField(auto_now_add=True)
 
-    published_pages = PublisedPageManager()
+    published_posts = PublisedPostManager()
+    objects = models.Manager()
 
     def get_summary(self):
         if self.content_summary_html:

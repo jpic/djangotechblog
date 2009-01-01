@@ -148,4 +148,3 @@ class PulloutTag(postmarkup.TagBase):
 
     def render_close(self, parser, node_index):
         return """</div>"""
-
