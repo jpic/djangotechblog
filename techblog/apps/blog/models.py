@@ -64,6 +64,7 @@ class Tag(models.Model):
         return "%s (in %s)" % (self.name, self.blog)
 
     def posts(self):
+
         now = datetime.datetime.now()
         posts = self.post_set.filter( published=True,
                                         display_time__lte=now,
@@ -306,6 +307,15 @@ class Blog(models.Model):
         url = feeds.BlogFeed.get_url(self)
         return dict(title=title, url=url)
 
+class PublisedPageManager(models.Manager):
+
+    def get_query_set(self):
+        pages = super(PublishedPageManager, self).get_query_set()
+        now = datetime.datetime.now()
+        pages.filter(published=True, display_time__lt=now)
+
+        return pages
+
 class Post(models.Model):
 
     blog = models.ForeignKey(Blog)
@@ -326,6 +336,8 @@ class Post(models.Model):
     content = MarkupField(default="", renderer=render)
 
     #created_time = models.DateTimeField(auto_now_add=True)
+
+    published_pages = PublisedPageManager()
 
     def get_summary(self):
         if self.content_summary_html:
