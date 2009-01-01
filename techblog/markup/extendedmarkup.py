@@ -241,12 +241,14 @@ def parse(markup, sections=None):
     return rendered_sections
 
 def chunks_to_html(chunks):
-    return "\n".join( chunk.text for chunk in sorted(chunks, key=lambda chunk:chunk.vars['priority']) )
+    return "\n".join( chunk.text for chunk in sorted(chunks, key=lambda chunk:chunk.vars.get('priority', 100)) )
 
 def combine_sections(*sections_list):
 
-    combined = {}
+    combined = SectionsDictionary()
     for sections in filter(None, sections_list):
+
+        combined.vars.update(sections.vars)
 
         for name_section in sections.iteritems():
             if name_section is None:

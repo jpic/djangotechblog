@@ -5,6 +5,7 @@ from techblog.markup.fields import PickledObjectField, MarkupField
 from techblog import broadcast
 from techblog.markup import extendedmarkup
 
+
 from markuprender import *
 
 VERSION = 1
@@ -63,5 +64,4 @@ def render(markup, markup_type):
 @broadcast.recieve()
 def render_comment(markup, markup_type):
 
-    return render_post_markup(markup, markup_type)
-
+    return render(markup, markup_type)

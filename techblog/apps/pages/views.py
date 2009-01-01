@@ -7,6 +7,18 @@ from techblog import broadcast
 from django.conf import settings
 
 
+@broadcast.recieve()
+def allow_comment(object):
+    if isinstance(object, models.Page):
+        return True
+    return False
+
+@broadcast.recieve()
+def new_comment(object, comment):
+    comment.moderated = True
+    comment.visible = True
+
+
 def page(request, path):
 
     page = get_object_or_404(models.Page, path=path)

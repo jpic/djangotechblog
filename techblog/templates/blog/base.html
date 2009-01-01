@@ -12,7 +12,7 @@
     {% block css %}{% endblock %}
 
     <script type="text/javascript" src="/media/js/jquery-1.2.6.min.js"> </script>
-    {% block js %}{% endblock %}
+    {% block js_head %}{% endblock %}
 
     {% if feeds %}
         {% for feed in feeds %}
@@ -23,6 +23,9 @@
 
 <body>
 
+    <input type="hidden" id="xhr_preview_comment" value="{% url xhr_preview_comment %}" />
+    <input type="hidden" id="xhr_post_comment" value="{% url xhr_post_comment %}" />
+    <input type="hidden" id="xhr_delete_comment" value="{% url xhr_delete_comment %}" />
 
     <div class="intro">
         <h1>{{ title }}</h1>

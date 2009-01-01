@@ -29,13 +29,19 @@ def postmarkup(value):
     return html
 
 @register.simple_tag
-def markupsection(chunk_dict, key):
+def markupsection(sections, key):
 
-    if not chunk_dict:
+    if not sections:
         return u""
-    chunks = chunk_dict.get(key, [])
+    chunks = sections.get(key)
 
-    return mark_safe( u"\n".join(chunk[1] for chunk in sorted(chunks, key=lambda chunk:chunk[0]) if chunk )  )
+    if chunks is None:
+        return u""
+
+    print type(chunks[0])
+    print chunks[0]
+
+    return mark_safe( u"\n".join(chunk.text for chunk in sorted(chunks, key=lambda chunk:chunk.get_priority()) if chunk )  )
 
 @register.simple_tag
 def code(content, language):

@@ -52,8 +52,6 @@ class Page(models.Model):
         if self.base is not None:
             sections_to_combine.append(self.base.content_data.get('sections'))
 
-        print type(sections_to_combine[0])
-
         sections = combine_sections( *sections_to_combine )
 
         return sections
@@ -61,7 +59,15 @@ class Page(models.Model):
     def get_template_names(self):
 
         templates = ["page/page.html"]
-        if self.base:
+        if self.base and self.base.template:
             templates.insert(0, self.base.template)
 
+        print templates
+
         return templates
+
+    @models.permalink
+    def get_absolute_url(self):
+
+        return ("apps.pages.views.page", (),
+                dict(path=self.path))

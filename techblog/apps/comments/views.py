@@ -20,6 +20,7 @@ def xhr_post_comment(request):
 
     errors = []
 
+    print request.POST
     form = CommentForm(request.POST)
 
     response = {'status': 'ok', 'errors' : []}
@@ -71,8 +72,6 @@ def xhr_post_comment(request):
 
 
 def xhr_delete_comment(request):
-
-    print "xhr_delete_comment"
 
     if request.user.is_anonymous():
         raise Http404
