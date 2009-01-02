@@ -268,7 +268,7 @@ def combine_sections(*sections_list):
     return combined
 
 
-def serialize_sections_to_xml(sections):
+def serialize_xml(sections):
 
     root = ET.Element("extendedmarkup")
 
@@ -290,10 +290,10 @@ def serialize_sections_to_xml(sections):
 
             for key, value in chunk.vars.iteritems():
                 var_el = ET.SubElement(chunk_el, 'var', name=key, value=value or u"")
-
-
-
+                
     return ET.tostring(root)
+    
+
 
 if __name__ == "__main__":
     test = """{hello=world}
@@ -353,7 +353,7 @@ Second body text
     sections1 = parse(test1)
     sections2 = parse(test2)
 
-    xml = serialize_sections_to_xml(sections1)
+    xml = serialize_xml(sections1)
     print xml
     open("sections.xml", "w").write(xml)
 
