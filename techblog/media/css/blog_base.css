@@ -1589,3 +1589,13 @@ h1 span.tag-name
     padding:2px !important;
     font-style:italic;
 }
+
+h1 + div + p:first-letter
+{
+  font-size:36px;
+  float:left;
+  padding-top:4px;
+  margin-right:2px;
+  font-family:georgia;
+  display:block;
+}
