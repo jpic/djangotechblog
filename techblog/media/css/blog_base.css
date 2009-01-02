@@ -1138,6 +1138,7 @@ blockquote p
     min-height:16px;
     background-image:url(/media/images/icons/bullet_go.png);
     background-repeat:no-repeat;
+    padding-top:2px;
 }
 
 .brief-summary
