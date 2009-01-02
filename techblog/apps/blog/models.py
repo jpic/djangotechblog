@@ -117,16 +117,16 @@ class ChannelTag(object):
 
 class Channel(models.Model):
 
-    template = models.CharField("Template", max_length=100)
+    template = models.CharField("Template", max_length=100, blank=True)
 
     title = models.CharField("Channel Title", max_length=100)
     tagline = models.CharField("Tag line", max_length=200)
     slug = models.SlugField()
     posts_per_page = models.IntegerField(default=10)
 
-    template = models.CharField("Template prefix", max_length=100)
+    template = models.CharField("Template prefix", max_length=100, blank=True)
 
-    description = MarkupField(default="", renderer=render)
+    description = MarkupField(default="", renderer=render, blank=True)
 
     blogs = models.ManyToManyField("Blog")
 
@@ -258,13 +258,13 @@ class Blog(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
 
     title = models.CharField("Title of the Blog", max_length=100)
-    tagline = models.CharField("Tag line", max_length=200)
+    tagline = models.CharField("Tag line", max_length=200, blank=True)
     slug = models.SlugField(unique=True)
     posts_per_page = models.IntegerField(default=10)
 
     template = models.CharField("Template prefix", max_length=100)
 
-    description = MarkupField(default="", renderer=render)
+    description = MarkupField(default="", renderer=render, blank=True)
 
     def get_full_template_name(self, template_name):
         return self.template.rstrip('/') + '/' + self.template
@@ -334,7 +334,7 @@ class Post(models.Model):
     tags = models.ManyToManyField("Tag", blank=True)
     tags_text = models.TextField("Comma separated tags", default="")
 
-    content = MarkupField(default="", renderer=render)
+    content = MarkupField(default="", renderer=render, blank=True)
 
     #created_time = models.DateTimeField(auto_now_add=True)
 

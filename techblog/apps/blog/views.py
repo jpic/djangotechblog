@@ -113,7 +113,9 @@ def blog_month(request, blog_slug, year, month, page_no=1):
     return render_to_response(blog.get_template_names("blog/month.html"), td)
 
 
-def blog_front(request, blog_slug, page_no=1):
+def blog_front(request, blog_slug="", page_no=1):
+
+    print blog_slug
 
     page_no = int(page_no)
     if page_no < 1:
