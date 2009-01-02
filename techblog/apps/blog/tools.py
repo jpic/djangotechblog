@@ -3,7 +3,11 @@ import models
 from django.core.urlresolvers import reverse
 from itertools import groupby
 from django.template.defaultfilters import slugify
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
+
+from techblog import broadcast
 import time
 import datetime
 import re
@@ -71,6 +75,8 @@ def import_wxr(blog_slug, wxr_file):
         else:
             el = item.find(".//{%s}%s" % (ns, name))
         if el is not None:
+            if el.text is None:
+                return default
             return el.text
         return default
 
@@ -90,37 +96,6 @@ def import_wxr(blog_slug, wxr_file):
 
         return "{..html_paragraphs}\n" + html
 
-        code_mode = False
-
-        lines = []
-        lines.append("{..html_paragraphs}")
-        for line in html.split('\n'):
-
-            if not line.strip():
-                continue
-            if code_mode:
-                if line.strip() == "</pre>":
-                    lines.append("")
-                    lines.append("{..}")
-                    code_mode = False
-                    continue
-
-            pre_match = pre_re.match(line.lower().strip())
-            if pre_match is not None:
-                language = pre_match.group(1)
-                print language
-                code_mode = True
-                lines.append('{..code}')
-                lines.append('{..language=%s}'%language)
-                lines.append('')
-                continue
-
-            if not code_mode and not line.startswith('<'):
-                line = u"<p>%s</p>" % line
-
-            lines.append(line)
-
-        return "\n".join(lines)
 
     if items is not None:
 
@@ -178,3 +153,33 @@ def import_wxr(blog_slug, wxr_file):
             for k, v in new_post_data.iteritems():
                 setattr(new_post, k, v)
             new_post.save()
+
+            comments = item.findall(".//{%s}comment" % wp_ns)
+
+            if comments is not None:
+                for comment in comments:
+
+                    if get_text(comment, "comment_approved", wp_ns) != "1":
+                        continue
+
+                    name = get_text(comment, "comment_author", wp_ns)
+                    email = get_text(comment, "comment_author_email", wp_ns)
+                    url = get_text(comment, "comment_author_url", wp_ns)
+                    content = get_text(comment, "comment_content", wp_ns)
+                    date = get_text(comment, "comment_date", wp_ns)
+                    
+                    date = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+
+                    ct = ContentType.objects.get_for_model(new_post)
+                    ct_id = ".".join( (ct.app_label, ct.model) )
+
+                    broadcast.call.comment(object_id = new_post.id,
+                                           visible=True,
+                                           moderated=True,
+                                           created_time=date,
+                                           name = name,
+                                           email=email,
+                                           url=url,
+                                           content=content,
+                                           content_markup_type="comment_bbcode",
+                                           content_type=ct)

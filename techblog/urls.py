@@ -23,5 +23,5 @@ urlpatterns += patterns('',
     (r'^blog/', include('apps.blog.urls')),
     (r'^comments/', include('apps.comments.urls')),
     (r'^pages/', include('apps.pages.urls')),
-    (r'^', include('apps.blog.urls'), {"blog_slug":"test-blog"}),
+    #(r'^', include('apps.blog.urls'), {"blog_slug":"test-blog"}),
 )

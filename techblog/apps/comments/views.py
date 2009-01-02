@@ -12,6 +12,21 @@ from forms import CommentForm
 import simplejson
 import urllib
 
+@broadcast.recieve()
+def comment(**kwargs):
+
+    try:
+        comment = Comment.objects.get(email=kwargs.get('email'), created_time=kwargs.get('created_time'))
+    except Comment.DoesNotExist:
+        comment = Comment()
+    for k, v, in kwargs.iteritems():
+        setattr(comment, k, v)
+    comment.save()
+    if 'created_time' in kwargs:
+        comment.created_time = kwargs['created_time']
+    comment.save()
+
+
 def xhr_post_comment(request):
 
     #if settings.DEBUG:
@@ -20,7 +35,6 @@ def xhr_post_comment(request):
 
     errors = []
 
-    print request.POST
     form = CommentForm(request.POST)
 
     response = {'status': 'ok', 'errors' : []}

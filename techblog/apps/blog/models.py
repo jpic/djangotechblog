@@ -241,7 +241,7 @@ class TagCloud(object):
         tag_cloud = []
         for place, tag in zip(places, self.tags):
 
-            tag_scale = (place - min_count) / count_range
+            tag_scale = (place - min_count) / (count_range or 1.0)
             tag_scale = int(round(tag_scale * 10))
 
             tag_cloud.append( (tag_scale, tag) )

@@ -89,7 +89,7 @@ class GetCommentsNode(template.Node):
         object = context.get(self.object_name, None)
         if object is None:
             return ''
-        comments = models.Comment.objects.filter_for_object(object)
+        comments = models.Comment.objects.filter_for_object(object).order_by('created_time')
         context[self.value_name] = comments
         return ''
 

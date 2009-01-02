@@ -15,6 +15,7 @@
             <div class="comment-time">
                 {# {{ comment.created_time|timesince }} ago #}
                 {{ comment.created_time|date:"F jS, Y" }}
+                {{ comment.created_time}}
             </div>
         </div>
         <div class="comment-body">
@@ -32,4 +33,3 @@
 
 
 {% endif %}
-

@@ -17,8 +17,7 @@ class CommentManager(models.Manager):
 
     def filter_for_object(self, object):
         ct = ContentType.objects.get_for_model(object)
-        comments = Comment.objects.filter(object_id=object.id, content_type=ct, visible=True, moderated=True)
-        comments.order_by('created_time')
+        comments = Comment.objects.filter(object_id=object.id, content_type=ct, visible=True, moderated=True)        
         return comments
 
 class Comment(models.Model):
@@ -35,8 +34,8 @@ class Comment(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
 
     name = models.CharField("Author's name", max_length=100)
-    email = models.EmailField("Author's email")
-    url = models.URLField(verify_exists=False, default="")
+    email = models.EmailField("Author's email", blank=True)
+    url = models.CharField(blank=True, default="", max_length=255)
     content = MarkupField(default="", renderer=_comment_renderer)
 
     def __unicode__(self):

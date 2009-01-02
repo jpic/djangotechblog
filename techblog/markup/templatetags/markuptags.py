@@ -38,8 +38,6 @@ def paragraphize(value):
             return u""
         if not v.startswith("<"):
             return "<p>%s</p>" % value
-        print
-        print "*",value,"*"
         return value
     except Exception, e:
         print e
