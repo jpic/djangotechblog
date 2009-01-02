@@ -1590,7 +1590,7 @@ h1 span.tag-name
     font-style:italic;
 }
 
-h1 + div + p:first-letter
+.post-subtitle + p:first-letter
 {
   font-size:36px;
   float:left;
