@@ -90,6 +90,10 @@ def blog_month(request, blog_slug, year, month, page_no=1):
 
 
     posts = blog.posts().filter(display_time__gte=start_date, display_time__lt=end_date)
+
+    if not posts.count():
+        raise Http404
+
     archives = tools.collate_archives(blog)
 
     def get_page_url(page_no, num_pages):

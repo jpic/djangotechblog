@@ -24,7 +24,7 @@
 {% include "includes/post_list.html" %}
 
 {% if not posts.count %}
-<h2>No posts were made during {{ archive_month|longmonth }}.</h2>
+<h2>No posts were made during {{ archive_month|longmonth }}, {{ archive_year }}.</h2>
 {% endif %}
 
 {% if older_page_url or newer_page_url %}
