@@ -133,10 +133,11 @@ body
     margin: 0 auto;
 }
 
-.title-area .faded-title:hover
+.faded-title a:hover
 {
     text-decoration:underline;
 }
+
 
 .title-area .faded-title a:visited, .title-area .faded-title a:link
 {
