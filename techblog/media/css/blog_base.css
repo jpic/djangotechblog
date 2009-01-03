@@ -1698,12 +1698,20 @@ pre.techblog-error
 
 .search_results h2
 {
-    padding:0 !important;
+    padding:4px 0px 4px 0px !important;
     clear:both;
+    margin:6px 0px !important;
 }
 
 
 li.current-month
 {
     font-weight:bold;
+}
+
+.search-result
+{
+    padding-bottom:8px;
+    border-bottom:1px dotted #bbb;
+    float:left;
 }
