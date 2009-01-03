@@ -339,8 +339,8 @@ body
 .post img
 {
     padding:4px;
-    border:1px solid #d5d5d5;
-    background-color:#f8f8f8;
+    /*border:1px solid #d5d5d5;*/
+    /*background-color:#f8f8f8;*/
     margin:6px;
 }
 
