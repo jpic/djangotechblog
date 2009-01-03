@@ -75,13 +75,16 @@ def blog_month(request, blog_slug, year, month, page_no=1):
 
     blog = get_channel_or_blog(blog_slug)
 
-    start_date = datetime(year, month, 1)
-    year_end = year
-    next_month = month + 1
-    if next_month == 13:
-        next_month = 1
-        year_end += 1
-    end_date = datetime(year_end, next_month, 1)
+    try:
+        start_date = datetime(year, month, 1)
+        year_end = year
+        next_month = month + 1
+        if next_month == 13:
+            next_month = 1
+            year_end += 1
+        end_date = datetime(year_end, next_month, 1)
+    except ValueError:
+        raise Http404
 
     title = blog.title
 
@@ -108,8 +111,8 @@ def blog_month(request, blog_slug, year, month, page_no=1):
                 page_title = title,
                 tagline = blog.tagline,
                 archives = archives,
-                month = month,
-                year = year) )
+                archive_month = month,
+                archive_year = year) )
 
     return render_to_response(blog.get_template_names("blog/month.html"), td)
 
@@ -351,7 +354,7 @@ def blog_search(request, blog_slug):
 
     if normalized_s:
         query = Q(title__icontains=normalized_s) | Q(content_text__icontains=normalized_s)
-        posts = models.Post.published_posts.filter(blog=blog).filter(query).distinct().order_by("display_time")[:50]
+        posts = models.Post.published_posts.filter(blog=blog).filter(query).distinct().order_by("-display_time")[:100]
         num_results = posts.count()
     else:
         posts = []
