@@ -65,7 +65,7 @@
 <a name="comments"> </a>
 {% if comments %}
 <div class="comments">
-    <h2>{{ comments.count }} Response{{ comments.count|pluralize }} to "{{ post.title }}"</h2>
+    <h3>{{ comments.count }} Response{{ comments.count|pluralize }} to "{{ post.title }}"</h3>
     {% include "includes/comments.html" %}
 </div>
 {% endif %}
