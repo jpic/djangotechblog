@@ -336,6 +336,14 @@ body
     /*margin-left:60px !important;*/
 }
 
+.post img
+{
+    padding:4px;
+    border:1px solid #d5d5d5;
+    background-color:#f8f8f8;
+    margin:6px;
+}
+
 .column1-content
 {
     /*padding:10px;*/
