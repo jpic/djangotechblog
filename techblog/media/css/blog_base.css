@@ -92,7 +92,7 @@ body
     display:none;
 }
 
-.title-area h1
+.blog-tagline
 {
     font-size:120%;
     font-weight:normal;
@@ -133,10 +133,16 @@ body
     margin: 0 auto;
 }
 
+.title-area .faded-title:hover
+{
+    text-decoration:underline;
+}
+
 .title-area .faded-title a:visited, .title-area .faded-title a:link
 {
     color:white;
 }
+
 
 .tagline
 {
@@ -146,6 +152,7 @@ body
     text-align:center;
     padding:20px 0px;
 }
+
 
 .tagline a, .tagline a:visited
 {
@@ -200,7 +207,7 @@ body
 #content
 {
     margin:0 auto;
-    width:898px;
+    width:848px;
     margin-top:0px;
     padding-top:0px;
 
@@ -261,7 +268,7 @@ body
 
 #column1
 {
-    width:610px;
+    width:560px;
     float:left;
     overflow:hidden;
     /*background-image:url("/media/images/bottomshadow.png");*/
@@ -291,7 +298,7 @@ body
     margin-right:24px;
 }
 
-#column2 h1
+#column2 h2
 {
     font-size:15px;
     font-weight:bold;
@@ -525,7 +532,28 @@ a:active
 */
 
 
-#column1 h1
+.page-header
+{
+      font-size:36px;
+    font-weight:400;
+    margin:10px -2px;
+
+    color:#B2CC99;
+
+
+
+    letter-spacing:+2px;
+
+    background-position:0 1px;
+    background-repeat:repeat-x;
+    padding:1px 2px 20px 2px;
+    font-family:arial,sans-serif;
+    text-align:center;
+}
+
+
+
+#column1 h2
 {
     font-size:20px;
     font-weight:bold;
@@ -546,18 +574,18 @@ a:active
 }
 
 
-#column1 h2
+#column1 h3
 {
     font-size:14px;
 
     color:#333;
-    /*color:#CC7F33;*/
-    /*color:#B2CC99;*/
+
+
 
     font-weight:bold;
 
 
-    /*letter-spacing:1px;*/
+
 
     padding-top:8px;
     margin-bottom:12px;
@@ -566,11 +594,11 @@ a:active
     padding-bottom:3px;
     background-position:0 1px;
     background-repeat:repeat-x;
-    /*font-family:Gerogia,"Times New Roman",serif;*/
-    /*text-transform:uppercase;*/
+
 }
 
 
+/*
 #column1 h3
 {
     font-size:80%;
@@ -581,15 +609,12 @@ a:active
     color:#555;
     color:#0066cc;
     color:#194c7f;
-
-    /*border-top:1px solid #ccc;
-    border-bottom:1px solid #ccc;*/
-    /*background-image:url("/media/images/subtlegradient.png");*/
     background-position:0 1px;
     background-repeat:repeat-x;
     padding:0px 2px 6px 0px;
     font-family:arial,sans-serif;
 }
+*/
 
 #column1 h4
 {
@@ -699,6 +724,19 @@ strong {font-weight:bold;}
 {
     clear:both;
 
+    /*font-size:80%;*/
+    line-height:17px;
+    padding-bottom:1em;
+    color:#333;
+    /*text-align:justify;*/
+    /*font-family:verdana;*/
+    font-size:13px;
+}
+
+
+
+.separator
+{
     padding-bottom:20px;
     border-bottom:1px dotted #bbb;
 }
@@ -709,7 +747,7 @@ strong {font-weight:bold;}
 }
 
 
-.post h1 a
+.post h2 a
 {
     /*font-weight:normal;*/
     color:#5488C5;
@@ -1454,10 +1492,14 @@ blockquote em
     /*text-align:left !important;*/
     /*font-family:"Helvetica";*/
     margin-top:24px;
-    text-align:center !important;
+    /*text-align:center !important;*/
     font-size:85% !important;
     color:#666 !important;
     min-height:16px;
+
+    display:table;
+    margin:18px auto 18px auto;
+
 }
 
 .tag-list
@@ -1465,8 +1507,18 @@ blockquote em
     margin-left:10px;
     background-image:url(/media/images/icons/tag_blue.png);
     background-repeat:no-repeat;
-    padding-left:18px;
+    padding-left:21px;
     height:16px;
+    float:left;
+
+
+}
+
+.comments-count
+{
+
+    float:left;
+    text-align:right;
 }
 
 .module
@@ -1515,7 +1567,7 @@ blockquote em
 {
     /*display:block;*/
 
-    width:880px;
+    width:830px;
     margin:10px auto;
     height:0px;
     position:absolute;
@@ -1596,17 +1648,19 @@ h1 span.tag-name
   font-size:36px;
   float:left;
   padding-top:4px;
-  margin-right:2px;
-  font-family:georgia;
+  /*margin-right:2px;*/
+  font-family:Palatino Linotype, Book Antiqua, serif;
   display:block;
+  color:#555;
+  letter-spacing:3px;
 }
 
-#column1 ul
+.post ul
 {
     padding-bottom:1em;
 }
 
-#column1 li
+.post li
 {
     color:#333;
     font-size:13px;
@@ -1615,4 +1669,9 @@ h1 span.tag-name
     margin-left:30px;
     padding:4px;
     padding-right:20px;
+}
+
+.post li p
+{
+    padding-bottom:0px !important;
 }

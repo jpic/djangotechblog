@@ -93,6 +93,8 @@ def import_wxr(blog_slug, wxr_file):
 
         html = html.replace("<pre>", "\n\n{..code}\n")
         html = html.replace("</pre>", "\n\n{..html_paragraphs}\n")
+        html = html.replace("<h2>", "<h3>")
+        html = html.replace("</h2>", "</h3>")
 
         return "{..html_paragraphs}\n" + html
 
@@ -167,7 +169,7 @@ def import_wxr(blog_slug, wxr_file):
                     url = get_text(comment, "comment_author_url", wp_ns)
                     content = get_text(comment, "comment_content", wp_ns)
                     date = get_text(comment, "comment_date", wp_ns)
-                    
+
                     date = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
 
                     ct = ContentType.objects.get_for_model(new_post)

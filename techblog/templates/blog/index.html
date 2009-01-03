@@ -81,7 +81,7 @@
 
 
 {% block summary_area %}
-<div class="faded-title">{{ blog.title }}</div>
-{% if blog.tagline %}<h1>{{ blog.tagline }}</h1>{% endif %}
-{% if blog.description_html %}<div class="summary-area">{{ blog.description_html|safe }}</div>{% endif %}
+<h1 class="faded-title">{{ blog.title }}</h1>
+{% if blog.tagline.strip %}<div class="blog-tagline">{{ blog.tagline }}</div>{% endif %}
+{% if blog.description_html.strip %}<div class="summary-area">{{ blog.description_html|safe }}</div>{% endif %}
 {% endblock %}

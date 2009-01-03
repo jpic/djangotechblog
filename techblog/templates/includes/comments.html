@@ -10,21 +10,13 @@
             {% if not user.is_anonymous %}<a href="#" class="delete-comment-link" onclick="delete_comment({{ comment.id }}); return false;">Delete</a>{% endif %}
             <div class="comment-author">
                 <cite>{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}{{ comment.name }}</cite>{% if comment.url %}</a>{% endif %} writes...
-                {# <a href="#comment{{ comment.id }}"><img width="16" height="16" src="/media/images/icons/anchor.png"></img></a> #}
             </div>
             <div class="comment-time">
-                {# {{ comment.created_time|timesince }} ago #}
                 {{ comment.created_time|date:"F jS, Y" }}
-                {{ comment.created_time}}
             </div>
         </div>
         <div class="comment-body">
             {{ comment.content_html|safe }}
-            {% comment %}
-            <div class="comment-reply">
-                <a href="#" id="replyto-{{ comment.id }}">Reply to this</a>
-            </div>
-            {% endcomment %}
         </div>
 
     </li>

@@ -9,11 +9,14 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 
+
 {% block summary_area %}
-<div class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></div>
-<h1>{{ blog.tagline }}</h1>
+<a href="{{ blog.get_absolute_url }}"><h1 class="faded-title">{{ blog.title }}</h1></a>
+{% if blog.tagline.strip %}<div class="blog-tagline">{{ blog.tagline }}</div>{% endif %}
 {% if section.intro %}<div class="summary-area">{% markupsection sections "intro" %}</div>{% endif %}
 {% endblock %}
+
+
 
 {% block column1 %}
 
@@ -33,13 +36,13 @@
 </div>
 {% endif %}
 
-
-<h1>{{ post.title }}</h1>
+<div class="post">
+<h2>{{ post.title }}</h2>
 <div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
 
 {{ post.content_html|safe }}
 
-
+</div>
 
 <div class="post-description">
     This blog post was posted to <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
