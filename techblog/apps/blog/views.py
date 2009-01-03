@@ -6,6 +6,7 @@ from django.http import Http404
 from django.core.paginator import Paginator
 from django.conf import settings
 import urllib
+from django.db.models import Q
 
 from datetime import datetime, timedelta
 import tools
@@ -114,8 +115,6 @@ def blog_month(request, blog_slug, year, month, page_no=1):
 
 
 def blog_front(request, blog_slug="", page_no=1):
-
-    print blog_slug
 
     page_no = int(page_no)
     if page_no < 1:
@@ -285,7 +284,7 @@ def tag(request, blog_slug, tag_slug, page_no=1):
               newer_page_url = newer_page_url,
               feeds = feeds)
 
-    return render_to_response("blog/tag.html", td)
+    return render_to_response(blog.get_template_names("blog/tag.html"), td)
 
 from techblog.markup.render import render_comment
 
@@ -338,6 +337,35 @@ def import_wxr(request):
 
     return render_to_response("blog/tools/import_wxr.html", td)
 
+def blog_search(request, blog_slug):
+
+    s = request.GET.get('s', '').strip()
+
+    blog = get_channel_or_blog(blog_slug)
+
+    sections = blog.description_data.get('sections', None)
+
+    from string import punctuation
+    normalized_s = "".join(c for c in s if c not in punctuation)
+    print normalized_s
+
+    if normalized_s:
+        query = Q(title__icontains=normalized_s) | Q(content_text__icontains=normalized_s)
+        posts = models.Post.published_posts.filter(blog=blog).filter(query).distinct().order_by("display_time")[:50]
+        num_results = posts.count()
+    else:
+        posts = []
+        num_results = 0
+
+
+
+    td = dict(blog=blog,
+              sections=sections,
+              posts=posts,
+              num_results=num_results,
+              search_term=s)
+
+    return render_to_response(blog.get_template_names("blog/search.html"), td)
 
 def front(request):
     template_data = {}

@@ -5,7 +5,7 @@ from itertools import groupby
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-
+import tidy
 
 from techblog import broadcast
 import time
@@ -83,9 +83,13 @@ def import_wxr(blog_slug, wxr_file):
     pre_re = re.compile(r'<pre lang="(\w+)">(.*?)<\/pre>', re.S)
     def fix_html(html):
 
+
+        html = unicode(tidy.parseString(html, enclose_block_text="y", doctype="omit", output_html="y"))
+        #html = tidy.parseString(html)
+        return html
+
         html = html.replace('<p>', '')
         html = html.replace('</p>', '')
-        html = html.replace('&gt;&gt;&gt;', '>>>')
 
         def repl(match):
             return "\n\n{..code}\n{..language=%s}\n%s\n\n{..html_paragraphs}\n" % (match.group(1), match.group(2))
@@ -151,7 +155,7 @@ def import_wxr(blog_slug, wxr_file):
 
                                     tags_text=tags,
                                     content=content,
-                                    content_markup_type="epostmarkup" )
+                                    content_markup_type="html" )
             for k, v in new_post_data.iteritems():
                 setattr(new_post, k, v)
             new_post.save()

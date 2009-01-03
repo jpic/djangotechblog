@@ -1232,6 +1232,20 @@ blockquote p
 }
 */
 
+.search input
+{
+    float:left;
+    border:1px solid #b2cc99;
+    padding:2px;
+    background-image:url("/media/images/formback.png");
+    color:#333;
+}
+
+.search button
+{
+    float:right;
+}
+
 .blog-comment-form input[type=text]
 {
     width:65%;
@@ -1606,7 +1620,7 @@ pre.techblog-error
     border:2px solid #e00;
 }
 
-h1 span.tag-name
+.page-header em
 {
     font-weight:bold;
     letter-spacing:0px;
@@ -1675,4 +1689,15 @@ h1 span.tag-name
 .post li p
 {
     padding-bottom:0px !important;
+}
+
+.search_results
+{
+
+}
+
+.search_results h2
+{
+    padding:0 !important;
+    clear:both;
 }

@@ -53,6 +53,10 @@ def render(markup, markup_type):
         text = postmarkup.textilize(html)
         return html, html, text, {}
 
+    elif markup_type == "comment_wordpress":
+
+        pass
+
     else:
 
         html = markup

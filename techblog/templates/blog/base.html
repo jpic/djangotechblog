@@ -82,6 +82,14 @@
             </div>
 
             <div id="column2">
+                <div class="module-header">Search</div>
+                <div class="module search">
+                    <form action="{% url blog_search blog.slug %}" method="get">
+                        <input class="search" name="s" value="{{ search_term }}"> </input>
+                        <button type="submit">Search</button>
+                    </form>
+                    <div class="clear"></div>
+                </div>
                 {% block column2 %}
                 {% markupsection sections "column2" %}
                 {% endblock %}

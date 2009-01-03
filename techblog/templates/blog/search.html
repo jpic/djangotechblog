@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+
+{% load blogtags %}
+{% load humanize %}
+{% load markuptags %}
+
+{% block title %}Search {{ blog.title }}{% endblock %}
+
+{% block column1 %}
+
+{% if num_results %}
+<div class="page-header">{{ num_results }} post{{ num_results|pluralize }} containing <em>{{ search_term }}</em></div>
+{% else %}
+<div class="page-header">No Results</div>
+{% endif %}
+
+
+{% include "includes/post_list_brief.html" %}
+
+{% endblock %}
+
+{% block summary_area %}
+<h1 class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></h1>
+<div class="blog-tagline">Search Results</div>
+{% endblock %}
