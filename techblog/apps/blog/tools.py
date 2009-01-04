@@ -82,6 +82,8 @@ def import_wxr(blog_slug, wxr_file):
 
     pre_lang_re = re.compile(r'<pre lang="(\w+)">(.*?)<\/pre>', re.S)
     pre_re = re.compile(r'<pre>(.*?)<\/pre>', re.S)
+    url_re = re.compile(r'http[s]*://\w*.\S*[$|\w]', re.S)
+
     def fix_html(html):
 
 
@@ -135,12 +137,6 @@ def import_wxr(blog_slug, wxr_file):
 
         return html
 
-        html = html.replace("<pre>", "\n\n{..code}\n")
-        html = html.replace("</pre>", "\n\n{..html_paragraphs}\n")
-        html = html.replace("<h2>", "<h3>")
-        html = html.replace("</h2>", "</h3>")
-
-        return "{..html_paragraphs}\n" + html
 
 
     if items is not None:
@@ -219,6 +215,13 @@ def import_wxr(blog_slug, wxr_file):
                     ct = ContentType.objects.get_for_model(new_post)
                     ct_id = ".".join( (ct.app_label, ct.model) )
 
+                    def repl_url(match):
+                        url = match.group(0)
+                        return '<a href="%s">%s</a>' % (url, url)
+                    content = url_re.sub(repl_url, content)
+                    content = content.replace('\n', '<br/>')
+                    content = "<p>%s</p>" % content
+
                     broadcast.call.comment(object_id = new_post.id,
                                            visible=True,
                                            moderated=True,
@@ -227,5 +230,5 @@ def import_wxr(blog_slug, wxr_file):
                                            email=email,
                                            url=url,
                                            content=content,
-                                           content_markup_type="comment_bbcode",
+                                           content_markup_type="html",
                                            content_type=ct)

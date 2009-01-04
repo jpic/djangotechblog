@@ -387,7 +387,7 @@ body
     /*text-align:justify;*/
     /*font-family:verdana;*/
     font-size:13px;
-    font-family: Palatino Linotype, Book Antiqua, serif;
+    font-family: "Palatino Linotype", "Book Antiqua", serif;
     font-size:13px;
     line-height:20px;
 }
@@ -1708,13 +1708,14 @@ pre.techblog-error
 .post ul
 {
     padding-bottom:1em;
+    font-family: "Palatino Linotype", "Book Antiqua", serif;
 }
 
 .post li
 {
     color:#333;
-    font-size:13px;
-    line-height:17px;
+    font-size:12px;
+    line-height:20px;
     list-style:disc;
     margin-left:30px;
     padding:4px;

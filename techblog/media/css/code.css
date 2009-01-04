@@ -2,7 +2,7 @@ pre
 {
     background: #f5f5f5;
     font-family:"Bitstream Vera Sans Mono","Courier new","Courier",monospace;
-    font-size:75%;
+    font-size:12px;
     overflow-x:auto;
     border:1px dashed #777777;
     padding:8px;
@@ -10,7 +10,7 @@ pre
     margin-bottom:16px;
     line-height:120%;
     clear:both;
-    }
+}
 code
 {
     font-family:"Bitstream Vera Sans Mono","Courier new","Courier",monospace;
