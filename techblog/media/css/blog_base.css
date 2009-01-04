@@ -1316,6 +1316,7 @@ tag-cloud a:hover
     padding:4px;
     clear:both;
     margin-top:6px;
+    font-family:arial,serif !important;
 }
 
 .comment-form-options a
