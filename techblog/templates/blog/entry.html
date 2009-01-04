@@ -66,12 +66,14 @@
 {% if comments %}
 <div class="comments">
     <h3>{{ comments.count }} Response{{ comments.count|pluralize }} to "{{ post.title }}"</h3>
-    {% include "includes/comments.html" %}
+    {% include "blog/includes/comments.html" %}
 </div>
 {% endif %}
 
+{% if post.allow_comments %}
 {% get_comment_form for post as comment_form %}
-{% include "includes/comment_form.html" %}
+{% include "blog/includes/comment_form.html" %}
+{% endif %}
 
 
 {% endblock %}

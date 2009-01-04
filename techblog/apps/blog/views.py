@@ -11,7 +11,7 @@ from django.db.models import Q
 from datetime import datetime, timedelta
 import tools
 from techblog import broadcast
-from techblog.markup.extendedmarkup import combine_sections
+from techblog.markup import extendedmarkup
 
 from itertools import groupby
 
@@ -118,6 +118,8 @@ def blog_month(request, blog_slug, year, month, page_no=1):
                 archive_month = month,
                 archive_year = year) )
 
+    sections = extendedmarkup.process(sections, td)
+
     return render_to_response(blog.get_template_names("blog/month.html"), td)
 
 
@@ -132,7 +134,7 @@ def blog_front(request, blog_slug="", page_no=1):
     title = blog.title
     posts = blog.posts()
 
-    archives = tools.collate_archives(blog)
+    #archives = tools.collate_archives(blog)
 
     def get_page_url(page_no, num_pages):
         if page_no < 1 or page_no > num_pages:
@@ -152,9 +154,11 @@ def blog_front(request, blog_slug="", page_no=1):
                         title = title,
                         page_title = title,
                         tagline = blog.tagline,
-                        archives = archives,
+                        #archives = archives,
                         sections = sections,
                         feeds = feeds) )
+
+    sections = extendedmarkup.process(sections, td)
 
     return render_to_response(blog.get_template_names("blog/index.html"), td)
 
@@ -198,7 +202,7 @@ def blog_post(request, blog_slug, year, month, day, slug):
                              blog__slug=blog_slug,
                              published=True)
 
-    sections = combine_sections( blog.description_data.get('sections', None),
+    sections = extendedmarkup.combine_sections( blog.description_data.get('sections', None),
                                  post.content_data.get('sections', None) )
 
 
@@ -232,6 +236,8 @@ def blog_post(request, blog_slug, year, month, day, slug):
                 tags = tags,
                 related_posts = related_posts,
                 sections = sections)
+
+    sections = extendedmarkup.process(sections, td)
 
     return render_to_response(blog.get_template_names("blog/entry.html"), td)
 
@@ -272,8 +278,9 @@ def tag(request, blog_slug, tag_slug, page_no=1):
     newer_page_url = get_page_url(page_no - 1)
     older_page_url = get_page_url(page_no + 1)
 
-    sections = combine_sections( blog.description_data.get('sections', None),
+    sections = extendedmarkup.combine_sections( blog.description_data.get('sections', None),
                                  tag.description_data.get('sections', None) )
+
 
     feeds = [tag.get_feed()]
 
@@ -290,6 +297,9 @@ def tag(request, blog_slug, tag_slug, page_no=1):
               older_page_url = older_page_url,
               newer_page_url = newer_page_url,
               feeds = feeds)
+
+
+    sections = extendedmarkup.process(sections, td)
 
     return render_to_response(blog.get_template_names("blog/tag.html"), td)
 
@@ -351,10 +361,10 @@ def blog_search(request, blog_slug):
     blog = get_channel_or_blog(blog_slug)
 
     sections = blog.description_data.get('sections', None)
+    sections = extendedmarkup.combine_sections( blog.description_data.get('sections', None), sections)
 
     from string import punctuation
     normalized_s = "".join(c for c in s if c not in punctuation)
-    print normalized_s
 
     if normalized_s:
         query = Q(title__icontains=normalized_s) | Q(content_text__icontains=normalized_s)

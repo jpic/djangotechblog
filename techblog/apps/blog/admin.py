@@ -42,6 +42,7 @@ class PostAdmin(admin.ModelAdmin):
               'title',
               'slug',
               'published',
+              'allow_comments',
               'display_time',
               'tags_text',
               'content_markup_type',

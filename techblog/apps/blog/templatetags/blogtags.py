@@ -1,6 +1,7 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 import re
+from techblog.apps.blog import tools
 
 register = template.Library()
 
@@ -49,3 +50,80 @@ def smart_title(value):
                 return word
         return word.title()
     return u" ".join(title(value) for value in value.split())
+
+
+_re_archives_tag = re.compile(r'for (?P<object>\w+) as (?P<name>\w+)')
+
+class GetArchivesNode(template.Node):
+    def __init__(self, blog_name, value_name):
+        self.blog_name = blog_name
+        self.value_name = value_name
+
+    def render(self, context):
+
+        blog = context.get(self.blog_name, None)
+        if object is None:
+            return ''
+
+        archives = tools.collate_archives(blog)
+
+        context[self.value_name] = archives
+        return ''
+
+@register.tag
+def get_archives(parser, token):
+
+    directive = token.contents.strip().split(' ', 1)[1]
+
+    match = _re_archives_tag.match(directive)
+
+    if match is None:
+        raise template.TemplateSyntaxError("Syntax error")
+
+    blog_name = match.group(1)
+    value_name = match.group(2)
+
+    return GetArchivesNode(blog_name, value_name)
+
+
+_re_tags_tag = re.compile(r'for (?P<object>\w+) as (?P<name>\w+) max (?P<count>\d+)')
+
+
+class GetTagsNode(template.Node):
+    def __init__(self, blog_name, value_name, max_count):
+        self.blog_name = blog_name
+        self.value_name = value_name
+        self.max_count = max_count
+
+    def render(self, context):
+
+        blog = context.get(self.blog_name, None)
+        if object is None:
+            return ''
+
+        tags = blog.get_tag_cloud(self.max_count)
+
+        context[self.value_name] = tags
+        return ''
+
+
+@register.tag
+def get_tags(parser, token):
+
+    directive = token.contents.strip().split(' ', 1)[1]
+
+    match = _re_tags_tag.match(directive)
+
+
+    if match is None:
+        raise template.TemplateSyntaxError("Syntax error")
+
+    blog_name = match.group(1)
+    value_name = match.group(2)
+    try:
+        max_count = int(match.group(3))
+    except ValueError:
+        raise template.TemplateSyntaxError("Max tag count should be an integer")
+
+    return GetTagsNode(blog_name, value_name, max_count)
+

@@ -12,7 +12,7 @@
 
 {% block column1 %}
 
-{% include "includes/post_list.html" %}
+{% include "blog/includes/post_list.html" %}
 
 {% if older_page_url or newer_page_url %}
 <div class="summary-navigation">
@@ -36,28 +36,6 @@
 {% block column2 %}
 
 {% markupsection sections "column2" %}
-
-
-<div class="module-header">
-    Popular Tags
-</div>
-<div>
-
-    <p class="tag-cloud">
-
-{% for scale, tag in blog.get_tag_cloud %}
-    <span class="tag tagscale{{ scale }}">
-        <a href="{{ tag.get_absolute_url }}" title="{{ tag.count }} posts">{{ tag.name|title }}</a>
-    </span>
-{% endfor %}
-    </p>
-
-</div>
-
-
-<div class="clear"> </div>
-
-{% include "includes/archives.html" %}
 
 
 {% endblock %}

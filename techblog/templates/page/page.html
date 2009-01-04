@@ -24,12 +24,12 @@
 {% if comments %}
 <div class="comments">
     <h2>{{ comments.count }} Comment{{ comments.count|pluralize }} on "{{ page.title }}"</h2>
-    {% include "includes/comments.html" %}
+    {% include "blog/includes/comments.html" %}
 </div>
 {% endif %}
 
 {% get_comment_form for page as comment_form %}
-{% include "includes/comment_form.html" %}
+{% include "blog/includes/comment_form.html" %}
 
 
 {% endblock %}

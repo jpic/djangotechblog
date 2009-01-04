@@ -332,7 +332,7 @@ class Post(models.Model):
     display_time = models.DateTimeField("Display Time", default=datetime.datetime.now)
 
     tags = models.ManyToManyField("Tag", blank=True)
-    tags_text = models.TextField("Comma separated tags", default="")
+    tags_text = models.TextField("Comma separated tags", default="", blank=True)
 
     content = MarkupField(default="", renderer=render, blank=True)
 

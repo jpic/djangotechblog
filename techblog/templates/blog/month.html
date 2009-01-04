@@ -21,7 +21,7 @@
 {% block column1 %}
 
 <div class="page-header">Archive for <em>{{ archive_month|longmonth }}, {{ archive_year }}</em></div>
-{% include "includes/post_list.html" %}
+{% include "blog/includes/post_list.html" %}
 
 {% if not posts.count %}
 <h2>No posts were made during {{ archive_month|longmonth }}, {{ archive_year }}.</h2>
@@ -45,9 +45,7 @@
 
 {% endblock %}
 
-
 {% block column2 %}
-
-{% include "includes/archives.html" %}
-
+{% include "blog/modules/search.html" %}
+{% include "blog/modules/archives.html" %}
 {% endblock %}

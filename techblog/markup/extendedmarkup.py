@@ -111,13 +111,13 @@ class EMarkupParser(object):
         comment_mode = 0
 
         def make_chunk():
-            if current_lines:
-                chunk = current_lines[:]
-                chunk = Chunk(chunk, self._current_chunk_type.strip() or self._default_chunk_type)
-                chunk.vars.update(self._chunk_vars)
-                self._chunk_vars.clear()
-                chunks.append(chunk)
-                del current_lines[:]
+            #if current_lines:
+            chunk = current_lines[:]
+            chunk = Chunk(chunk, self._current_chunk_type.strip() or self._default_chunk_type)
+            chunk.vars.update(self._chunk_vars)
+            self._chunk_vars.clear()
+            chunks.append(chunk)
+            del current_lines[:]
 
         def process_vars(vars, line):
             if '=' in line:
@@ -240,6 +240,33 @@ def parse(markup, sections=None):
 
     return rendered_sections
 
+def process(sections, context_data):
+
+    error_template = select_template(['blog/modules/error.html'])
+
+    for section, chunks in sections.iteritems():
+
+        for chunk in chunks:
+            module = chunk.vars.get('module')
+
+            if module is not None:
+
+                module_template = select_template(["blog/modules/%s.html"%module])
+
+                td = dict(  vars = chunk.vars,
+                            content = chunk.text)
+                td.update(context_data)
+
+                try:
+                    chunk_html = module_template.render(Context(td))
+                except Exception, e:
+                    error = str(e)
+                    chunk_html = unicode(error_template.render(Context(dict(error=error))))
+
+                chunk.text = chunk_html
+
+    return sections
+
 def chunks_to_html(chunks):
     return "\n".join( chunk.text for chunk in sorted(chunks, key=lambda chunk:chunk.vars.get('priority', 100)) )
 
@@ -290,9 +317,9 @@ def serialize_xml(sections):
 
             for key, value in chunk.vars.iteritems():
                 var_el = ET.SubElement(chunk_el, 'var', name=key, value=value or u"")
-                
+
     return ET.tostring(root)
-    
+
 
 
 if __name__ == "__main__":
