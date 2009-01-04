@@ -1265,6 +1265,7 @@ tag-cloud a:hover
     text-align:right;
     width:32%;
     font-size:90%;
+    font-family:Arial, sans-serif;
 }
 
 .blog-comment-form label[for=id_content]

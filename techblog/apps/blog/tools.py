@@ -82,7 +82,7 @@ def import_wxr(blog_slug, wxr_file):
 
     pre_lang_re = re.compile(r'<pre lang="(\w+)">(.*?)<\/pre>', re.S)
     pre_re = re.compile(r'<pre>(.*?)<\/pre>', re.S)
-    url_re = re.compile(r'http[s]*://\w*.\S*[$|\s]', re.S)
+    url_re = re.compile(r'http[s]*://\w*.\S*', re.S)
 
     def fix_html(html):
 
