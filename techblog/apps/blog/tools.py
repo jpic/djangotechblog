@@ -98,7 +98,7 @@ def import_wxr(blog_slug, wxr_file):
 
         p_start = None
         pre = False
-        for line in html.split('\n\n'):
+        for line in html.split('\n'):
             #line = line.replace('\n', '<br/>')
             if "/pre>" in line:
                 pre = False
