@@ -80,20 +80,60 @@ def import_wxr(blog_slug, wxr_file):
             return el.text
         return default
 
-    pre_re = re.compile(r'<pre lang="(\w+)">(.*?)<\/pre>', re.S)
+    pre_lang_re = re.compile(r'<pre lang="(\w+)">(.*?)<\/pre>', re.S)
+    pre_re = re.compile(r'<pre>(.*?)<\/pre>', re.S)
     def fix_html(html):
 
 
-        html = unicode(tidy.parseString(html, enclose_block_text="y", doctype="omit", output_html="y"))
-        #html = tidy.parseString(html)
-        return html
 
-        html = html.replace('<p>', '')
-        html = html.replace('</p>', '')
+        html = html.replace("<h2>", "\n\n<h3>")
+        html = html.replace("</h2>", "</h3>\n\n")
+        html = html.replace('<p>', '\n\n')
+        html = html.replace('</p>', '\n\n')
+        html = html.replace('<pre', '\n\n<pre')
+        html = html.replace('</pre>', '\n</pre>\n\n')
+
+        lines = []
+        lines.append("{..html}")
+
+        p_start = None
+        pre = False
+        for line in html.split('\n\n'):
+            #line = line.replace('\n', '<br/>')
+            if "/pre>" in line:
+                pre = False
+                lines.append(line)
+                continue
+            if "<pre" in line:
+                pre = True
+            if pre:
+                line = line.replace('&gt;', '>')
+                line = line.replace('&lt;', '<')
+                line = line.replace('&amp;', '&')
+                lines.append(line)
+                continue
+            line = line.strip()
+            if line:
+                if not line.startswith('<'):
+                    lines.append("\n<p>%s</p>"%line)
+                else:
+                    lines.append(line)
+
+        html = "\n".join(lines)
+
+        def repl_lang(match):
+            return "\n\n{..code}\n{..language=%s}\n%s\n\n{..html}\n" % (match.group(1), match.group(2))
+        html = pre_lang_re.sub(repl_lang, html)
 
         def repl(match):
-            return "\n\n{..code}\n{..language=%s}\n%s\n\n{..html_paragraphs}\n" % (match.group(1), match.group(2))
+            if '>>>' in match.group(1):
+                language = 'pycon'
+            else:
+                language = 'python'
+            return "\n\n{..code}\n{..language=%s}\n%s\n\n{..html}\n" % (language, match.group(1))
         html = pre_re.sub(repl, html)
+
+        return html
 
         html = html.replace("<pre>", "\n\n{..code}\n")
         html = html.replace("</pre>", "\n\n{..html_paragraphs}\n")
@@ -155,7 +195,7 @@ def import_wxr(blog_slug, wxr_file):
 
                                     tags_text=tags,
                                     content=content,
-                                    content_markup_type="html" )
+                                    content_markup_type="emarkup" )
             for k, v in new_post_data.iteritems():
                 setattr(new_post, k, v)
             new_post.save()

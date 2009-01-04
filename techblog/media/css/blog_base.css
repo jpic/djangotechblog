@@ -1091,11 +1091,25 @@ blockquote p
     color:#555;
 }
 
-.tagscale9 a, .tagscale10 a
+.tagscale9 a
+{
+    font-weight:bold;
+    font-size:130%;
+    /*color:#CC7F33 !important;*/
+    color:#444;
+}
+
+.tagscale10 a
 {
     font-weight:bold;
     font-size:150%;
-    color:#CC7F33 !important;
+    /*color:#CC7F33 !important;*/
+    color:#333;
+}
+
+tag-cloud a:hover
+{
+   color:#CC7F33;
 }
 
 .archives
@@ -1687,7 +1701,7 @@ pre.techblog-error
 {
     color:#333;
     font-size:13px;
-    line-height:normal;
+    line-height:17px;
     list-style:disc;
     margin-left:30px;
     padding:4px;

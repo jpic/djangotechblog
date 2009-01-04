@@ -37,7 +37,7 @@ def render(markup, markup_type):
             summary = post_markup(output.get("summary" , ""), paragraphs=True, clean=True)
             summary_html = summary
 
-    elif markup_type == "epostmarkup":
+    elif markup_type == "emarkup":
 
         sections = extendedmarkup.parse(markup)
 
