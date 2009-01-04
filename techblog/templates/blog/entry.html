@@ -12,8 +12,10 @@
 
 {% block summary_area %}
 <h1 class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></h1>
+{% comment %}
 {% if blog.tagline.strip %}<div class="blog-tagline">{{ blog.tagline }}</div>{% endif %}
 {% if section.intro %}<div class="summary-area">{% markupsection sections "intro" %}</div>{% endif %}
+{% endcomment %}
 {% endblock %}
 
 
@@ -84,6 +86,3 @@
 {% block column2 %}
 {% include "blog/modules/search.html" %}
 {% endblock %}
-
-
-{% block tagline %}<a href="{{ post.blog.get_absolute_url }}">{{ tagline }}</a>{% endblock %}

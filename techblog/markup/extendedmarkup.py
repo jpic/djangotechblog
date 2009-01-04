@@ -242,6 +242,9 @@ def parse(markup, sections=None):
 
 def process(sections, context_data):
 
+    if sections is None:
+        return sections
+
     error_template = select_template(['blog/modules/error.html'])
 
     for section, chunks in sections.iteritems():

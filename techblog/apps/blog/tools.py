@@ -82,7 +82,7 @@ def import_wxr(blog_slug, wxr_file):
 
     pre_lang_re = re.compile(r'<pre lang="(\w+)">(.*?)<\/pre>', re.S)
     pre_re = re.compile(r'<pre>(.*?)<\/pre>', re.S)
-    url_re = re.compile(r'http[s]*://\w*.\S*[$|\w]', re.S)
+    url_re = re.compile(r'http[s]*://\w*.\S*[$|\s]', re.S)
 
     def fix_html(html):
 
@@ -216,7 +216,7 @@ def import_wxr(blog_slug, wxr_file):
                     ct_id = ".".join( (ct.app_label, ct.model) )
 
                     def repl_url(match):
-                        url = match.group(0)
+                        url = match.group(0).strip()+" "
                         return '<a href="%s">%s</a>' % (url, url)
                     content = url_re.sub(repl_url, content)
                     content = content.replace('\n', '<br/>')

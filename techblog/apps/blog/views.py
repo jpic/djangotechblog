@@ -360,6 +360,11 @@ def blog_search(request, blog_slug):
 
     blog = get_channel_or_blog(blog_slug)
 
+    if isinstance(blog, models.Channel):
+        blogs = list(blog.blogs.all())
+    else:
+        blogs = [blog]
+
     sections = blog.description_data.get('sections', None)
     sections = extendedmarkup.combine_sections( blog.description_data.get('sections', None), sections)
 
@@ -368,7 +373,7 @@ def blog_search(request, blog_slug):
 
     if normalized_s:
         query = Q(title__icontains=normalized_s) | Q(content_text__icontains=normalized_s)
-        posts = models.Post.published_posts.filter(blog=blog).filter(query).distinct().order_by("-display_time")[:100]
+        posts = models.Post.published_posts.filter(blog__in=blogs).filter(query).distinct().order_by("-display_time")[:100]
         num_results = posts.count()
     else:
         posts = []
