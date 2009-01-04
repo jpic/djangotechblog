@@ -394,14 +394,20 @@ body
 
 .post-subtitle + p:first-letter
 {
-  font-size:40px;
+  font-size:41px;
   float:left;
-  padding-top:6px;
+  padding-top:5px;
   /*margin-right:2px;*/
   font-family:Palatino Linotype, Book Antiqua, serif;
   display:block;
   color:#555;
-  letter-spacing:3px;
+  letter-spacing:1px;
+  margin-right:2px;
+}
+
+.post p + p
+{
+    clear:both;
 }
 
 #column2 p
