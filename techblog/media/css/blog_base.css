@@ -381,11 +381,27 @@ body
 {
     /*font-size:80%;*/
     line-height:17px;
-    padding-bottom:1em;
     color:#333;
+
+    padding-bottom:1em;
     /*text-align:justify;*/
     /*font-family:verdana;*/
     font-size:13px;
+    font-family: Palatino Linotype, Book Antiqua, serif;
+    font-size:13px;
+    line-height:20px;
+}
+
+.post-subtitle + p:first-letter
+{
+  font-size:40px;
+  float:left;
+  padding-top:6px;
+  /*margin-right:2px;*/
+  font-family:Palatino Linotype, Book Antiqua, serif;
+  display:block;
+  color:#555;
+  letter-spacing:3px;
 }
 
 #column2 p
@@ -566,7 +582,7 @@ a:active
 {
     font-size:20px;
     font-weight:bold;
-    margin:10px -2px;
+    margin:10px 0px;
 
     color:#555;
     /*color:#CC7F33;*/
@@ -1680,17 +1696,7 @@ pre.techblog-error
     font-style:italic;
 }
 
-.post-subtitle + p:first-letter
-{
-  font-size:36px;
-  float:left;
-  padding-top:4px;
-  /*margin-right:2px;*/
-  font-family:Palatino Linotype, Book Antiqua, serif;
-  display:block;
-  color:#555;
-  letter-spacing:3px;
-}
+
 
 .post ul
 {
