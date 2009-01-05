@@ -295,6 +295,8 @@ def tag(request, blog_slug, tag_slug, page_no=1):
 
 
     feeds = [tag.get_feed()]
+    print tag
+    print feeds
 
     td = dict(blog = blog,
               tag = tag,

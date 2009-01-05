@@ -4,12 +4,13 @@ from django.contrib.syndication.feeds import Feed
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.contrib.syndication.feeds import FeedDoesNotExist
+from django.shortcuts import get_object_or_404
 
 def get_channel_or_blog(slug):
     try:
         return Channel.objects.get(slug=slug)
     except Channel.DoesNotExist:
-        return get_object_or_404(models.Blog, slug=slug)
+        return get_object_or_404(Blog, slug=slug)
 
 class BlogFeed(Feed):
 
@@ -41,6 +42,7 @@ class BlogFeed(Feed):
 
     def item_pubdate(self, post):
         return post.display_time
+
 
 class ChannelFeed(BlogFeed):
 
@@ -91,6 +93,10 @@ class BlogTagFeed(Feed):
 
 
 class ChannelTagFeed(BlogTagFeed):
+
+    @classmethod
+    def get_url(self, tag):
+        return reverse('blog_feeds', kwargs={'url':'tag/%s/%s'%(tag.channel.slug, tag.slug)})
 
     def get_object(self, bits):
         if len(bits) != 2:
