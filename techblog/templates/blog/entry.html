@@ -1,6 +1,6 @@
 {% extends "blog/base.html" %}
 {% load markuptags %}
-
+{% load blogtags %}
 {% load comments %}
 
 {% block js_foot %}
@@ -81,7 +81,7 @@
     <ul class="links-list">
     <div class="module">
     {% for tag in tags %}
-    <li><a href="{{ tag.get_absolute_url }}">{{ tag.name|title }}</a></li>
+    <li><a href="{{ tag.get_absolute_url }}">{{ tag.name|smart_title }}</a></li>
     {% endfor %}
     </div>
     </ul>

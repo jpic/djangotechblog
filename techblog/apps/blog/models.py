@@ -180,9 +180,9 @@ class Channel(models.Model):
         return collated_tags
 
 
-    def get_tag_cloud(self, tag_cout=30):
+    def get_tag_cloud(self, tag_count=30):
 
-        return TagCloud(self)
+        return TagCloud(self, max_tags=tag_count)
 
 
     @models.permalink
@@ -298,7 +298,7 @@ class Blog(models.Model):
 
     def get_tag_cloud(self, tag_count=30):
 
-        return TagCloud(self)
+        return TagCloud(self, max_tags=tag_count)
 
 
     def get_feed(self):
