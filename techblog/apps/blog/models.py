@@ -1,4 +1,5 @@
 from django.db import models
+
 from django.contrib.auth.models import User
 from fields import PickledObjectField
 from django.utils.safestring import mark_safe
@@ -6,13 +7,14 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 import datetime
 
-import markup
 from django.contrib.auth.models import User
-
-from itertools import groupby
 
 from techblog.markup.render import render
 from techblog.markup.fields import MarkupField
+
+import markup
+import operator
+from itertools import groupby
 
 #
 #from django.db.models.signals import post_save
@@ -88,22 +90,23 @@ class ChannelTag(object):
 
     def __init__(self, channel_slug, tag_slug):
         self.tag_slug = tag_slug
+        self.tags = Tag.objects.filter(slug=self.tag_slug)
         self.channel = Channel.objects.get(slug=channel_slug)
+        self.description_data = {}
 
     def posts(self):
 
-        tags = Tag.objects.filter(slug=tag_slug)
-        posts = reduce(operator._and, (tag.posts() for tag in tags))
+        query = models.Q()
+        for tag in self.tags:
+            query = query | models.Q(id__in = tag.post_set.values('pk').query)
+        posts = Post.published_posts.filter(query)
 
         return posts
 
-        #Post.objects.filter( published=True,
-                             #display_time__lte=now,
-                             #).order_by("-display_time")
-
     def get_feed(self):
         import feeds
-        title = "RSS Feed for %s posts in %s" % (self.name, self.blog.title)
+        name = Tag.objects.filter(slug=self.tag_slug)[0].name
+        title = "RSS Feed for %s posts in %s" % (name, self.channel.title)
         url = feeds.ChannelTagFeed.get_url(self)
         return dict(title=title, url=url)
 
@@ -112,6 +115,9 @@ class ChannelTag(object):
             return reverse("apps.blog.views.tag", kwargs=dict(blog_slug=self.channel.slug, tag_slug=self.tag_slug))
         except Exception, e:
             print e
+
+    def __getattr__(self, attr):
+        return getattr(self.tags[0], attr)
 
 
 
