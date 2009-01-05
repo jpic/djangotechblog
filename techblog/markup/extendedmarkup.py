@@ -267,7 +267,7 @@ def process(sections, context_data):
     return sections
 
 def chunks_to_html(chunks):
-    return "\n".join( chunk.text for chunk in sorted(chunks, key=lambda chunk:chunk.vars.get('priority', 100)) )
+    return "\n".join( chunk.text for chunk in sorted(chunks, key=lambda chunk:chunk.vars.get('priority', 100), reverse=True) )
 
 def combine_sections(*sections_list):
 
