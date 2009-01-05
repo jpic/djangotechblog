@@ -283,7 +283,7 @@ class Blog(models.Model):
         return posts
 
     def get_tag(self, tag_slug):
-        return Tag.objecs.get(tag_slug)
+        return Tag.objects.get(blog=self, slug=tag_slug)
 
     def tags(self):
         return self.tag_set.all().order_by("-count")

@@ -259,7 +259,11 @@ def tag(request, blog_slug, tag_slug, page_no=1):
         raise Http404
 
     blog = get_channel_or_blog(blog_slug)
-    tag = get_object_or_404(models.Tag, slug=tag_slug)
+    #tag = get_object_or_404(models.Tag, slug=tag_slug)
+    try:
+        tag = blog.get_tag(tag_slug)
+    except models.Tag.DoesNotExist:
+        raise Http404
 
     title = blog.title
     posts = tag.posts()
