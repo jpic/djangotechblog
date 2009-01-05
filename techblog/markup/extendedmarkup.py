@@ -22,10 +22,6 @@ postmarkup_renderer = postmarkup.create()
 class ExtendedMarkupError(Exception):
     pass
 
-def render_postmarkup(text):
-    tag_tada = {}
-    postmarkup_renderer(text, paragraphs=False)
-
 class Chunk(object):
 
     def __init__(self, text, chunk_type='text'):
