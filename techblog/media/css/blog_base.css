@@ -403,6 +403,24 @@ body
   color:#555;
   letter-spacing:1px;
   margin-right:2px;
+  font-weight:normal !important;
+}
+
+.post-subtitle + p
+{
+
+/*
+    border-bottom:2px solid #999;
+    border-top:2px solid #999;
+
+
+    padding-bottom:0px !important;
+    margin-bottom:1em;
+*/
+
+    /*font-weight:bold;*/
+    /*color:#111 !important;*/
+
 }
 
 .post p + p
@@ -660,7 +678,7 @@ a:active
 
 .post-subtitle
 {
-    font-size:80%;
+    font-size:11px;
     color:#666;
     margin-top:-20px;
     margin-bottom:20px;
@@ -890,7 +908,7 @@ strong {font-weight:bold;}
     background-color:#f9f9f9;
     border-top:1px solid #eee;
     border-bottom:1px solid #eee;
-    font-size:12px;
+    font-size:11px;
     padding:10px 4px;
 
     color:#444;
@@ -937,11 +955,12 @@ ul.links-list
     list-style: none;
     font-weight:bold;
 
-    font-size:80%;
+    font-size:12px;
     /*font-family:courier, sans-serif;*/
     background-color:#eef3e8;
     margin:2px 0px;
     border-left:6px solid #B2CC99;
+    line-height:130%;
 
 }
 
@@ -950,8 +969,8 @@ ul.links-list
 .links-list li a
 {
     display:block;
-    font-weight:normal;
-    color:#333;
+    font-weight:bold;
+    color:#777;
     padding:5px;
     padding-left:10px;
 }
@@ -1413,9 +1432,14 @@ tag-cloud a:hover
     float:left;
     width:96%;
 
-    background-color:#f9f9f9;
+    /*background-color:#f9f9f9;*/
+
+    background-color:#F5F5F5;
+
+
     border-top:1px solid #e9e9e9;
     border-bottom:1px solid #e9e9e9;
+
 }
 
 
@@ -1426,27 +1450,35 @@ tag-cloud a:hover
 
 .comment-author
 {
-    font-size:85%;
+    /*font-size:85%;*/
     /*font-weight:bold;*/
+    padding-bottom:5px;
 }
 
 .comment-author cite
 {
     font-weight:bold;
+    font-size:14px;
+    font-weight:bold;
+    font-family: "georgia", "Palatino Linotype", "Book Antiqua", serif;
+    font-style:italic;
+    margin-bottom:4px;
 }
 
 .comment-time
 {
-    font-size:80%;
-    color:#555;
-    margin-top:4px;
+    font-size:11px;
+    color:#888;
+    margin-top:1px;
 }
 
 .comment-header
 {
+    margin-top:6px;
     margin-bottom:10px;
-    width:85%;
+    width:88%;
     float:right;
+    /*height:40px;*/
 }
 
 .comment.odd
@@ -1456,17 +1488,23 @@ tag-cloud a:hover
     border-bottom:none;
 }
 
+.comment p
+{
+    line-height:18px !important;
+}
+
 .gravatar
 {
     padding:4px 8px 4px 4px;
     float:left;
     padding:2px;
     border:1px solid #ddd;
+    background-color:white;
 }
 
 .comment-body
 {
-    width:85%;
+    width:88%;
     float:right;
 }
 
@@ -1714,11 +1752,11 @@ pre.techblog-error
 .post ul
 {
     padding-bottom:1em;
-    font-family: "Palatino Linotype", "Book Antiqua", serif;
 }
 
 .post li
 {
+    font-family: "Palatino Linotype", "Book Antiqua", serif;
     color:#333;
     font-size:12px;
     line-height:20px;

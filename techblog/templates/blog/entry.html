@@ -50,17 +50,6 @@
     This blog post was posted to <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
     on {{ post.display_time|date:"l F jS, Y" }}
     at {{ post.display_time|time:"g:sA" }}
-    <br/><br/>
-    Tags: {% for tag in post.get_tags %}<a href="{{ tag.get_absolute_url }}">{{ tag.name|title }}</a>{% if not forloop.last%}, {% endif %}{% endfor %}
-    <br/><br/>
-    {% if related_posts %}
-    Possibly related posts:
-<ul class="related-posts-list">
-    {% for post in related_posts %}
-    <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
-    {% endfor %}
-</ul>
-    {% endif %}
 </div>
 
 
@@ -85,4 +74,30 @@
 
 {% block column2 %}
 {% include "blog/modules/search.html" %}
+
+{% with tags as post.get_tags %}
+{% if tags %}
+<div class="module-header">Tags</div>
+    <ul class="links-list">
+    <div class="module">
+    {% for tag in tags %}
+    <li><a href="{{ tag.get_absolute_url }}">{{ tag.name|title }}</a></li>
+    {% endfor %}
+    </div>
+    </ul>
+{% endif %}
+{% endwith %}
+
+{% if related_posts %}
+    <div class="module-header">Possibly related posts</div>
+    <div class="module">
+<ul class="links-list">
+    {% for post in related_posts %}
+    <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>
+
+    </div>
+{% endif %}
+
 {% endblock %}

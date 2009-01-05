@@ -180,7 +180,7 @@ class Channel(models.Model):
         return collated_tags
 
 
-    def get_tag_cloud(self, tag_cout=50):
+    def get_tag_cloud(self, tag_cout=30):
 
         return TagCloud(self)
 
@@ -296,7 +296,7 @@ class Blog(models.Model):
         return ("apps.blog.views.blog_front", (),
                 dict(blog_slug=blog_slug))
 
-    def get_tag_cloud(self, tag_count=50):
+    def get_tag_cloud(self, tag_count=30):
 
         return TagCloud(self)
 

@@ -175,6 +175,14 @@ def get_related_posts(blog, post, count=10):
         return sum(1 for _ in i)
 
     counts_and_posts = [(post, count_iter(similar_posts)) for post, similar_posts in groupby(posts)]
+
+    if counts_and_posts:
+        max_count = max(counts_and_posts, key=lambda c:c[1])[1]
+        min_count = min(counts_and_posts, key=lambda c:c[1])[1]
+
+        if min_count != max_count:
+            counts_and_posts = [cap for cap in counts_and_posts if cap[1] != min_count]
+
     counts_and_posts.sort(key=lambda i:(i[1], i[0].display_time))
     return [cp[0] for cp in reversed(counts_and_posts[-count:])]
 
