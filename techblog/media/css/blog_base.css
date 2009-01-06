@@ -966,6 +966,7 @@ ul.links-list
 
 
 
+
 .links-list li a
 {
     display:block;
@@ -973,7 +974,29 @@ ul.links-list
     color:#777;
     padding:5px;
     padding-left:10px;
+
 }
+
+
+
+
+.links-list li a.tag
+{
+    padding-left:24px;
+    background-image:url(/media/images/icons/tag_blue.png);
+    background-repeat:no-repeat;
+    background-position:4px center;
+}
+
+
+.links-list li a.new
+{
+    padding-left:24px;
+    background-image:url(/media/images/icons/new.png);
+    background-repeat:no-repeat;
+    background-position:4px center;
+}
+
 
 .links-list li a:hover
 {
@@ -1794,6 +1817,7 @@ li.current-month
     padding-bottom:8px;
     border-bottom:1px dotted #bbb;
     float:left;
+    width:100%;
 }
 
 .comment-body p

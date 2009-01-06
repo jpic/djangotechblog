@@ -127,3 +127,42 @@ def get_tags(parser, token):
 
     return GetTagsNode(blog_name, value_name, max_count)
 
+
+
+class GetRecentNode(template.Node):
+    def __init__(self, blog_name, value_name, max_count):
+        self.blog_name = blog_name
+        self.value_name = value_name
+        self.max_count = max_count
+
+    def render(self, context):
+
+        blog = context.get(self.blog_name, None)
+        if object is None:
+            return ''
+
+        posts = blog.posts()[:self.max_count]
+
+        context[self.value_name] = posts
+        return ''
+
+
+@register.tag
+def get_recent_posts(parser, token):
+
+    directive = token.contents.strip().split(' ', 1)[1]
+
+    match = _re_tags_tag.match(directive)
+
+
+    if match is None:
+        raise template.TemplateSyntaxError("Syntax error")
+
+    blog_name = match.group(1)
+    value_name = match.group(2)
+    try:
+        max_count = int(match.group(3))
+    except ValueError:
+        raise template.TemplateSyntaxError("Max post count should be an integer")
+
+    return GetRecentNode(blog_name, value_name, max_count)

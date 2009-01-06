@@ -430,3 +430,8 @@ class Post(models.Model):
         tags = list(self.tags.all())
         tags.sort(key=lambda t:t.name.lower())
         return tags
+
+    def is_new(self):
+
+        age = datetime.datetime.now() - self.display_time
+        return age.days < 7

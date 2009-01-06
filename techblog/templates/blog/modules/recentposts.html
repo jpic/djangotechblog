@@ -8,9 +8,9 @@
 </div>
 <div class="module">
     <ul class="links-list">
-{% for posts in posts %}
+{% for post in posts %}
     <li>
-        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        <a href="{{ post.get_absolute_url }}"{% if post.is_new %} class="new"{% endif %}>{{ post.title }}</a>
     </li>
 {% endfor %}
     </ul>
