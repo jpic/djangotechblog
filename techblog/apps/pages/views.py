@@ -15,8 +15,12 @@ def allow_comment(object):
 
 @broadcast.recieve()
 def new_comment(object, comment):
-    comment.moderated = True
-    comment.visible = True
+    if isinstance(object, models.Page):
+        comment.moderated = True
+        comment.visible = True
+    else:
+        raise broadcast.RejectBroadcast
+
 
 
 def page(request, path):

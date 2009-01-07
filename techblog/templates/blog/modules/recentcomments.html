@@ -1,0 +1,21 @@
+{% load blogtags %}
+
+{% get_recent_comments for blog as comments max 10 %}
+
+<div class="module-header">
+    Recent Comments
+</div>
+<div class="module">
+{% for comment in comments %}
+
+<div class="recent-comment">
+
+    {{ comment.content_text|truncatewords:20 }}<br>
+    <div class="author">
+    - <strong>{{ comment.name }}</strong> on <a href="{{ comment.content_object.get_absolute_url }}">{{ comment.content_object.title }}</a>
+    </div>
+
+</div>
+
+{% endfor %}
+</div>

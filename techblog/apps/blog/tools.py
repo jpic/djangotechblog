@@ -86,8 +86,6 @@ def import_wxr(blog_slug, wxr_file):
 
     def fix_html(html):
 
-
-
         html = html.replace("<h2>", "\n\n<h3>")
         html = html.replace("</h2>", "</h3>\n\n")
         html = html.replace('<p>', '\n\n')
@@ -191,7 +189,8 @@ def import_wxr(blog_slug, wxr_file):
 
                                     tags_text=tags,
                                     content=content,
-                                    content_markup_type="emarkup" )
+                                    content_markup_type="emarkup")
+
             for k, v in new_post_data.iteritems():
                 setattr(new_post, k, v)
             new_post.save()
@@ -231,4 +230,5 @@ def import_wxr(blog_slug, wxr_file):
                                            url=url,
                                            content=content,
                                            content_markup_type="html",
-                                           content_type=ct)
+                                           content_type=ct,
+                                           group="blog."+blog.slug)

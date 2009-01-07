@@ -1680,7 +1680,7 @@ blockquote em
     background-color:#B2CC99;
     color:white;
     font-family:Arial,sans-serif;
-    font-size:11px;
+    font-size:12px;
     font-weight:bold;
     padding:2px 0px;
     text-align:center;
@@ -1829,4 +1829,20 @@ li.current-month
 .comment-body pre
 {
     font-size:11px !important;
+}
+
+.recent-comment
+{
+    border-bottom:1px dotted #e5e5e5;
+    padding: 10px 0px;
+    font-size:12px;
+    line-height:normal;
+    font-style:italic;
+    color:#555;
+}
+
+.recent-comment .author
+{
+    font-style:normal;
+    padding-top:6px;
 }

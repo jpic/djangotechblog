@@ -24,8 +24,12 @@ def allow_comment(object):
 
 @broadcast.recieve()
 def new_comment(object, comment):
-    comment.moderated = True
-    comment.visible = True
+    if isinstance(object, models.Post):
+        comment.moderated = True
+        comment.visible = True
+        comment.group = "blog.%s" % object.blog.slug
+    else:
+        raise broadcast.BroadcastRejected
 
 
 def get_channel_or_blog(slug):

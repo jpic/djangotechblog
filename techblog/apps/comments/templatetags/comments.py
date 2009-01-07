@@ -153,3 +153,44 @@ def gravatar(email, size=None, default=None):
 
     gravatar_url += urllib.urlencode(params)
     return '<img width="%d" height="%d" class="gravatar" src="%s">' % (size, size, gravatar_url)
+
+
+
+#
+#class GetRecentCommentsNode(template.Node):
+#    def __init__(self, blog_name, value_name, max_count):
+#        self.blog_name = blog_name
+#        self.value_name = value_name
+#        self.max_count = max_count
+#
+#    def render(self, context):
+#
+#        blog = context.get(self.blog_name, None)
+#        if object is None:
+#            return ''
+#
+#        comments = models.Comment.filter_for_object()
+#
+#        context[self.value_name] = comments
+#        return ''
+#
+#
+#@register.tag
+#def get_recent_comments(parser, token):
+#
+#    directive = token.contents.strip().split(' ', 1)[1]
+#
+#    match = _re_tags_tag.match(directive)
+#
+#
+#    if match is None:
+#        raise template.TemplateSyntaxError("Syntax error")
+#
+#    blog_name = match.group(1)
+#    value_name = match.group(2)
+#    try:
+#        max_count = int(match.group(3))
+#    except ValueError:
+#        raise template.TemplateSyntaxError("Max post count should be an integer")
+#
+#    return GetRecentPostsNode(blog_name, value_name, max_count)

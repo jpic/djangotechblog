@@ -1,11 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from techblog.apps.blog.fields import MarkupField
 
 from techblog import broadcast
 
-# Create your models here.
 
 
 def _comment_renderer(markup, markup_type):
@@ -17,7 +17,12 @@ class CommentManager(models.Manager):
 
     def filter_for_object(self, object):
         ct = ContentType.objects.get_for_model(object)
-        comments = Comment.objects.filter(object_id=object.id, content_type=ct, visible=True, moderated=True)        
+        comments = Comment.objects.filter(object_id=object.id, content_type=ct, visible=True, moderated=True)
+        return comments
+
+    def filter_for_model(self, model):
+        ct = ContentType.objects.get_for_model(model)
+        comments = Comment.objects.filter(content_type=ct, visible=True, moderated=True)
         return comments
 
 class Comment(models.Model):
@@ -32,6 +37,10 @@ class Comment(models.Model):
     moderated = models.BooleanField(default=False)
 
     created_time = models.DateTimeField(auto_now_add=True)
+
+    type = models.CharField("Type of comment", max_length=100, blank=True)
+    owner = models.ForeignKey(User, blank=True, null=True, default=None)
+    group = models.CharField("Optional comment group", max_length=100, blank=True, default="")
 
     name = models.CharField("Author's name", max_length=100)
     email = models.EmailField("Author's email", blank=True)
