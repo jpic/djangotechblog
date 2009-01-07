@@ -3,12 +3,19 @@ from django.template.defaultfilters import stringfilter
 import re
 from techblog.apps.blog import tools, models
 from techblog.apps.comments.models import Comment
+from django.template import Variable
 
 register = template.Library()
 
 
 short_months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
 long_months = "January February March April May June July August September October November December".split()
+
+def context_resolve(context, var, callable=None):
+    resolved_var = Variable(var).resolve(context)
+    if callable is not None:
+        resolved_var = callable(resolved_var)
+    return resolved_var
 
 @register.filter
 @stringfilter
@@ -87,7 +94,7 @@ def get_archives(parser, token):
     return GetArchivesNode(blog_name, value_name)
 
 
-_re_tags_tag = re.compile(r'for (?P<object>\w+) as (?P<name>\w+) max (?P<count>\d+)')
+_re_tags_tag = re.compile(r'for (?P<object>\w+) as (?P<name>\w+) max (?P<count>\S+)')
 
 
 class GetTagsNode(template.Node):
@@ -102,7 +109,7 @@ class GetTagsNode(template.Node):
         if object is None:
             return ''
 
-        tags = blog.get_tag_cloud(self.max_count)
+        tags = blog.get_tag_cloud(context_resolve(context, self.max_count, int))
 
         context[self.value_name] = tags
         return ''
@@ -121,10 +128,8 @@ def get_tags(parser, token):
 
     blog_name = match.group(1)
     value_name = match.group(2)
-    try:
-        max_count = int(match.group(3))
-    except ValueError:
-        raise template.TemplateSyntaxError("Max tag count should be an integer")
+
+    max_count = match.group(3)
 
     return GetTagsNode(blog_name, value_name, max_count)
 
@@ -142,7 +147,7 @@ class GetRecentNode(template.Node):
         if object is None:
             return ''
 
-        posts = blog.posts()[:self.max_count]
+        posts = blog.posts()[:context_resolve(context, self.max_count, int)]
 
         context[self.value_name] = posts
         return ''
@@ -161,10 +166,8 @@ def get_recent_posts(parser, token):
 
     blog_name = match.group(1)
     value_name = match.group(2)
-    try:
-        max_count = int(match.group(3))
-    except ValueError:
-        raise template.TemplateSyntaxError("Max post count should be an integer")
+    max_count = match.group(3)
+
 
     return GetRecentNode(blog_name, value_name, max_count)
 
@@ -187,8 +190,10 @@ class GetRecentCommentsNode(template.Node):
         else:
             blogs = [blog]
 
+        max_count = context_resolve(context, self.max_count, int)
+
         groups = ["blog." + b.slug for b in blogs]
-        comments = Comment.objects.filter_for_model(models.Post).filter(group__in=groups).order_by('-created_time')[:self.max_count]
+        comments = Comment.objects.filter_for_model(models.Post).filter(group__in=groups).order_by('-created_time')[:max_count]
 
         context[self.value_name] = comments
 
@@ -207,9 +212,6 @@ def get_recent_comments(parser, token):
 
     blog_name = match.group(1)
     value_name = match.group(2)
-    try:
-        max_count = int(match.group(3))
-    except ValueError:
-        raise template.TemplateSyntaxError("Max post count should be an integer")
+    max_count = match.group(3)
 
     return GetRecentCommentsNode(blog_name, value_name, max_count)

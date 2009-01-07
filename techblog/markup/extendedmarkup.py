@@ -252,9 +252,11 @@ def process(sections, context_data):
 
                 module_template = select_template(["blog/modules/%s.html"%module])
 
-                td = dict(  vars = chunk.vars,
-                            content = chunk.text)
+                td = {}
                 td.update(context_data)
+
+                td.update( dict(  vars = chunk.vars,
+                                  content = chunk.text ) )
 
                 try:
                     chunk_html = module_template.render(Context(td))

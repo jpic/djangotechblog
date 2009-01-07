@@ -1,6 +1,6 @@
 {% load blogtags %}
 
-{% get_recent_posts for blog as posts max 10 %}
+{% get_recent_posts for blog as posts max vars.count %}
 
 
 <div class="module-header">

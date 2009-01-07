@@ -2,7 +2,7 @@
 {% load humanize %}
 {% load markuptags %}
 
-{% get_tags for blog as tag_cloud max 12 %}
+{% get_tags for blog as tag_cloud max vars.count %}
 
 <div class="module-header">
     Popular Tags
