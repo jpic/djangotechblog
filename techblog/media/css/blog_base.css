@@ -7,11 +7,13 @@ body
     background-color:#ededed;
     background-color:#929292;
     background-color:#494949;
-    /*
+
+/*
     background-image:url("/media/images/backblend.png");
     background-position:center top;
     background-repeat:repeat-y;
-    */
+
+*/
 
 }
 
@@ -953,7 +955,7 @@ ul.links-list
 {
 
     list-style: none;
-    font-weight:bold;
+    /*font-weight:bold;*/
 
     font-size:12px;
     /*font-family:courier, sans-serif;*/
@@ -970,9 +972,9 @@ ul.links-list
 .links-list li a
 {
     display:block;
-    font-weight:bold;
+    /*font-weight:bold;*/
     color:#000;
-    opacity:.6;
+    /*opacity:.6;*/
     padding:5px;
     padding-left:10px;
 
@@ -1024,7 +1026,7 @@ ul.links-list
 
 .archive-months
 {
-    font-size:80%;
+    font-size:12px;
     padding-left:2px;
 }
 
@@ -1044,13 +1046,13 @@ ul.links-list
 {
     padding:2px;
     font-size:90%;
-    color:#999;
+    color:#000;
     margin-top:8px;
     /*border-bottom:1px solid #bbb;*/
     margin-bottom:4px;
     clear:both;
     text-align:center;
-    font-weight:bold;
+    /*font-weight:bold;*/
 }
 
 .archive-month
@@ -1068,7 +1070,7 @@ ul.links-list
     float:right;
     color:#777;
     width:30%;
-    font-size:90%;
+    /*font-size:90%;*/
     text-align:right;
     padding-right:3px;
 }
@@ -1682,7 +1684,7 @@ blockquote em
     background-color:#B2CC99;
     color:white;
     font-family:Arial,sans-serif;
-    font-size:12px;
+    font-size:11px;
     font-weight:bold;
     padding:2px 0px;
     text-align:center;
