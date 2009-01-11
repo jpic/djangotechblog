@@ -456,12 +456,15 @@ def writer(request, blog_slug, post_id):
             draft_post = edit_post.get_version('draft')
             save_to(draft_post)
             post = draft_post
+            edit_post.delete_version('preview')
 
         elif 'revert' in request.POST:
 
             edit_post.delete_version('draft')
-            draft_post = edit_post.get_version('draft')
-            post = draft_post
+            edit_post.delete_version('preview')
+            post = edit_post
+            #draft_post = edit_post.get_version('draft')
+            #post = draft_post
 
         elif 'publish' in request.POST:
 

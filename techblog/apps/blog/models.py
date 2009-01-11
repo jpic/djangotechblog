@@ -368,7 +368,7 @@ class Post(models.Model):
     def __unicode__(self):
         if self.version == 'live':
             return self.title
-        return "%s (%s)" % (self.title, self.version.upper())
+        return "%s [%s]" % (self.title, self.version.upper())
 
     def date_url(self):
         year = self.display_time.year
