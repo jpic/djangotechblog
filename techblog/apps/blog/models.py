@@ -360,7 +360,7 @@ class Post(models.Model):
 
         current_part = None
         for i, post in index_posts:
-            if post == self:
+            if post is self:
                 current_part = i
                 break
 
