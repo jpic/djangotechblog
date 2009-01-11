@@ -366,7 +366,9 @@ class Post(models.Model):
     get_admin_html.allow_tags = True
 
     def __unicode__(self):
-        return self.title
+        if self.version == 'live':
+            return self.title
+        return "%s (%s)" % (self.title, self.version.upper())
 
     def date_url(self):
         year = self.display_time.year
@@ -393,6 +395,9 @@ class Post(models.Model):
 
     def _remove_tags(self):
 
+        if self.version != 'live':
+            return
+
         if self.pk is not None:
             tags = Tag.objects.filter(blog=self.blog, post=self)
             for tag in self.tags.all():
@@ -408,6 +413,9 @@ class Post(models.Model):
         """Creates tags or increments tag counts as neccesary.
 
         """
+
+        if self.version != 'live':
+            return
 
         tags = [t.strip() for t in self.tags_text.split(',')]
         tags = list(set(tags))
@@ -449,7 +457,11 @@ class Post(models.Model):
         return age.days < 7
 
     def get_version_slug(self, version):
-        return "%s|%s" % (version, self.slug)
+        slug = self.slug
+        if '|' in slug:
+            slug = slug.split('|', 1)[-1]
+
+        return "%s|%s" % (version, slug)
 
 
     def get_version(self, version):
@@ -471,7 +483,6 @@ class Post(models.Model):
         copy_attribs = ['title', 'tags_text', 'content', 'content_markup_type', 'allow_comments', 'published', 'display_time']
         for attrib in copy_attribs:
             setattr(versioned_post, attrib, getattr(self, attrib))
-        versioned_post.title = "%s %s" % (versioned_post.title, version.upper())
         versioned_post.save()
 
         return versioned_post
@@ -480,13 +491,10 @@ class Post(models.Model):
 
         """Removes the draft object associated with a post."""
 
-        if self.version == version:
-            return self
-
         version_slug = self.get_version_slug(version)
 
         try:
-            versioned_post = Post.objects.get(slug=version_slug, version=version)
+            versioned_post = Post.objects.get(blog=self.blog, slug=version_slug, version=version)
             versioned_post.delete()
         except Post.DoesNotExist:
             pass

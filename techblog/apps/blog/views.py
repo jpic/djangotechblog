@@ -426,7 +426,13 @@ def writer(request, blog_slug, post_id):
 
     blog = get_channel_or_blog(blog_slug)
     post = get_object_or_404(models.Post, id=post_id, version='live')
+
     edit_post = post
+
+    if post.version_exists('draft'):
+        draft_post = post.get_version('draft')
+        post = draft_post
+
 
     post_slug = post.slug
     if '|' in post_slug:
@@ -447,14 +453,26 @@ def writer(request, blog_slug, post_id):
 
         if 'save' in request.POST:
 
-            save_to(post)
-            post.delete_version('preview')
+            draft_post = edit_post.get_version('draft')
+            save_to(draft_post)
+            post = draft_post
 
-            form = forms.WriterForm()
+        elif 'revert' in request.POST:
+
+            edit_post.delete_version('draft')
+            draft_post = edit_post.get_version('draft')
+            post = draft_post
+
+        elif 'publish' in request.POST:
+
+            save_to(edit_post)
+            edit_post.delete_version('preview')
+            edit_post.delete_version('draft')
+            post = edit_post
 
         elif 'preview' in request.POST:
 
-            preview_post = post.get_version('preview')
+            preview_post = edit_post.get_version('preview')
             save_to(preview_post)
             auto_url = reverse('blog_post', args=(blog.slug, edit_post.display_time.year, edit_post.display_time.month, edit_post.display_time.day, post_slug)) + "?version=preview"
             post = preview_post

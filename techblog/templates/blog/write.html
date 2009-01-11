@@ -59,8 +59,8 @@ input[type=checkbox]
 
 input[type=submit]
 {
-    margin-right:10px;
-    min-width:100px;
+    margin-right:20px;
+    min-width:120px;
 }
 
 </style>
@@ -90,7 +90,7 @@ input[type=submit]
             <td>
             <div class="option">
                 <input type="checkbox" id="id_published" name="published" {% if post.published %}checked="checked"{% endif %}></input>
-                <label for="id_published">Published?</label>
+                <label for="id_published">Visible on site?</label>
             </div>
             <div class="option">
                 <input type="checkbox" id="id_allow_comments" name="allow_comments" {% if post.allow_comments %}checked="checked"{% endif %}></input>
@@ -105,6 +105,8 @@ input[type=submit]
 <div class="buttons">
     <input type="submit" type="button" name="preview" value="Preview"></input>
     <input type="submit" name="save" value="Save"></input>
+    <input type="submit" name="revert" value="Revert" onclick="return confirm('Revert to previously published version?')"></input>
+    <input type="submit" name="publish" value="Publish" onclick="return confirm('Publish this post?')"></input>
     <a href="{% url blog_post blog.slug post.display_time.year post.display_time.month post.display_time.day post_slug %}" target="_blank">View on site</a>
 </div>
 

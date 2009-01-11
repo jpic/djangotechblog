@@ -50,7 +50,7 @@ class PostAdmin(admin.ModelAdmin):
               'content',
               'content_html',
               'content_summary_html')
-    list_display = ['__unicode__', 'version', 'display_time', 'blog']
+    list_display = ['__unicode__', 'display_time', 'blog']
     list_filter = ('blog', 'display_time', 'published', 'version')
     prepopulated_fields = {'slug': ('title',)}
     date_hierarchy = 'display_time'
