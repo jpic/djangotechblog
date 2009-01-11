@@ -14,6 +14,7 @@ from techblog import broadcast
 from techblog.markup import extendedmarkup
 
 from itertools import groupby
+import forms
 
 
 @broadcast.recieve()
@@ -214,6 +215,15 @@ def blog_post(request, blog_slug, year, month, day, slug):
                              blog__slug=blog_slug,
                              published=True)
 
+    is_preview = False
+    if 'version' in request.GET and not request.user.is_anonymous():
+        version = request.GET.get('version')
+        if not post.version_exists(version):
+            raise Http404
+        post = post.get_version(version)
+        is_preview = True
+
+
     sections = extendedmarkup.combine_sections( blog.description_data.get('sections', None),
                                  post.content_data.get('sections', None) )
 
@@ -247,7 +257,9 @@ def blog_post(request, blog_slug, year, month, day, slug):
                 tagline = post.blog.title,
                 tags = tags,
                 related_posts = related_posts,
-                sections = sections)
+                sections = sections,
+                user = request.user,
+                is_preview = is_preview )
 
     sections = extendedmarkup.process(sections, td)
 
@@ -299,8 +311,6 @@ def tag(request, blog_slug, tag_slug, page_no=1):
 
 
     feeds = [tag.get_feed()]
-    print tag
-    print feeds
 
     td = dict(blog = blog,
               tag = tag,
@@ -410,3 +420,57 @@ def blog_search(request, blog_slug):
 def front(request):
     template_data = {}
     return render_to_response("blog_base.html", template_data)
+
+
+def writer(request, blog_slug, post_id):
+
+    blog = get_channel_or_blog(blog_slug)
+    post = get_object_or_404(models.Post, id=post_id, version='live')
+    edit_post = post
+
+    post_slug = post.slug
+    if '|' in post_slug:
+        post_slug = post_slug.split('|', 1)[-1]
+
+    auto_url = ''
+
+    def save_to(save_post):
+        save_post.title = request.POST.get('title', save_post.title)
+        save_post.tags_text = request.POST.get('tags_text', save_post.tags_text)
+        save_post.content = request.POST.get('content', save_post.content)
+        save_post.published = request.POST.get('published', save_post.published) == 'on'
+        save_post.allow_comments = request.POST.get('allow_comments', save_post.allow_comments) == 'on'
+        save_post.save()
+
+
+    if request.method == "POST":
+
+        if 'save' in request.POST:
+
+            save_to(post)
+            post.delete_version('preview')
+
+            form = forms.WriterForm()
+
+        elif 'preview' in request.POST:
+
+            preview_post = post.get_version('preview')
+            save_to(preview_post)
+            auto_url = reverse('blog_post', args=(blog.slug, edit_post.display_time.year, edit_post.display_time.month, edit_post.display_time.day, post_slug)) + "?version=preview"
+            post = preview_post
+
+        form = forms.WriterForm()
+
+    else:
+        form = forms.WriterForm()
+
+
+    td = dict( post_slug=post_slug,
+               blog=blog,
+               post=post,
+               edit_post=edit_post,
+               form=form,
+               auto_url=auto_url
+               )
+
+    return render_to_response("blog/write.html", td)

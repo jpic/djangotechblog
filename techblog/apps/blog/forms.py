@@ -6,3 +6,11 @@ class ImportForm(forms.Form):
     input_file = forms.FileField()
 
     format = forms.CharField("Import format", widget=forms.HiddenInput, initial="WXR")
+
+class WriterForm(forms.Form):
+
+    title = forms.CharField(label="Post Title", required=True)
+    slug = forms.CharField(label="Post Slug", required=True)
+    tags = forms.CharField(label="Tags (comma separated)", required=True)
+
+    post = forms.CharField(label="Post Content", required=False)

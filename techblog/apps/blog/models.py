@@ -29,7 +29,7 @@ class Author(models.Model):
 
     user = models.ForeignKey(User)
 
-    bio = MarkupField(default="", renderer=render)
+    bio = MarkupField(default="", blank=True, renderer=render)
 
 
 class Tag(models.Model):
@@ -318,7 +318,7 @@ class PublisedPostManager(models.Manager):
     def get_query_set(self):
         posts = super(PublisedPostManager, self).get_query_set()
         now = datetime.datetime.now()
-        posts.filter(published=True, display_time__lt=now)
+        posts.filter(published=True, display_time__lt=now, version="live")
 
         return posts
 
@@ -341,6 +341,8 @@ class Post(models.Model):
     tags_text = models.TextField("Comma separated tags", default="", blank=True)
 
     content = MarkupField(default="", renderer=render, blank=True)
+
+    version = models.CharField("Version", max_length=100, default="live")
 
     #created_time = models.DateTimeField(auto_now_add=True)
 
@@ -376,12 +378,18 @@ class Post(models.Model):
     def get_absolute_url(self):
 
         blog_slug = self.blog.slug
+
+        slug = self.slug
+        if '|' in slug:
+            slug = slug.split('|', 1)[-1]
+            print slug
+
         year = self.display_time.year
         month = self.display_time.month
         day = self.display_time.day
 
         return ("apps.blog.views.blog_post", (),
-                dict(blog_slug=blog_slug, year=year, month=month, day=day, slug=self.slug))
+                dict(blog_slug=blog_slug, year=year, month=month, day=day, slug=slug))
 
     def _remove_tags(self):
 
@@ -419,6 +427,10 @@ class Post(models.Model):
 
                 self.tags.add(tag)
 
+    def delete(self, *args, **kwargs):
+        self._remove_tags()
+        super(Post, self).delete(*args, **kwargs)
+
     def save(self, *args, **kwargs):
 
         self._remove_tags()
@@ -435,3 +447,56 @@ class Post(models.Model):
 
         age = datetime.datetime.now() - self.display_time
         return age.days < 7
+
+    def get_version_slug(self, version):
+        return "%s|%s" % (version, self.slug)
+
+
+    def get_version(self, version):
+
+        """Creates a draft post that can be used for previews."""
+
+        if self.version == version:
+            return self
+
+        version_slug = self.get_version_slug(version)
+
+        try:
+            versioned_post = Post.objects.get(blog=self.blog, slug=version_slug, version=version)
+            return versioned_post
+        except Post.DoesNotExist:
+            versioned_post = Post(slug=version_slug, published=False, blog=self.blog, version=version)
+            versioned_post.save()
+
+        copy_attribs = ['title', 'tags_text', 'content', 'content_markup_type', 'allow_comments', 'published', 'display_time']
+        for attrib in copy_attribs:
+            setattr(versioned_post, attrib, getattr(self, attrib))
+        versioned_post.title = "%s %s" % (versioned_post.title, version.upper())
+        versioned_post.save()
+
+        return versioned_post
+
+    def delete_version(self, version):
+
+        """Removes the draft object associated with a post."""
+
+        if self.version == version:
+            return self
+
+        version_slug = self.get_version_slug(version)
+
+        try:
+            versioned_post = Post.objects.get(slug=version_slug, version=version)
+            versioned_post.delete()
+        except Post.DoesNotExist:
+            pass
+
+    def version_exists(self, version):
+
+        version_slug = self.get_version_slug(version)
+
+        try:
+            versioned_post = Post.objects.get(slug=version_slug, version=version)
+            return True
+        except Post.DoesNotExist:
+            return False
