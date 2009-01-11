@@ -42,6 +42,7 @@ class PostAdmin(admin.ModelAdmin):
     fields = ('blog',
               'title',
               'slug',
+              'series',
               'published',
               'allow_comments',
               'display_time',

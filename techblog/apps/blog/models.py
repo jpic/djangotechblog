@@ -333,6 +333,8 @@ class Post(models.Model):
 
     allow_comments = models.BooleanField("Allow Comments?", default=True)
 
+    series = models.CharField("Series name", max_length=100, blank=True, default="")
+
     created_time = models.DateTimeField(auto_now_add=True)
     edit_time = models.DateTimeField(auto_now=True)
     display_time = models.DateTimeField("Display Time", default=datetime.datetime.now)
@@ -348,6 +350,21 @@ class Post(models.Model):
 
     published_posts = PublisedPostManager()
     objects = models.Manager()
+
+    def is_series(self):
+        return bool(self.series)
+
+    def get_series(self):
+        posts = Post.objects.filter(series=self.series).order_by('display_time')
+        index_posts = [(i+1, post) for i, post in enumerate(posts)]
+
+        current_part = None
+        for i, post in index_posts:
+            if post == self:
+                current_part = i
+                break
+
+        return index_posts, current_part
 
     def get_summary(self):
         if self.content_summary_html:
