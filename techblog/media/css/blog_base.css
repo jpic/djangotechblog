@@ -325,7 +325,7 @@ body
     /*background-image:url("/media/images/bottomshadow.png");*/
     background-repeat:repeat-x;
     /*border-top:6px solid #B2CC99*/
-    margin-top:24px;
+    /*margin-top:24px;*/
     margin-right:24px;
 }
 
@@ -422,7 +422,7 @@ body
     line-height:20px;
 }
 
-.post-subtitle + p:first-letter
+.post p:first-child:first-letter
 {
   font-size:41px;
   float:left;

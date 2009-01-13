@@ -11,16 +11,17 @@
 
 
 {% block summary_area %}
-<h1 class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></h1>
-{% comment %}
-{% if blog.tagline.strip %}<div class="blog-tagline">{{ blog.tagline }}</div>{% endif %}
-{% if section.intro %}<div class="summary-area">{% markupsection sections "intro" %}</div>{% endif %}
-{% endcomment %}
+<h1 class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ post.title }}</a></h1>
+
+<div class="blog-tagline">{{ post.display_time|date:"F jS, Y" }}</div>
+
 {% endblock %}
 
 
 
 {% block column1 %}
+
+{% comment %}
 
 {% if prev_post or next_post %}
 <div class="post-navigation">
@@ -38,9 +39,13 @@
 </div>
 {% endif %}
 
+{% endcomment %}
+
 <div class="post">
+{% comment %}
 <h2>{{ post.title }}</h2>
 <div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
+{% endcomment %}
 
 {{ post.content_html|safe }}
 
@@ -51,6 +56,22 @@
     on {{ post.display_time|date:"l F jS, Y" }}
     at {{ post.display_time|time:"g:sA" }}
 </div>
+
+{% if prev_post or next_post %}
+<div class="post-navigation">
+    {% if prev_post %}
+    <div class="prev-post">
+        <a href="{{ prev_post.get_absolute_url }}" title="Older post">{{ prev_post.title }}</a>
+    </div>
+    {% endif %}
+
+    {% if next_post %}
+    <div class="next-post">
+        <a href="{{ next_post.get_absolute_url }}" title="Newer post">{{ next_post.title }}</a>
+    </div>{% endif %}
+    <div class="clear"> </div>
+</div>
+{% endif %}
 
 
 {% get_comments for post as comments %}
