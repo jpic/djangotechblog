@@ -8,15 +8,38 @@ body
     background-color:#929292;
     background-color:#494949;
 
-/*
-    background-image:url("/media/images/backblend.png");
+
+    /*background-color:#bfbfbf;*/
+    /*
+    background-image:url("/media/images/pageback.png");
     background-position:center top;
     background-repeat:repeat-y;
+    */
 
-*/
 
 }
 
+
+.page-repeat
+{
+    background-color:#494949;
+    background-image:url("/media/images/pageback.png");
+    background-position:center top;
+    background-repeat:repeat-y;
+    width:900px;
+    margin: 0 auto;
+}
+
+.page-end
+{
+    background-color:#494949;
+    background-image:url("/media/images/pagebottom.png");
+    background-position:center bottom;
+    background-repeat:repeat-y;
+    height:15px;
+    width:900px;
+    margin: 0 auto;
+}
 
 #title
 {
@@ -35,9 +58,11 @@ body
 #main
 {
 
+/*
     border-left:1px solid #666;
     border-right:1px solid #666;
     border-bottom:1px solid #666;
+*/
 
 }
 
@@ -251,6 +276,8 @@ body
     background-repeat:no-repeat;
 */
 }
+
+
 
 #header .inner
 {
