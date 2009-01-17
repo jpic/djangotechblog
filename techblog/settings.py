@@ -100,6 +100,9 @@ INSTALLED_APPS = (
     'techblog.apps.resources'
 )
 
+
+DEFAULT_BLOG_SLUG = "test-blog"
+
 try:
     from local_settings import *
 except ImportError:

@@ -19,6 +19,11 @@
             <link href="{{ feed.url }}" rel="alternate" type="application/rss+xml" title="{{ feed.title }}" />
         {% endfor %}
     {% endif %}
+
+    {% markupsection sections "head" %}
+    {% markupsection sections "css" %}
+    {% markupsection sections "js-head" %}
+
 </head>
 
 <body>
@@ -122,5 +127,5 @@
 </body>
 {% block js_foot %}
 {% endblock %}
-
+{% markupsection sections "js-foot" %}
 </html>
