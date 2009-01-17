@@ -401,7 +401,6 @@ class Post(models.Model):
         slug = self.slug
         if '|' in slug:
             slug = slug.split('|', 1)[-1]
-            print slug
 
         year = self.display_time.year
         month = self.display_time.month
