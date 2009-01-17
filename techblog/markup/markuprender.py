@@ -4,8 +4,8 @@
 import postmarkup
 import markuptags
 
-post_markup = postmarkup.create()
-post_markup.add_tag(postmarkup.SectionTag, "in")
+post_render = postmarkup.create(exlude=["url", "link"], annotate_links=False)
+post_render.add_tag(postmarkup.SectionTag, "in")
 
 
 # Auto register markup tags...
@@ -17,7 +17,7 @@ for symbol in dir(markuptags):
         obj = getattr(markuptags, symbol)
         default_name = getattr(obj, 'DEFAULT_NAME', '')
         if default_name:
-            post_markup.add_tag(obj, default_name)
+            post_render.add_tag(obj, default_name)
 
 if __name__ == "__main__":
 
@@ -33,7 +33,7 @@ X is [eval]x[/eval], [py]import datetime[/py][eval]datetime.datetime.now()[/eval
 Another paragraph"""
 
     tag_data = {}
-    html = post_markup(test, paragraphs=True, clean=True, tag_data=tag_data)
+    html = post_render(test, paragraphs=True, clean=True, tag_data=tag_data)
     print html
     from pprint import pprint
     pprint(tag_data)

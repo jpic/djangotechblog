@@ -1878,3 +1878,12 @@ li.current-month
     font-style:normal;
     padding-top:6px;
 }
+
+.external-link
+{
+    background-image: url(/media/images/icons/icon_external_link.png);
+    background-position:right center;
+    background-repeat:no-repeat;
+    padding-right:14px;
+    margin-right:0px;
+}

@@ -18,7 +18,7 @@ def render(markup, markup_type):
     if markup_type == "postmarkup":
 
         tag_data = {}
-        html = post_markup( markup,
+        html = post_render( markup,
                             paragraphs=True,
                             clean=True,
                             tag_data=tag_data )
@@ -70,4 +70,4 @@ def render(markup, markup_type):
 @broadcast.recieve()
 def render_comment(markup, markup_type):
 
-    return render(markup, markup_type)
+    return render(markup, "comment_bbcode")

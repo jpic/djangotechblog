@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
@@ -6,6 +8,9 @@ import re
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name, ClassNotFound
 from pygments.formatters import HtmlFormatter
+
+from techblog.markup.markuprender import post_render
+
 
         #try:
         #    lexer = get_lexer_by_name(self.params, stripall=True)
@@ -19,14 +24,14 @@ from pygments.formatters import HtmlFormatter
 register = template.Library()
 
 from postmarkup import _escape
-from postmarkup import render_bbcode
+#from postmarkup import render_bbcode
 
 @register.filter
 @stringfilter
 def postmarkup(value):
     if not value:
         return u""
-    html = mark_safe(render_bbcode(value))
+    html = mark_safe(post_render(value))
     return html
 
 @register.filter
