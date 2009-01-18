@@ -27,6 +27,11 @@ def comment(**kwargs):
         comment.created_time = kwargs['created_time']
     comment.save()
 
+def escape(s):
+    s = s.replace('<', '&lt;')
+    s = s.replace('>', '&gt;')
+    s = s.replace('"', '&quot;')
+    return s
 
 def xhr_post_comment(request, **kwargs):
 
@@ -43,9 +48,11 @@ def xhr_post_comment(request, **kwargs):
         response['status'] = "fail"
         response['errors'] = dict((str(key), str(value)) for key, value in form.errors.iteritems())
     else:
-        name = form.cleaned_data.get('name', '');
+        name = escape(form.cleaned_data.get('name', ''))
         email = form.cleaned_data.get('email', '')
-        url = form.cleaned_data.get('url', '')
+        url = escape(form.cleaned_data.get('url', ''))
+        if 'javascript' in url.lower():
+            url = url.split(':', 1)[-1]
         content = form.cleaned_data.get('content', '')
         content_format = form.cleaned_data.get('content_format', '')
 
