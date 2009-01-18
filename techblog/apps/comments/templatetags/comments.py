@@ -21,7 +21,7 @@ def comment_form(object, css_class=None):
     ct = ContentType.objects.get_for_model(object)
     ct_id = ".".join( (ct.app_label, ct.model) )
     initial_data['content_type'] = ct_id
-    initial_data['success_url'] = object.get_absolute_url()
+    #initial_data['success_url'] = object.get_absolute_url()
 
     comment_form = forms.CommentForm(initial=initial_data)
 
@@ -55,7 +55,7 @@ class GetCommentFormNode(template.Node):
         initial_data['object_id'] = str(object.id)
         ct_id = ".".join( (ct.app_label, ct.model) )
         initial_data['content_type'] = ct_id
-        initial_data['success_url'] = object.get_absolute_url()
+        #initial_data['success_url'] = object.get_absolute_url()
         comment_form = forms.CommentForm(initial=initial_data)
 
         context[self.value_name] = comment_form

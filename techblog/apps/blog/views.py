@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import Http404, HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.conf import settings
+from django.template.context import RequestContext
 import urllib
 from django.db.models import Q
 
@@ -147,7 +148,9 @@ def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
 
     sections = extendedmarkup.process(sections, td)
 
-    return render_to_response(blog.get_template_names("blog/month.html"), td)
+    return render_to_response(blog.get_template_names("blog/month.html"),
+                              td,
+                              context_instance=RequestContext(request))
 
 
 def blog_front(request, blog_slug="", page_no=1, blog_root=None):
@@ -190,7 +193,9 @@ def blog_front(request, blog_slug="", page_no=1, blog_root=None):
 
     sections = extendedmarkup.process(sections, td)
 
-    return render_to_response(blog.get_template_names("blog/index.html"), td)
+    return render_to_response(blog.get_template_names("blog/index.html"),
+                              td,
+                              context_instance=RequestContext(request))
 
 
 
@@ -290,7 +295,9 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
 
     sections = extendedmarkup.process(sections, td)
 
-    return render_to_response(blog.get_template_names("blog/entry.html"), td)
+    return render_to_response(blog.get_template_names("blog/entry.html"),
+                              td,
+                              context_instance=RequestContext(request))
 
 
 
@@ -358,11 +365,13 @@ def tag(request, blog_slug, tag_slug, page_no=1, blog_root=None):
 
     sections = extendedmarkup.process(sections, td)
 
-    return render_to_response(blog.get_template_names("blog/tag.html"), td)
+    return render_to_response(blog.get_template_names("blog/tag.html"),
+                              td,
+                              context_instance=RequestContext(request))
 
 from techblog.markup.render import render_comment
 
-def xhr_preview_comment(request):
+def xhr_preview_comment(request, **kwargs):
 
     #if settings.DEBUG:
     #    import time
@@ -384,7 +393,9 @@ def xhr_preview_comment(request):
 #    import time
 #    time.sleep(3);
 
-    return render_to_response("xhr_comment_preview.html", td)
+    return render_to_response("xhr_comment_preview.html",
+                              td,
+                              context_instance=RequestContext(request))
 
 
 def import_wxr(request):
@@ -409,7 +420,9 @@ def import_wxr(request):
     td = dict(form=form)
 
 
-    return render_to_response("blog/tools/import_wxr.html", td)
+    return render_to_response("blog/tools/import_wxr.html",
+                              td,
+                              context_instance=RequestContext(request))
 
 def blog_search(request, blog_slug, blog_root=None):
 
@@ -446,11 +459,15 @@ def blog_search(request, blog_slug, blog_root=None):
               num_results=num_results,
               search_term=s)
 
-    return render_to_response(blog.get_template_names("blog/search.html"), td)
+    return render_to_response(blog.get_template_names("blog/search.html"),
+                              td,
+                              context_instance=RequestContext(request))
 
 def front(request, blog_root=None):
     template_data = {}
-    return render_to_response("blog_base.html", template_data)
+    return render_to_response("blog_base.html",
+                              template_data,
+                              context_instance=RequestContext(request))
 
 
 def writer(request, blog_slug, post_id, blog_root=None):
@@ -530,4 +547,6 @@ def writer(request, blog_slug, post_id, blog_root=None):
                auto_url=auto_url
                )
 
-    return render_to_response("blog/write.html", td)
+    return render_to_response("blog/write.html",
+                              td,
+                              context_instance=RequestContext(request))

@@ -30,6 +30,7 @@
 {% for field in comment_form %}
 {% if field.is_hidden %}{{ field }}{% endif %}
 {% endfor %}
+<input type="hidden" id="id_success_url" name="success_url" value="{{ request.path }}"></input>
 
     <div class="comment-form-help">
         You can use <a href="http://en.wikipedia.org/wiki/Bbcode" target="_blank">bbcode</a> in the comment: e.g.

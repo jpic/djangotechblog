@@ -5,6 +5,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.conf import settings
+from django.template.context import RequestContext
 
 from techblog import broadcast
 from forms import CommentForm
@@ -27,7 +28,7 @@ def comment(**kwargs):
     comment.save()
 
 
-def xhr_post_comment(request):
+def xhr_post_comment(request, **kwargs):
 
     #if settings.DEBUG:
     #    import time
@@ -85,7 +86,7 @@ def xhr_post_comment(request):
     return HttpResponse(json, mimetype='application/json')
 
 
-def xhr_delete_comment(request):
+def xhr_delete_comment(request, **kwargs):
 
     if request.user.is_anonymous():
         raise Http404
