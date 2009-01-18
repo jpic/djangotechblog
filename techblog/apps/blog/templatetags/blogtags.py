@@ -60,6 +60,14 @@ def smart_title(value):
     return u" ".join(title(value) for value in value.split())
 
 
+@register.simple_tag
+def get_post_url(blog_root, post=None):
+    if post is None:
+        return blog_root
+    url = blog_root + post.get_blog_relative_url();
+    return url
+
+
 _re_archives_tag = re.compile(r'for (?P<object>\w+) as (?P<name>\w+)')
 
 class GetArchivesNode(template.Node):
@@ -73,7 +81,7 @@ class GetArchivesNode(template.Node):
         if object is None:
             return ''
 
-        archives = tools.collate_archives(blog)
+        archives = tools.collate_archives(blog, context.get('blog_root'))
 
         context[self.value_name] = archives
         return ''
@@ -105,34 +113,40 @@ class GetTagsNode(template.Node):
 
     def render(self, context):
 
-        blog = context.get(self.blog_name, None)
-        if object is None:
+        try:
+            blog = context.get(self.blog_name, None)
+            if object is None:
+                return ''
+
+            tags = blog.get_tag_cloud(context_resolve(context, self.max_count, int))
+
+            context[self.value_name] = tags
             return ''
-
-        tags = blog.get_tag_cloud(context_resolve(context, self.max_count, int))
-
-        context[self.value_name] = tags
-        return ''
+        except Exception, e:
+            print e
 
 
 @register.tag
 def get_tags(parser, token):
 
-    directive = token.contents.strip().split(' ', 1)[1]
+    try:
 
-    match = _re_tags_tag.match(directive)
+        directive = token.contents.strip().split(' ', 1)[1]
+
+        match = _re_tags_tag.match(directive)
 
 
-    if match is None:
-        raise template.TemplateSyntaxError("Syntax error")
+        if match is None:
+            raise template.TemplateSyntaxError("Syntax error")
 
-    blog_name = match.group(1)
-    value_name = match.group(2)
+        blog_name = match.group(1)
+        value_name = match.group(2)
 
-    max_count = match.group(3)
+        max_count = match.group(3)
 
-    return GetTagsNode(blog_name, value_name, max_count)
-
+        return GetTagsNode(blog_name, value_name, max_count)
+    except Exception, e:
+        print e
 
 
 class GetRecentNode(template.Node):

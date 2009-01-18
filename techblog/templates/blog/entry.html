@@ -11,7 +11,7 @@
 
 
 {% block summary_area %}
-<h1 class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ post.title }}</a></h1>
+<h1 class="faded-title"><a href="{{ blog_root }}">{{ post.title }}</a></h1>
 
 <div class="blog-tagline">{{ post.display_time|date:"F jS, Y" }}</div>
 
@@ -52,7 +52,7 @@
 </div>
 
 <div class="post-description">
-    This blog post was posted to <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
+    This blog post was posted to <a href="{{ blog_root }}">{{ blog.title }}</a>
     on {{ post.display_time|date:"l F jS, Y" }}
     at {{ post.display_time|time:"g:sA" }}
 </div>
@@ -61,13 +61,13 @@
 <div class="post-navigation">
     {% if prev_post %}
     <div class="prev-post">
-        <a href="{{ prev_post.get_absolute_url }}" title="Older post">{{ prev_post.title }}</a>
+        <a href="{% get_post_url blog_root prev_post %}" title="Older post">{{ prev_post.title }}</a>
     </div>
     {% endif %}
 
     {% if next_post %}
     <div class="next-post">
-        <a href="{{ next_post.get_absolute_url }}" title="Newer post">{{ next_post.title }}</a>
+        <a href="{% get_post_url blog_root prev_post %}" title="Newer post">{{ next_post.title }}</a>
     </div>{% endif %}
     <div class="clear"> </div>
 </div>
@@ -111,25 +111,27 @@
 
 {% include "blog/modules/search.html" %}
 
+
 {% with tags as post.get_tags %}
 {% if tags %}
 <div class="module-header">Tags</div>
     <ul class="links-list">
     <div class="module">
     {% for tag in tags %}
-    <li><a href="{{ tag.get_absolute_url }}" class="tag">{{ tag.name|smart_title }}</a></li>
+    <li><a href="{{ blog_root }}{{ tag.get_blog_relative_url }}/" class="tag">{{ tag.name|smart_title }}</a></li>
     {% endfor %}
     </div>
     </ul>
 {% endif %}
 {% endwith %}
 
+
 {% if related_posts %}
     <div class="module-header">Possibly related posts</div>
     <div class="module">
 <ul class="links-list">
     {% for post in related_posts %}
-    <li><a href="{{ post.get_absolute_url }}"{% if post.is_new %} class="new" {% endif %}>{{ post.title }}</a></li>
+    <li><a href="{% get_post_url blog_root post %}"{% if post.is_new %} class="new" {% endif %}>{{ post.title }}</a></li>
     {% endfor %}
 </ul>
 

@@ -43,7 +43,7 @@ def get_channel_or_blog(slug):
 def get_blog_list_data(request, posts, get_page_url, page_no):
 
 
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, 2)
 
     if page_no > paginator.num_pages:
         raise Http404
@@ -66,8 +66,26 @@ def get_blog_list_data(request, posts, get_page_url, page_no):
     return td
 
 
+def feeds(request, blog_slug, feed_item, **kwargs):
 
-def blog_month(request, blog_slug, year, month, page_no=1):
+    from django.contrib.syndication.views import feed
+
+    if '/' in feed_item:
+        feed_type, slug = feed_item.split('/', 1)
+    else:
+        feed_type = feed_item
+        slug =""
+
+    if feed_type == "posts":
+        return feed(request, url="posts/%s"% ( blog_slug ), **kwargs)
+    elif feed_type == "tag":
+        return feed(request, url="tag/%s/%s"% ( blog_slug, feed_item ), **kwargs)
+    raise Http404
+
+
+
+
+def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
 
     page_no = int(page_no)
     #if page_no < 1:
@@ -79,6 +97,7 @@ def blog_month(request, blog_slug, year, month, page_no=1):
     month = int(month)
 
     blog = get_channel_or_blog(blog_slug)
+    blog_root = blog_root or blog.get_absolute_url()
 
     try:
         start_date = datetime(year, month, 1)
@@ -99,22 +118,25 @@ def blog_month(request, blog_slug, year, month, page_no=1):
     if not posts.count():
         raise Http404
 
-    archives = tools.collate_archives(blog)
+    archives = tools.collate_archives(blog, blog_root)
 
     def get_page_url(page_no, num_pages):
         if page_no < 1 or page_no > num_pages:
             return ""
         if page_no == 1:
-            return reverse("blog_month", kwargs = dict(blog_slug=blog_slug, year=year, month=month))
+            return "%s%i/%i"%(blog_root, year, month)
+            #return reverse("blog_month", kwargs = dict(blog_slug=blog_slug, year=year, month=month, blog_root=blog_root))
         else:
-            return reverse("blog_month_with_page", kwargs = dict(blog_slug=blog_slug, year=year, month=month, page_no=page_no))
+            return "%s%i/%i/page/%i"%(blog_root, year, month, page_no)
+            return reverse("blog_month_with_page", kwargs = dict(blog_slug=blog_slug, year=year, month=month, page_no=page_no, blog_root=blog_root))
 
 
     td = get_blog_list_data(request, posts, get_page_url, page_no)
 
     sections = blog.description_data.get('sections', None)
 
-    td.update(  dict(blog = blog,
+    td.update(  dict( blog_root = blog_root,
+                blog = blog,
                 sections = sections,
                 title = title,
                 page_title = title,
@@ -128,13 +150,15 @@ def blog_month(request, blog_slug, year, month, page_no=1):
     return render_to_response(blog.get_template_names("blog/month.html"), td)
 
 
-def blog_front(request, blog_slug="", page_no=1):
+def blog_front(request, blog_slug="", page_no=1, blog_root=None):
 
     page_no = int(page_no)
     if page_no < 1:
         raise Http404
 
     blog = get_channel_or_blog(blog_slug)
+    print "blog root is", blog_root
+    blog_root = blog_root or blog.get_absolute_url()
 
     title = blog.title
     posts = blog.posts()
@@ -145,9 +169,9 @@ def blog_front(request, blog_slug="", page_no=1):
         if page_no < 1 or page_no > num_pages:
             return ""
         if page_no == 1:
-            return reverse("blog_front", kwargs={"blog_slug":blog_slug})
+            return blog_root
         else:
-            return reverse("blog_front_with_page", kwargs={"blog_slug":blog_slug, "page_no":str(page_no)})
+            return "%spage/%i" % (blog_root, page_no)
 
     td = get_blog_list_data(request, posts, get_page_url, page_no)
 
@@ -155,7 +179,8 @@ def blog_front(request, blog_slug="", page_no=1):
 
     feeds = [blog.get_feed()]
 
-    td.update(  dict(   blog = blog,
+    td.update(  dict(   blog_root = blog_root,
+                        blog = blog,
                         title = title,
                         page_title = title,
                         tagline = blog.tagline,
@@ -194,9 +219,10 @@ def get_related_posts(blog, post, count=10):
     #return posts
 
 
-def blog_post(request, blog_slug, year, month, day, slug):
+def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
 
     blog = get_channel_or_blog(slug=blog_slug)
+    blog_root = blog_root or blog.get_absolute_url()
 
     year = int(year)
     month = int(month)
@@ -246,7 +272,8 @@ def blog_post(request, blog_slug, year, month, day, slug):
 
     related_posts = get_related_posts(blog, post)
 
-    td = dict(  blog=blog,
+    td = dict(  blog_root = blog_root,
+                blog=blog,
                 year=year,
                 month=month,
                 day=day,
@@ -268,13 +295,14 @@ def blog_post(request, blog_slug, year, month, day, slug):
 
 
 
-def tag(request, blog_slug, tag_slug, page_no=1):
+def tag(request, blog_slug, tag_slug, page_no=1, blog_root=None):
 
     page_no = int(page_no)
     if page_no < 1:
         raise Http404
 
     blog = get_channel_or_blog(blog_slug)
+    blog_root = blog_root or blog.get_absolute_url()
     #tag = get_object_or_404(models.Tag, slug=tag_slug)
     try:
         tag = blog.get_tag(tag_slug)
@@ -293,7 +321,7 @@ def tag(request, blog_slug, tag_slug, page_no=1):
     page = paginator.page(page_no)
     posts = page.object_list
 
-    archives = tools.collate_archives(blog)
+    #archives = tools.collate_archives(blog, blog_root)
 
     def get_page_url(page_no):
         if page_no < 1 or page_no > paginator.num_pages:
@@ -312,12 +340,13 @@ def tag(request, blog_slug, tag_slug, page_no=1):
 
     feeds = [tag.get_feed()]
 
-    td = dict(blog = blog,
+    td = dict(blog_root = blog_root,
+              blog = blog,
               tag = tag,
               title = title,
               page_title = title,
               tagline = blog.tagline,
-              archives = archives,
+              #archives = archives,
               page = page,
               page_no = page_no,
               posts = posts,
@@ -382,11 +411,12 @@ def import_wxr(request):
 
     return render_to_response("blog/tools/import_wxr.html", td)
 
-def blog_search(request, blog_slug):
+def blog_search(request, blog_slug, blog_root=None):
 
     s = request.GET.get('s', '').strip()
 
     blog = get_channel_or_blog(blog_slug)
+    blog_root = blog_root or blog.get_absolute_url()
 
     if isinstance(blog, models.Channel):
         blogs = list(blog.blogs.all())
@@ -409,7 +439,8 @@ def blog_search(request, blog_slug):
 
 
 
-    td = dict(blog=blog,
+    td = dict(blog_root = blog_root,
+              blog=blog,
               sections=sections,
               posts=posts,
               num_results=num_results,
@@ -417,14 +448,15 @@ def blog_search(request, blog_slug):
 
     return render_to_response(blog.get_template_names("blog/search.html"), td)
 
-def front(request):
+def front(request, blog_root=None):
     template_data = {}
     return render_to_response("blog_base.html", template_data)
 
 
-def writer(request, blog_slug, post_id):
+def writer(request, blog_slug, post_id, blog_root=None):
 
     blog = get_channel_or_blog(blog_slug)
+    blog_root = blog_root or blog.get_absolute_url()
     post = get_object_or_404(models.Post, id=post_id, version='live')
 
     edit_post = post
@@ -489,7 +521,8 @@ def writer(request, blog_slug, post_id):
         form = forms.WriterForm()
 
 
-    td = dict( post_slug=post_slug,
+    td = dict( blog_root = blog_root,
+               post_slug=post_slug,
                blog=blog,
                post=post,
                edit_post=edit_post,

@@ -42,7 +42,7 @@
 
 
 {% block summary_area %}
-<h1 class="faded-title"><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></h1>
+<h1 class="faded-title"><a href="{{ blog_root }}">{{ blog.title }}</a></h1>
 {% if blog.tagline.strip %}<div class="blog-tagline">{{ blog.tagline }}</div>{% endif %}
 {% if blog.description_html.strip %}<div class="summary-area">{{ blog.description_html|safe }}</div>{% endif %}
 {% endblock %}

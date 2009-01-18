@@ -16,9 +16,10 @@ class BlogFeed(Feed):
 
     @classmethod
     def get_url(self, blog):
-        return reverse('blog_feeds', kwargs={'url':'blog/%s'%blog.slug})
+        return reverse('blog_feeds', args=[blog.slug, 'posts'])
 
     def get_object(self, bits):
+        print bits
         if len(bits) != 1:
             raise FeedDoesNotExist
         #blog = Blog.objects.get(slug=bits[0])
@@ -47,6 +48,7 @@ class BlogFeed(Feed):
 class ChannelFeed(BlogFeed):
 
     def get_object(self, bits):
+        print bits
         if len(bits) != 1:
             raise FeedDoesNotExist
         channel = Channel.objects.get(slug=bits[0])
@@ -58,16 +60,17 @@ class BlogTagFeed(Feed):
 
     @classmethod
     def get_url(self, tag):
-        return reverse('blog_feeds', kwargs={'url':'tag/%s/%s'%(tag.blog.slug, tag.slug)})
+        return reverse('blog_feeds', args=[tag.blog.slug, "tag/"+tag.slug])
 
     def get_object(self, bits):
-        if len(bits) != 2:
+        print bits
+        if len(bits) != 3:
             raise FeedDoesNotExist
 
         blog_slug = bits[0]
-        tag_slug = bits[1]
+        tag_slug = bits[2]
 
-        blog = get_channel_or_blog(bits[0])
+        blog = get_channel_or_blog(blog_slug)
 
         tag = blog.get_tag(tag_slug)
 
@@ -96,7 +99,7 @@ class ChannelTagFeed(BlogTagFeed):
 
     @classmethod
     def get_url(self, tag):
-        return reverse('blog_feeds', kwargs={'url':'tag/%s/%s'%(tag.channel.slug, tag.slug)})
+        return reverse('blog_feeds', kwargs={'blog_slug':blog.slug, 'url':'blog'})
 
     def get_object(self, bits):
         if len(bits) != 2:

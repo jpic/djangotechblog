@@ -78,6 +78,10 @@ class Tag(models.Model):
         return ("apps.blog.views.tag", (),
                 dict(blog_slug=self.blog.slug, tag_slug=self.slug))
 
+    def get_blog_relative_url(self):
+
+        return "tag/%s" % self.slug
+
 
     def get_feed(self):
         import feeds
@@ -408,6 +412,15 @@ class Post(models.Model):
 
         return ("apps.blog.views.blog_post", (),
                 dict(blog_slug=blog_slug, year=year, month=month, day=day, slug=slug))
+
+    def get_blog_relative_url(self):
+
+        year = self.display_time.year
+        month = self.display_time.month
+        day = self.display_time.day
+
+        return "%i/%i/%i/%s" % (year, month, day, self.slug)
+
 
     def _remove_tags(self):
 

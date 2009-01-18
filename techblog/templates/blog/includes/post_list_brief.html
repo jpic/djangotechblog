@@ -6,7 +6,7 @@
 {% for post in posts %}
 
 <div class="search-result">
-<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+<h2><a href="{% get_post_url blog_root post %}">{{ post.title }}</a></h2>
 
 {# <div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div> #}
 

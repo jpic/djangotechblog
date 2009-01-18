@@ -20,8 +20,12 @@ if settings.DEBUG:
 
 
 urlpatterns += patterns('',
-    (r'^blog/', include('apps.blog.urls')),
+
+    (r'^', include('apps.blog.urls'), {"blog_slug":settings.DEFAULT_BLOG_SLUG, "blog_root":"/"}),
+
+    (r'^blog/(?P<blog_slug>[\w-]*)/', include('apps.blog.urls')),
+
     (r'^comments/', include('apps.comments.urls')),
     (r'^pages/', include('apps.pages.urls')),
-    (r'^', include('apps.blog.channel_urls'), {"blog_slug":settings.DEFAULT_BLOG_SLUG}),
+
 )
