@@ -95,8 +95,6 @@
 
 {% block column2 %}
 
-{% markupsection sections "column2" %}
-
 {% if not is_preview and not user.is_anonymous %}
 <div class="module-header">Admin Options</div>
 <div class="module">
@@ -109,33 +107,7 @@
 {% endif %}
 
 
-{% include "blog/modules/search.html" %}
+{% markupsection sections "column2" %}
 
-
-{% with tags as post.get_tags %}
-{% if tags %}
-<div class="module-header">Tags</div>
-    <ul class="links-list">
-    <div class="module">
-    {% for tag in tags %}
-    <li><a href="{{ blog_root }}{{ tag.get_blog_relative_url }}/" class="tag">{{ tag.name|smart_title }}</a></li>
-    {% endfor %}
-    </div>
-    </ul>
-{% endif %}
-{% endwith %}
-
-
-{% if related_posts %}
-    <div class="module-header">Possibly related posts</div>
-    <div class="module">
-<ul class="links-list">
-    {% for post in related_posts %}
-    <li><a href="{% get_post_url blog_root post %}"{% if post.is_new %} class="new" {% endif %}>{{ post.title }}</a></li>
-    {% endfor %}
-</ul>
-
-    </div>
-{% endif %}
 
 {% endblock %}

@@ -1,0 +1,14 @@
+{% load blogtags %}
+{% load humanize %}
+{% load markuptags %}
+
+{% get_related_posts for post as related_posts max 10 %}
+
+<div class="module-header">Possibly related posts</div>
+<div class="module">
+    <ul class="links-list">
+        {% for post in related_posts %}
+        <li><a href="{% get_post_url blog_root post %}"{% if post.is_new %} class="new" {% endif %}>{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

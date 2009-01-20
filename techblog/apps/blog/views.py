@@ -160,7 +160,6 @@ def blog_front(request, blog_slug="", page_no=1, blog_root=None):
         raise Http404
 
     blog = get_channel_or_blog(blog_slug)
-    print "blog root is", blog_root
     blog_root = blog_root or blog.get_absolute_url()
 
     title = blog.title
@@ -197,29 +196,6 @@ def blog_front(request, blog_slug="", page_no=1, blog_root=None):
                               td,
                               context_instance=RequestContext(request))
 
-
-
-def get_related_posts(blog, post, count=10):
-
-
-    tags = list(post.tags.all())
-
-    posts = models.Post.objects.filter(blog=blog, tags__in=tags).exclude(pk=post.id).order_by('-display_time')[:1000]
-
-    def count_iter(i):
-        return sum(1 for _ in i)
-
-    counts_and_posts = [(post, count_iter(similar_posts)) for post, similar_posts in groupby(posts)]
-
-    if counts_and_posts:
-        max_count = max(counts_and_posts, key=lambda c:c[1])[1]
-        min_count = min(counts_and_posts, key=lambda c:c[1])[1]
-
-        if min_count != max_count:
-            counts_and_posts = [cap for cap in counts_and_posts if cap[1] != min_count]
-
-    counts_and_posts.sort(key=lambda i:(i[1], i[0].display_time))
-    return [cp[0] for cp in reversed(counts_and_posts[-count:])]
 
     #return posts
 
@@ -275,7 +251,7 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
     #tags.sort(key = lambda t:t.name.lower())
 
 
-    related_posts = get_related_posts(blog, post)
+    related_posts = post.get_related_posts()
 
     td = dict(  blog_root = blog_root,
                 blog=blog,

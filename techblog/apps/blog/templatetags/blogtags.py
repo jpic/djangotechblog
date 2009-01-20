@@ -123,7 +123,7 @@ class GetTagsNode(template.Node):
             context[self.value_name] = tags
             return ''
         except Exception, e:
-            print e
+            raise
 
 
 @register.tag
@@ -132,9 +132,7 @@ def get_tags(parser, token):
     try:
 
         directive = token.contents.strip().split(' ', 1)[1]
-
         match = _re_tags_tag.match(directive)
-
 
         if match is None:
             raise template.TemplateSyntaxError("Syntax error")
@@ -171,9 +169,7 @@ class GetRecentNode(template.Node):
 def get_recent_posts(parser, token):
 
     directive = token.contents.strip().split(' ', 1)[1]
-
     match = _re_tags_tag.match(directive)
-
 
     if match is None:
         raise template.TemplateSyntaxError("Syntax error")
@@ -229,3 +225,44 @@ def get_recent_comments(parser, token):
     max_count = match.group(3)
 
     return GetRecentCommentsNode(blog_name, value_name, max_count)
+
+
+_re_related_posts_tag = re.compile(r'for (?P<object>\w+) as (?P<name>\w+) max (?P<count>\S+)')
+
+
+class GetRelatedPostsNode(template.Node):
+    def __init__(self, post_name, value_name, max_count):
+        self.post_name = post_name
+        self.value_name = value_name
+        self.max_count = max_count
+
+    def render(self, context):
+
+        post = context.get(self.post_name, None)
+        if object is None:
+            return ''
+
+        max_count = context_resolve(context, self.max_count, int)
+
+        related_posts = post.get_related_posts(max_count)
+
+        context[self.value_name] = related_posts
+
+        return ''
+
+
+@register.tag
+def get_related_posts(parser, token):
+
+    directive = token.contents.strip().split(' ', 1)[1]
+
+    match = _re_tags_tag.match(directive)
+
+    if match is None:
+        raise template.TemplateSyntaxError("Syntax error")
+
+    post_name = match.group(1)
+    value_name = match.group(2)
+    max_count = match.group(3)
+
+    return GetRelatedPostsNode(post_name, value_name, max_count)
