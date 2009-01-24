@@ -47,6 +47,7 @@ def collate_archives(blog, blog_root):
 
     years = [(year,list(months)) for (year, months) in groupby(months, lambda m:m[1])]
 
+
     return years
 
 

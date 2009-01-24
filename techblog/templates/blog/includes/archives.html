@@ -4,24 +4,26 @@
 
 {% get_archives for blog as archives %}
 
-{{ archives }}
-
 <div class="module-header">Archives</div>
 <div class="module">
 <div class="archives">
     {% for year,months in archives %}
-    <div class="archive-year">{{ year }}</div>
-    <ul class="archive-months">
-        {% for month_url, year, month, count in months %}
-        <li{% ifequal month archive_month %}{% ifequal year archive_year %} class="current-month"{% endifequal %}{% endifequal %}>
-            <div class="archive-month">
-                <a href="{{ month_url }}" title="{{ count }} posts">{{ month|longmonth }}</a>
-            </div>
-            <div class="archive-count">{{ count }} post{{ count|pluralize }}</div>
-        </li>
-        {% endfor %}
-    </ul>
-    <div class="clear"> </div>
+    <div id="archive-year-{{ year }}">
+        <div class="archive-year">
+            {{ year }}
+        </div>
+        <ul class="archive-months">
+            {% for month_url, year, month, count in months %}
+            <li{% ifequal month archive_month %}{% ifequal year archive_year %} class="current-month"{% endifequal %}{% endifequal %}>
+                <div class="archive-month">
+                    <a href="{{ month_url }}" title="{{ count }} posts">{{ month|longmonth }}</a>
+                </div>
+                <div class="archive-count">{{ count }} post{{ count|pluralize }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="clear"> </div>
+    </div>
     {% endfor %}
 </div>
 </div>

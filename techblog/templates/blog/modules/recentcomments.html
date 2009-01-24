@@ -12,7 +12,7 @@
 
     {{ comment.content_text|truncatewords:20 }}<br>
     <div class="author">
-    - <strong>{{ comment.name }}</strong> on <a href="{{ comment.content_object.get_absolute_url }}">{{ comment.content_object.title }}</a>
+    - <strong>{{ comment.name }}</strong> on <a href="{{ blog_root }}{{ comment.content_object.get_blog_relative_url }}#comment{{ comment.id }}">{{ comment.content_object.title }}</a>
     </div>
 
 </div>
