@@ -374,7 +374,7 @@ def xhr_preview_comment(request, **kwargs):
                               context_instance=RequestContext(request))
 
 
-def import_wxr(request):
+def import_wxr(request, blog_slug='', blog_root=''):
 
     from forms import ImportForm
 

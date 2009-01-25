@@ -5,7 +5,6 @@ from fields import PickledObjectField
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
-import datetime
 
 from django.contrib.auth.models import User
 
@@ -14,7 +13,11 @@ from techblog.markup.fields import MarkupField
 
 import markup
 import operator
+import datetime
+import os
+import os.path
 from itertools import groupby
+
 
 #
 #from django.db.models.signals import post_save
@@ -353,10 +356,21 @@ class Post(models.Model):
 
     version = models.CharField("Version", max_length=100, default="live")
 
+    template_path = models.CharField("Template path (blank for default)", max_length=100, default="", blank=True)
+
     #created_time = models.DateTimeField(auto_now_add=True)
 
     published_posts = PublisedPostManager()
     objects = models.Manager()
+
+    def get_template_names(self, name="default"):
+
+        templates = []
+        if self.template_path:
+            template.append( os.path.join(self.template_path, name) )
+
+        templates.append( os.path.join("blog/posts/", name) )
+        return templates
 
     def is_series(self):
         return bool(self.series)

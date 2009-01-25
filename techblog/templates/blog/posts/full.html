@@ -1,0 +1,27 @@
+{% load blogtags %}
+{% load comments %}
+<div class="post">
+{{ post.content_html|safe }}
+</div>
+
+<div class="post-description">
+    This blog post was posted to <a href="{{ blog_root }}">{{ blog.title }}</a>
+    on {{ post.display_time|date:"l F jS, Y" }}
+    at {{ post.display_time|time:"g:sA" }}
+</div>
+
+{% if prev_post or next_post %}
+<div class="post-navigation">
+    {% if prev_post %}
+    <div class="prev-post">
+        <a href="{% get_post_url blog_root prev_post %}" title="Older post">{{ prev_post.title }}</a>
+    </div>
+    {% endif %}
+
+    {% if next_post %}
+    <div class="next-post">
+        <a href="{% get_post_url blog_root prev_post %}" title="Newer post">{{ next_post.title }}</a>
+    </div>{% endif %}
+    <div class="clear"> </div>
+</div>
+{% endif %}

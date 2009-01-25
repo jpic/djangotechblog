@@ -8,6 +8,10 @@ from django.template import Variable
 register = template.Library()
 
 
+from django.template.loader import get_template, select_template
+from django.template.context import Context
+
+
 short_months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
 long_months = "January February March April May June July August September October November December".split()
 
@@ -266,3 +270,41 @@ def get_related_posts(parser, token):
     max_count = match.group(3)
 
     return GetRelatedPostsNode(post_name, value_name, max_count)
+
+
+
+
+class RenderPostNode(template.Node):
+    def __init__(self, post_name, template_fname):
+        self.post_name = post_name
+        self.template_fname = template_fname
+
+    def render(self, context):
+
+        post = context.get(self.post_name, None)
+        if post is None:
+            return ''
+
+        templates = post.get_template_names(self.template_fname)
+
+        template = select_template(templates)
+        try:
+            html = template.render(context)
+        except Exception, e:
+            error = str(e)
+            error_template = select_template(['blog/modules/error.html'])
+            html = unicode(error_template.render(Context(dict(error=error))))
+
+        return html
+
+@register.tag
+def render_post(parser, token):
+    post_name = token.contents.split()[1]
+    return RenderPostNode(post_name, 'full.html')
+
+
+@register.tag
+def render_post_brief(parser, token):
+    post_name = token.contents.split()[1]
+    print post_name
+    return RenderPostNode(post_name, 'brief.html')

@@ -13,7 +13,7 @@ urlpatterns = patterns('',
 
     url(r'^xhr/preview_comment/$', views.xhr_preview_comment, name="xhr_preview_comment"),
 
-    url(r'^tools/import/$', views.import_wxr, name="import_wxr"),
+    url(r'^tools/import/$', views.import_wxr, name='import_wxr'),
     url(r'^feeds/(?P<feed_item>.+)/$', views.feeds, {'feed_dict': feeds}, name="blog_feeds"),
 
     url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/(?P<slug>[\w-]*)/$', views.blog_post, name="blog_post"),
