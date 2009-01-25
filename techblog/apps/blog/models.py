@@ -122,7 +122,7 @@ class ChannelTag(object):
         try:
             return reverse("apps.blog.views.tag", kwargs=dict(blog_slug=self.channel.slug, tag_slug=self.tag_slug))
         except Exception, e:
-            print e
+            pass
 
     def __getattr__(self, attr):
         return getattr(self.tags[0], attr)

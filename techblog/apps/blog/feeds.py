@@ -19,7 +19,6 @@ class BlogFeed(Feed):
         return reverse('blog_feeds', args=[blog.slug, 'posts'])
 
     def get_object(self, bits):
-        print bits
         if len(bits) != 1:
             raise FeedDoesNotExist
         #blog = Blog.objects.get(slug=bits[0])
@@ -48,7 +47,6 @@ class BlogFeed(Feed):
 class ChannelFeed(BlogFeed):
 
     def get_object(self, bits):
-        print bits
         if len(bits) != 1:
             raise FeedDoesNotExist
         channel = Channel.objects.get(slug=bits[0])
@@ -63,7 +61,6 @@ class BlogTagFeed(Feed):
         return reverse('blog_feeds', args=[tag.blog.slug, "tag/"+tag.slug])
 
     def get_object(self, bits):
-        print bits
         if len(bits) != 3:
             raise FeedDoesNotExist
 

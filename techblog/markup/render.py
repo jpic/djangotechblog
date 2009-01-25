@@ -55,7 +55,10 @@ def render(markup, markup_type):
 
     elif markup_type == "comment_wordpress":
 
-        pass
+        html = markup
+        summary_html = html
+        text = postmarkup.textilize(html)
+        data = {}
 
     else:
 
@@ -70,4 +73,4 @@ def render(markup, markup_type):
 @broadcast.recieve()
 def render_comment(markup, markup_type):
 
-    return render(markup, "comment_bbcode")
+    return render(markup, markup_type)

@@ -148,7 +148,7 @@ def get_tags(parser, token):
 
         return GetTagsNode(blog_name, value_name, max_count)
     except Exception, e:
-        print e
+        pass
 
 
 class GetRecentNode(template.Node):
@@ -306,5 +306,4 @@ def render_post(parser, token):
 @register.tag
 def render_post_brief(parser, token):
     post_name = token.contents.split()[1]
-    print post_name
     return RenderPostNode(post_name, 'brief.html')
