@@ -1,0 +1,63 @@
+{% extends "blog/base.html" %}
+{% load markuptags %}
+{% load blogtags %}
+{% load comments %}
+
+{% block js_foot %}
+<script type="text/javascript" src="/media/js/comments.js"> </script>
+{% endblock %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+
+{% block summary_area %}
+<h1 class="microblog-title"><a href="{{ blog_root }}">&ldquo; {{ post.content }} &rdquo;</a></h1>
+
+<div class="blog-tagline">{{ post.display_time|date:"F jS, Y" }}</div>
+
+{% endblock %}
+
+
+
+{% block column1 %}
+
+{% render_post post %}
+
+
+{% get_comments for post as comments %}
+
+<a name="comments"> </a>
+{% if comments %}
+<div class="comments">
+    <h3>{{ comments.count }} Response{{ comments.count|pluralize }} to "{{ post.title }}"</h3>
+    {% include "blog/includes/comments.html" %}
+</div>
+{% endif %}
+
+{% if post.allow_comments %}
+{% get_comment_form for post as comment_form %}
+{% include "blog/includes/comment_form.html" %}
+{% endif %}
+
+
+{% endblock %}
+
+
+{% block column2 %}
+
+{% if not is_preview and not user.is_anonymous %}
+<div class="module-header">Admin Options</div>
+<div class="module">
+    <ul class="links-list">
+        <li><a href="{% url writer blog.slug post.id %}">Edit this Page</a></li>
+        <li><a href="/admin/blog/post/{{ post.id}}">Admin Page</a></li>
+    </ul>
+
+</div>
+{% endif %}
+
+
+{% markupsection sections "column2" %}
+
+
+{% endblock %}
