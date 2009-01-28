@@ -3,11 +3,15 @@ from models import Post
 
 from datetime import datetime
 import twitter
+import re
 
 from django.template.defaultfilters import slugify
 
 def update():
     update_microblogs();
+
+
+re_microblog_reply = re.compile(r'^@\w+')
 
 def update_microblogs():
 
@@ -22,6 +26,10 @@ def update_microblogs():
         if not microblog.enabled:
             continue
         for tweet in twitter_api.GetUserTimeline(microblog.username):
+
+            if re_microblog_reply.match(tweet.text):
+                continue
+
             tweet_guid = u"TWITTER:%s" % str(tweet.id)
             try:
                 post = Post.objects.get(blog=microblog.blog, guid=tweet_guid)
