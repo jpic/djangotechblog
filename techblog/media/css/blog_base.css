@@ -161,6 +161,30 @@ body
     margin: 0 auto;
 }
 
+
+.title-area .microblog-title
+{
+    font-size:200%;
+    opacity:.8;
+    font-weight:bold;
+    z-index:20;
+    /*font-family:"Courier New", Courier, monospace;*/
+    text-align:center;
+    color:white;
+    margin-bottom:4px;
+    letter-spacing:-1px;
+    width:600px;
+    margin: 0 auto;
+    line-height:normal;
+}
+
+.title-area .microblog-title a:visited, .title-area .microblog-title a:link
+{
+    color:white;
+}
+
+
+
 .faded-title a:hover
 {
     text-decoration:underline;

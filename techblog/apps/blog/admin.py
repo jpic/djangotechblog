@@ -43,6 +43,7 @@ class PostAdmin(admin.ModelAdmin):
               'title',
               'slug',
               'series',
+              'template_path',
               'published',
               'allow_comments',
               'display_time',
@@ -68,3 +69,14 @@ class TagAdmin(admin.ModelAdmin):
     search_fields= ['name']
 
 admin.site.register(models.Tag, TagAdmin)
+
+class MicroblogAdmin(admin.ModelAdmin):
+    fields = ('blog',
+              'service',
+              'url',
+              'username',
+              'password',
+              'poll_minutes',
+              'template_path')
+
+admin.site.register(models.Microblog, MicroblogAdmin)

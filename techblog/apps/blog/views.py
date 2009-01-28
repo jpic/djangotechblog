@@ -44,7 +44,7 @@ def get_channel_or_blog(slug):
 def get_blog_list_data(request, posts, get_page_url, page_no):
 
 
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 10)
 
     if page_no > paginator.num_pages:
         raise Http404
@@ -148,7 +148,7 @@ def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
 
     sections = extendedmarkup.process(sections, td)
 
-    return render_to_response(blog.get_template_names("blog/month.html"),
+    return render_to_response(blog.get_template_names("month.html", [post.template_path]),
                               td,
                               context_instance=RequestContext(request))
 
@@ -192,7 +192,7 @@ def blog_front(request, blog_slug="", page_no=1, blog_root=None):
 
     sections = extendedmarkup.process(sections, td)
 
-    return render_to_response(blog.get_template_names("blog/index.html"),
+    return render_to_response(blog.get_template_names("index.html"),
                               td,
                               context_instance=RequestContext(request))
 
@@ -271,7 +271,7 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
 
     sections = extendedmarkup.process(sections, td)
 
-    return render_to_response(blog.get_template_names("blog/entry.html"),
+    return render_to_response(blog.get_template_names("entry.html", [post.template_path]),
                               td,
                               context_instance=RequestContext(request))
 
@@ -296,7 +296,7 @@ def tag(request, blog_slug, tag_slug, page_no=1, blog_root=None):
     posts = tag.posts()
 
 
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 10)
 
     if page_no > paginator.num_pages:
         raise Http404
@@ -341,7 +341,7 @@ def tag(request, blog_slug, tag_slug, page_no=1, blog_root=None):
 
     sections = extendedmarkup.process(sections, td)
 
-    return render_to_response(blog.get_template_names("blog/tag.html"),
+    return render_to_response(blog.get_template_names("tag.html"),
                               td,
                               context_instance=RequestContext(request))
 
@@ -435,7 +435,7 @@ def blog_search(request, blog_slug, blog_root=None):
               num_results=num_results,
               search_term=s)
 
-    return render_to_response(blog.get_template_names("blog/search.html"),
+    return render_to_response(blog.get_template_names("search.html"),
                               td,
                               context_instance=RequestContext(request))
 

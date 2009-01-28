@@ -277,16 +277,27 @@ class Blog(models.Model):
     slug = models.SlugField(unique=True)
     posts_per_page = models.IntegerField(default=10)
 
-    template = models.CharField("Template prefix", max_length=100)
+    template = models.CharField("Template path", max_length=100)
 
     description = MarkupField(default="", renderer=render, blank=True)
 
     def get_full_template_name(self, template_name):
         return self.template.rstrip('/') + '/' + self.template
 
-    def get_template_names(self, template_name):
-        template_prefix = self.template.rstrip('/')
-        return [template_prefix + '/' + template_name, 'theme/'+template_name, template_name]
+    def get_template_names(self, template_name, alternates=None):
+
+        alternates = alternates or []
+
+        alternates = [os.path.join(p, template_name) for p in alternates]
+
+        templates = []
+        templates += alternates
+        templates.append(os.path.join('blog', template_name))
+
+        print templates
+
+        return templates
+
 
     def __unicode__(self):
         return self.title
@@ -344,6 +355,7 @@ class Post(models.Model):
     allow_comments = models.BooleanField("Allow Comments?", default=True)
 
     series = models.CharField("Series name", max_length=100, blank=True, default="")
+    source = models.CharField("Post source", max_length=100, blank=True, default="")
 
     created_time = models.DateTimeField(auto_now_add=True)
     edit_time = models.DateTimeField(auto_now=True)
@@ -367,7 +379,7 @@ class Post(models.Model):
 
         templates = []
         if self.template_path:
-            template.append( os.path.join(self.template_path, name) )
+            templates.append( os.path.join(self.template_path, name) )
 
         templates.append( os.path.join("blog/posts/", name) )
         return templates
@@ -586,3 +598,17 @@ class Post(models.Model):
 
         counts_and_posts.sort(key=lambda i:(i[1], i[0].display_time))
         return [cp[0] for cp in reversed(counts_and_posts[-count:])]
+
+class Microblog(models.Model):
+
+    enabled = models.BooleanField("Enabled?", default=True)
+
+    blog = models.ForeignKey(Blog)
+    service = models.CharField("Service", max_length=100, default="twitter", blank=True)
+    url = models.CharField("Url", max_length=255, default="", blank=True)
+    username = models.CharField(max_length=100, blank=True)
+    password = models.CharField(max_length=100, blank=True)
+    poll_minutes = models.IntegerField(default=10)
+    template_path = models.CharField(max_length=255)
+
+    next_poll_time = models.DateTimeField("Time to next poll", auto_now_add=True)
