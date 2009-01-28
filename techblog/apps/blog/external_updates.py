@@ -30,7 +30,7 @@ def update_microblogs():
                 title = char_break(tweet.text, 50)
                 post = Post(blog = microblog.blog,
                             title = "Twitter: " + title,
-                            tags_text = "twitter",
+                            tags_text = microblog.tags,
                             slug = slugify(title),
                             published = True,
                             guid = u"TWITTER:" + tweet_guid,

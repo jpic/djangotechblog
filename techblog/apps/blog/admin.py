@@ -73,6 +73,7 @@ admin.site.register(models.Tag, TagAdmin)
 class MicroblogAdmin(admin.ModelAdmin):
     fields = ('blog',
               'service',
+              'tags',
               'url',
               'username',
               'password',

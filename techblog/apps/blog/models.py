@@ -605,6 +605,7 @@ class Microblog(models.Model):
 
     blog = models.ForeignKey(Blog)
     service = models.CharField("Service", max_length=100, default="twitter", blank=True)
+    tags = models.CharField("Tags", max_length=200)
     url = models.CharField("Url", max_length=255, default="", blank=True)
     username = models.CharField(max_length=100, blank=True)
     password = models.CharField(max_length=100, blank=True)
