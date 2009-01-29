@@ -1,7 +1,7 @@
 {% load blogtags %}
 {% load comments %}
-<div class="post">
-MICROBLOG: {{ post.content_html|safe }}
+<div class="microblog space">
+{{ post.content_html|urlize|safe }}
 </div>
 
 <div class="post-description">
@@ -20,8 +20,10 @@ MICROBLOG: {{ post.content_html|safe }}
 
     {% if next_post %}
     <div class="next-post">
-        <a href="{% get_post_url blog_root prev_post %}" title="Newer post">{{ next_post.title }}</a>
-    </div>{% endif %}
+        <a href="{% get_post_url blog_root next_post %}" title="Newer post">{{ next_post.title }}</a>
+    </div>
+    {% endif %}
+
     <div class="clear"> </div>
 </div>
 {% endif %}

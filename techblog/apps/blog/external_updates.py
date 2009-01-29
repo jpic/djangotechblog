@@ -37,11 +37,12 @@ def update_microblogs():
                 tweet_time = datetime.fromtimestamp(tweet.created_at_in_seconds)
                 title = char_break(tweet.text, 50)
                 post = Post(blog = microblog.blog,
-                            title = "Twitter: " + title,
+                            title = "Microblog: " + title,
+                            source = "microblog:" + microblog.service,
                             tags_text = microblog.tags,
                             slug = slugify(title),
                             published = True,
-                            guid = u"TWITTER:" + tweet_guid,
+                            guid = tweet_guid,
                             allow_comments=True,
                             created_time=datetime.now(),
                             edit_time=datetime.now(),
@@ -51,4 +52,6 @@ def update_microblogs():
                             version = 'live',
                             template_path = microblog.template_path,
                             )
+                post.save()
+                post.display_time = tweet_time
                 post.save()

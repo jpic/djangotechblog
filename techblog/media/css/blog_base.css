@@ -1961,3 +1961,16 @@ li.current-month
     padding-right:14px;
     margin-right:0px;
 }
+
+.microblog
+{
+    font-family: "Palatino Linotype", "Book Antiqua", serif;
+    font-size:150%;
+    line-height:normal;
+    color:#666;
+}
+
+.space
+{
+    padding-bottom:20px;
+}
