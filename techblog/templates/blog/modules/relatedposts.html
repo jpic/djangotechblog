@@ -1,7 +1,7 @@
 {% load blogtags %}
 {% load humanize %}
 {% load markuptags %}
-
+{% if post %}
 {% get_related_posts for post as related_posts max 10 %}
 
 <div class="module-header">Possibly related posts</div>
@@ -12,3 +12,4 @@
         {% endfor %}
     </ul>
 </div>
+{% endif %}

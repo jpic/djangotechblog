@@ -148,7 +148,7 @@ def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
 
     sections = extendedmarkup.process(sections, td)
 
-    return render_to_response(blog.get_template_names("month.html", [post.template_path]),
+    return render_to_response(blog.get_template_names("month.html"),
                               td,
                               context_instance=RequestContext(request))
 
