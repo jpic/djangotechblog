@@ -8,6 +8,7 @@ from django.conf import settings
 from django.template.context import RequestContext
 import urllib
 from django.db.models import Q
+from django.contrib.auth.decorators import *
 
 from datetime import datetime, timedelta
 import tools
@@ -215,12 +216,20 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
     if post_day_start > datetime.now():
         raise Http404
 
-    post = get_object_or_404(models.Post,
-                             display_time__gte=post_day_start,
-                             display_time__lt=post_day_end,
-                             slug=slug,
-                             blog__slug=blog_slug,
-                             published=True)
+    if request.user.is_anonymous():
+        post = get_object_or_404(models.Post,
+                                 display_time__gte=post_day_start,
+                                 display_time__lt=post_day_end,
+                                 slug=slug,
+                                 blog__slug=blog_slug,
+                                 published=True)
+    else:
+        post = get_object_or_404(models.Post,
+                                 display_time__gte=post_day_start,
+                                 display_time__lt=post_day_end,
+                                 slug=slug,
+                                 blog__slug=blog_slug)
+
 
     is_preview = False
     if 'version' in request.GET and not request.user.is_anonymous():
@@ -238,12 +247,12 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
     prev_post = None
     next_post = None
     try:
-        prev_post = models.Post.objects.filter(blog=blog, display_time__lt=post.display_time).order_by('-display_time')[0]
+        prev_post = models.Post.objects.filter(blog=blog, published=True, display_time__lt=post.display_time).order_by('-display_time')[0]
     except IndexError:
         pass
 
     try:
-        next_post = models.Post.objects.filter(blog=blog, display_time__gt=post.display_time).order_by('display_time')[0]
+        next_post = models.Post.objects.filter(blog=blog, published=True, display_time__gt=post.display_time).order_by('display_time')[0]
     except IndexError:
         pass
 
@@ -446,7 +455,27 @@ def front(request, blog_root=None):
                               context_instance=RequestContext(request))
 
 
+def newpost(request, blog_slug, blog_root=None):
+
+    blog = get_object_or_404(models.Blog, slug=blog_slug)
+
+    post = models.Post(blog=blog,
+                       title="Post",
+                       slug="post slug",
+                       published=False,
+                       version='live')
+    post.save()
+    post.title = "post %i" % post.id
+    post.slug = post.title.replace(' ','_')
+    post.save()
+
+    return HttpResponseRedirect(reverse(writer, args=(blog_slug, post.id)))
+
+@login_required
 def writer(request, blog_slug, post_id, blog_root=None):
+
+    #if request.user.is_anonymous:
+    #    raise Http404
 
     blog = get_channel_or_blog(blog_slug)
     blog_root = blog_root or blog.get_absolute_url()
@@ -524,5 +553,22 @@ def writer(request, blog_slug, post_id, blog_root=None):
                )
 
     return render_to_response("blog/write.html",
+                              td,
+                              context_instance=RequestContext(request))
+
+@login_required
+def manage(request, blog_root="", blog_slug=""):
+
+    td = {}
+
+
+    blogs = models.Blog.objects.all().order_by('title')
+    channels = models.Channel.objects.all().order_by('title')
+
+    td['sections'] = ''
+    td['blogs'] = blogs
+    td['channels'] = channels
+
+    return render_to_response("blog/manage.html",
                               td,
                               context_instance=RequestContext(request))

@@ -294,8 +294,6 @@ class Blog(models.Model):
         templates += alternates
         templates.append(os.path.join('blog', template_name))
 
-        print templates
-
         return templates
 
 

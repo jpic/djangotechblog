@@ -1,0 +1,46 @@
+{% extends "blog/base.html" %}
+
+
+{% block summary_area %}
+<h1 class="faded-title">Manage Blog</h1>
+<div class=""></div>
+
+{% endblock %}
+
+
+{% block column1 %}
+
+<li>
+    <li><a href="/admin/blog/blog/add/">Add Blog</a></li>
+    <li><a href="/admin/blog/channel/add/">Add Channel</a></li>
+</li>
+
+{% endblock %}
+
+
+{% block column2 %}
+
+<div class="module-header">
+    Blogs
+</div>
+<div class="module">
+    <ul class="links-list">
+    {% for blog in blogs %}
+    <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div class="module-header">
+    Channels
+</div>
+<div class="module">
+    <ul class="links-list">
+    {% for channel in channels %}
+    <li><a href="{{ channel.get_absolute_url }}">{{ channel.title }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+
+
+{% endblock %}

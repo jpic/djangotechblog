@@ -1974,3 +1974,8 @@ li.current-month
 {
     padding-bottom:20px;
 }
+
+.manage-link
+{
+    font-weight:bold;
+}

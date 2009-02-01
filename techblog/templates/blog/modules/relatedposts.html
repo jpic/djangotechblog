@@ -3,7 +3,7 @@
 {% load markuptags %}
 {% if post %}
 {% get_related_posts for post as related_posts max 10 %}
-
+{% if related_posts %}
 <div class="module-header">Possibly related posts</div>
 <div class="module">
     <ul class="links-list">
@@ -12,4 +12,5 @@
         {% endfor %}
     </ul>
 </div>
+{% endif %}
 {% endif %}

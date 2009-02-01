@@ -28,6 +28,8 @@ urlpatterns = patterns('',
     url(r'^search/$', views.blog_search, name="blog_search"),
 
     url(r'^writer/(?P<post_id>\d+)$', views.writer, name="writer"),
+    url(r'^newpost/$', views.newpost, name="newpost"),
+    url(r'^manage/$', views.manage, name="manage"),
 
     url(r'^$', views.blog_front, name="blog_front"),
 
