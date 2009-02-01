@@ -395,7 +395,7 @@ body
     /*padding:4px;*/
     /*border:1px solid #d5d5d5;*/
     /*background-color:#f8f8f8;*/
-    margin:6px;
+    /*margin:6px;*/
 }
 
 .column1-content
@@ -446,7 +446,7 @@ body
     line-height:20px;
 }
 
-.post p:first-child:first-letter
+.post > p:first-child:first-letter
 {
   font-size:41px;
   float:left;

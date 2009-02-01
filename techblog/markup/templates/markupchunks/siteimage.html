@@ -1,15 +1,15 @@
 {% load markuptags %}{% load resourcestags %}
 <div class="img-caption {{ chunk.vars.float }}">
-    <div{% if chunk.vars.width %} style="width:{{ chunk.vars.width }}px;"{% endif %}>
+    <div style="width:{% siteimage_width chunk.vars.name chunk.vars.size %}px;">
     {% if chunk.vars.link %}
         <a href="{{ chunk.vars.link }}">
     {% endif %}
     {% if not chunk.vars.link %}
-    <a href="{% siteimage_url chunk.vars.name %}" target="_blank">
+    <a href="{% siteimage_url chunk.vars.name chunk.vars.size %}" target="_blank">
     {% endif %}
-        {% siteimage chunk.vars.name chunk.vars.width chunk.vars.height %}
+        {% siteimage chunk.vars.name chunk.vars.size %}
     </a>
-    <div class="caption">
+    <div class="caption" style="width:{% siteimage_width chunk.vars.name chunk.vars.size %}px;">
     {% for line in chunk %}{% if line %}<p>{{ line|postmarkup }}</p>{% endif %}{% endfor %}
     </div>
     </div>

@@ -1,5 +1,6 @@
 {% extends "blog/base.html" %}
 
+{% block title %}Manage{% endblock %}
 
 {% block summary_area %}
 <h1 class="faded-title">Manage Blog</h1>
@@ -9,11 +10,26 @@
 
 
 {% block column1 %}
+<h2>Manage your Blog</h2>
 
-<li>
+<p>This page contains options for managing your blog.
+You can also use the <a href="/admin">admin</a> pages for more advanced control.</p>
+
+<h3>Actions</h3>
+<ul>
     <li><a href="/admin/blog/blog/add/">Add Blog</a></li>
     <li><a href="/admin/blog/channel/add/">Add Channel</a></li>
-</li>
+</ul>
+
+
+<h3>Drafts</h3>
+
+<ul>
+    {% for draft in drafts %}
+    <li><a href="{{ draft.get_absolute_url }}">{{ draft.title }}</a> ({{ draft.blog.title }})</li>
+    {% endfor %}
+</ul>
+
 
 {% endblock %}
 

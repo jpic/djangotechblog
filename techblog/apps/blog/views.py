@@ -14,6 +14,7 @@ from datetime import datetime, timedelta
 import tools
 from techblog import broadcast
 from techblog.markup import extendedmarkup
+from django.template.defaultfilters import slugify
 
 from itertools import groupby
 import forms
@@ -166,6 +167,7 @@ def blog_front(request, blog_slug="", page_no=1, blog_root=None):
     title = blog.title
     posts = blog.posts()
 
+
     #archives = tools.collate_archives(blog)
 
     def get_page_url(page_no, num_pages):
@@ -222,13 +224,16 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
                                  display_time__lt=post_day_end,
                                  slug=slug,
                                  blog__slug=blog_slug,
+                                 version='live',
                                  published=True)
     else:
         post = get_object_or_404(models.Post,
                                  display_time__gte=post_day_start,
                                  display_time__lt=post_day_end,
                                  slug=slug,
-                                 blog__slug=blog_slug)
+                                 blog__slug=blog_slug,
+                                 version='live',
+                                 version_id=None)
 
 
     is_preview = False
@@ -463,6 +468,7 @@ def newpost(request, blog_slug, blog_root=None):
                        title="Post",
                        slug="post slug",
                        published=False,
+                       content_markup_type="emarkup",
                        version='live')
     post.save()
     post.title = "post %i" % post.id
@@ -496,14 +502,18 @@ def writer(request, blog_slug, post_id, blog_root=None):
 
     def save_to(save_post):
         save_post.title = request.POST.get('title', save_post.title)
+
+        save_post.slug = request.POST.get('slug', save_post.slug)
+
+        if not save_post.slug.strip():
+            save_post.slug = slugify(save_post.title)
+
         save_post.tags_text = request.POST.get('tags_text', save_post.tags_text)
         save_post.content = request.POST.get('content', save_post.content)
         save_post.published = request.POST.get('published', save_post.published) == 'on'
         save_post.allow_comments = request.POST.get('allow_comments', save_post.allow_comments) == 'on'
         save_post.save()
 
-
-    post_url = reverse('blog_post', args=(blog.slug, edit_post.display_time.year, edit_post.display_time.month, edit_post.display_time.day, post_slug))
 
     if request.method == "POST":
 
@@ -525,15 +535,19 @@ def writer(request, blog_slug, post_id, blog_root=None):
         elif 'publish' in request.POST:
 
             save_to(edit_post)
+            post_url = reverse('blog_post', args=(blog.slug, edit_post.display_time.year, edit_post.display_time.month, edit_post.display_time.day, edit_post.slug))
             edit_post.delete_version('preview')
             edit_post.delete_version('draft')
             post = edit_post
+            post.published = True
+            post.save()
             return HttpResponseRedirect(post_url)
 
         elif 'preview' in request.POST:
 
             preview_post = edit_post.get_version('preview')
             save_to(preview_post)
+            post_url = reverse('blog_post', args=(blog.slug, edit_post.display_time.year, edit_post.display_time.month, edit_post.display_time.day, edit_post.slug))
             auto_url = post_url + "?version=preview"
             post = preview_post
 
@@ -568,6 +582,9 @@ def manage(request, blog_root="", blog_slug=""):
     td['sections'] = ''
     td['blogs'] = blogs
     td['channels'] = channels
+
+    drafts = models.Post.objects.filter(version='live', published=False)
+    td['drafts'] = drafts
 
     return render_to_response("blog/manage.html",
                               td,

@@ -19,7 +19,7 @@ html,body{
       background-color:#ccc;
    }
 
-#id_title, #id_tags_text
+#id_title, #id_tags_text, #id_slug
 {
  width:99%;
 }
@@ -29,7 +29,7 @@ label
     font-weight:bold;
 }
 
-label[for=id_tags_text],label[for=id_title]
+label[for=id_tags_text],label[for=id_title],label[for=id_slug]
 {
     float:right;
 }
@@ -82,6 +82,11 @@ input[type=submit]
         </tr>
 
         <tr>
+            <td width="200px"><label for="id_slug">Slug</label></td>
+            <td><input type="text" id="id_slug" name="slug" value="{{ post.slug }}"></input></td>
+        </tr>
+
+        <tr>
             <td><label for="id_tags_text">Tags (comma separated)</label></td>
             <td><input type="text"  id="id_tags_text" name="tags_text" value="{{ post.tags_text }}"></input></td>
         </tr>
@@ -108,6 +113,8 @@ input[type=submit]
     <input type="submit" name="revert" value="Revert" onclick="return confirm('Revert to previously published version?')"></input>
     <input type="submit" name="publish" value="Publish" onclick="return confirm('Publish this post?')"></input>
     <a href="{% url blog_post blog.slug post.display_time.year post.display_time.month post.display_time.day post_slug %}" target="_blank">View on site</a>
+    <a href="/admin/resources/imageupload/add/" target="_blank">Upload an image</a>
+    <a href="/admin/resources/imageupload/" target="_blank">View Images</a>
 </div>
 
 </form>

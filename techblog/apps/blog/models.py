@@ -365,6 +365,7 @@ class Post(models.Model):
     content = MarkupField(default="", renderer=render, blank=True)
 
     version = models.CharField("Version", max_length=100, default="live")
+    version_id = models.IntegerField("Parent Post ID", blank=True, null=True)
 
     template_path = models.CharField("Template path (blank for default)", max_length=100, default="", blank=True)
 
@@ -512,12 +513,13 @@ class Post(models.Model):
         age = datetime.datetime.now() - self.display_time
         return age.days < 7
 
-    def get_version_slug(self, version):
-        slug = self.slug
-        if '|' in slug:
-            slug = slug.split('|', 1)[-1]
 
-        return "%s|%s" % (version, slug)
+    def get_parent_version(self):
+
+        if self.version_id is None:
+            return self
+        parent_post = Post.objects.get(self.version_id)
+        return parent_post
 
 
     def get_version(self, version):
@@ -527,16 +529,26 @@ class Post(models.Model):
         if self.version == version:
             return self
 
-        version_slug = self.get_version_slug(version)
+        #version_slug = self.get_version_slug(version)
+
+        parent_version_id = self.get_parent_version().id
 
         try:
-            versioned_post = Post.objects.get(blog=self.blog, slug=version_slug, version=version)
+            versioned_post = Post.objects.get(blog=self.blog, version_id=parent_version_id, version=version)
             return versioned_post
         except Post.DoesNotExist:
-            versioned_post = Post(slug=version_slug, published=False, blog=self.blog, version=version)
+            versioned_post = Post(version_id=parent_version_id, published=False, blog=self.blog, version=version)
             versioned_post.save()
 
-        copy_attribs = ['title', 'tags_text', 'content', 'content_markup_type', 'allow_comments', 'published', 'display_time']
+        copy_attribs = ['title',
+                        'tags_text',
+                        'content',
+                        'content_markup_type',
+                        'allow_comments',
+                        'published',
+                        'display_time',
+                        'slug']
+
         for attrib in copy_attribs:
             setattr(versioned_post, attrib, getattr(self, attrib))
         versioned_post.save()
@@ -547,20 +559,22 @@ class Post(models.Model):
 
         """Removes the draft object associated with a post."""
 
-        version_slug = self.get_version_slug(version)
+        parent_version_id = self.get_parent_version().id
 
         try:
-            versioned_post = Post.objects.get(blog=self.blog, slug=version_slug, version=version)
+            versioned_post = Post.objects.get(blog=self.blog,
+                                              version_id=parent_version_id,
+                                              version=version)
             versioned_post.delete()
         except Post.DoesNotExist:
             pass
 
     def version_exists(self, version):
 
-        version_slug = self.get_version_slug(version)
+        parent_version_id = self.get_parent_version().id
 
         try:
-            versioned_post = Post.objects.get(slug=version_slug, version=version)
+            versioned_post = Post.objects.get(blog=self.blog, version_id=parent_version_id, version=version)
             return True
         except Post.DoesNotExist:
             return False

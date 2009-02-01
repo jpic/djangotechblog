@@ -7,8 +7,34 @@ from techblog.apps.resources import models
 register = template.Library()
 
 
+def parse_dimensions(d):
+
+    def to_int(s):
+        try:
+            return int(s)
+        except ValueError:
+            return None
+
+    values = map(to_int, d.split()[:2])
+
+    if not values:
+        return None, None
+
+    if len(values) == 1:
+        return values[0], None
+
+    return values
+
 @register.simple_tag
-def siteimage_url(name, width=None, height=None):
+def siteimage_width(name, dimensions):
+
+    width, height = parse_dimensions(dimensions)
+    return str(width or '')
+
+@register.simple_tag
+def siteimage_url(name, dimensions):
+
+    width, height = parse_dimensions(dimensions)
 
     try:
         img_upload = models.ImageUpload.objects.get(name__iexact=name)
@@ -34,7 +60,9 @@ def siteimage_url(name, width=None, height=None):
 
 
 @register.simple_tag
-def siteimage(name, width=None, height=None):
+def siteimage(name, dimensions):
+
+    width, height = parse_dimensions(dimensions)
 
     try:
         img_upload = models.ImageUpload.objects.get(name__iexact=name)
