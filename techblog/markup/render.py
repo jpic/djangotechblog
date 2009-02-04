@@ -4,6 +4,7 @@ import markuptags
 from techblog.markup.fields import PickledObjectField, MarkupField
 from techblog import broadcast
 from techblog.markup import extendedmarkup
+from BeautifulSoup import BeautifulSoup
 
 
 from markuprender import *
@@ -66,6 +67,11 @@ def render(markup, markup_type):
         summary_html = html
         text = postmarkup.textilize(html)
         data = {}
+
+    more_i = html.find('<!--more-->')
+    if more_i != -1:
+        summary_html = html[:more_i]
+        summary_html = unicode(BeautifulSoup(summary_html))
 
     return html, summary_html, text, data
 

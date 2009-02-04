@@ -111,6 +111,17 @@ class PostLinkTag(postmarkup.TagBase):
 
         return u"</a>"
 
+
+class MoreTag(postmarkup.TagBase):
+
+    DEFAULT_NAME = "more"
+
+    def __init__(self, name, **kwargs):
+        super(MoreTag, self).__init__(name, auto_close=True, **kwargs)
+
+    def render_open(self, parser, node_index):
+        return u"<!--more-->"
+
 #
 #class HTMLTag(postmarkup.TagBase):
 #
