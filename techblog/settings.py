@@ -13,7 +13,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'techblog.db'             # Or path to database file if using sqlite3.
+DATABASE_NAME = join(settings_path, 'techblog.db')             # Or path to database file if using sqlite3.
 DATABASE_USER = ''             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
@@ -66,7 +66,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'techblog.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -105,7 +105,7 @@ INSTALLED_APPS = (
 )
 
 
-DEFAULT_BLOG_SLUG = "test-blog"
+DEFAULT_BLOG_SLUG = "rootblog"
 
 try:
     from local_settings import *
