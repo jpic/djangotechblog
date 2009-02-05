@@ -214,6 +214,17 @@ class Channel(models.Model):
         url = feeds.ChannelFeed.get_url(self)
         return dict(title=title, url=url)
 
+    def get_template_names(self, template_name, alternates=None):
+
+        alternates = alternates or []
+
+        alternates = [os.path.join(p, template_name) for p in alternates]
+
+        templates = []
+        templates += alternates
+        templates.append(os.path.join('blog', template_name))
+
+        return templates
 
 
 class TagCloud(object):
@@ -318,7 +329,7 @@ class Blog(models.Model):
 
         blog_slug = self.slug
 
-        return ("apps.blog.views.blog_front", (),
+        return ("blog_front", (),
                 dict(blog_slug=blog_slug))
 
     def get_tag_cloud(self, tag_count=30):

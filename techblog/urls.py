@@ -23,7 +23,7 @@ urlpatterns += patterns('',
 
     (r'^', include('techblog.apps.blog.urls'), {"blog_slug":settings.DEFAULT_BLOG_SLUG, "blog_root":"/"}),
 
-    (r'^blog/(?P<blog_slug>[\w-]*)/', include('techblog.apps.blog.urls')),
+    (r'^blog/(?P<blog_slug>[\w-]*)/', include('techblog.apps.blog.urls') ),
 
     (r'^comments/', include('techblog.apps.comments.urls')),
     (r'^pages/', include('techblog.apps.pages.urls')),

@@ -223,7 +223,6 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
                                  display_time__gte=post_day_start,
                                  display_time__lt=post_day_end,
                                  slug=slug,
-                                 blog__slug=blog_slug,
                                  version='live',
                                  published=True)
     else:
@@ -231,7 +230,6 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
                                  display_time__gte=post_day_start,
                                  display_time__lt=post_day_end,
                                  slug=slug,
-                                 blog__slug=blog_slug,
                                  version='live',
                                  version_id=None)
 
