@@ -94,9 +94,13 @@ class BlogTagFeed(Feed):
 
 class ChannelTagFeed(BlogTagFeed):
 
+    #@classmethod
+    #def get_url(self, tag):
+    #    return reverse('blog_feeds', kwargs={'blog_slug':blog.slug, 'url':'blog'})
+
     @classmethod
     def get_url(self, tag):
-        return reverse('blog_feeds', kwargs={'blog_slug':blog.slug, 'url':'blog'})
+        return reverse('blog_feeds', args=[tag.blog.slug, "tag/"+tag.slug])
 
     def get_object(self, bits):
         if len(bits) != 2:

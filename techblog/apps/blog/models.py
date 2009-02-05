@@ -39,7 +39,7 @@ class Tag(models.Model):
 
     blog = models.ForeignKey("Blog")
     name = models.CharField("Tag name", max_length=100)
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=100)
 
     template = models.CharField("Template", max_length=100)
 
@@ -135,7 +135,7 @@ class Channel(models.Model):
 
     title = models.CharField("Channel Title", max_length=100)
     tagline = models.CharField("Tag line", max_length=200)
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=100)
     posts_per_page = models.IntegerField(default=10)
 
     template = models.CharField("Template prefix", max_length=100, blank=True)
@@ -285,7 +285,7 @@ class Blog(models.Model):
 
     title = models.CharField("Title of the Blog", max_length=100)
     tagline = models.CharField("Tag line", max_length=200, blank=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
     posts_per_page = models.IntegerField(default=10)
 
     template = models.CharField("Template path", max_length=100)
@@ -357,7 +357,7 @@ class Post(models.Model):
     blog = models.ForeignKey(Blog)
 
     title = models.CharField("Post Title", max_length=100)
-    slug = models.SlugField("Post Slug")
+    slug = models.SlugField("Post Slug", max_length=100)
     published = models.BooleanField("Published?", default=False)
     guid = models.CharField(max_length=255, blank=True)
 
