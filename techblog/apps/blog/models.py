@@ -1,7 +1,7 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-from fields import PickledObjectField
+from techblog.markup.fields import PickledObjectField
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
