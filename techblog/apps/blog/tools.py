@@ -127,7 +127,7 @@ def import_wxr(blog_slug, wxr_file):
             html = "\n".join(lines)
 
             def repl_lang(match):
-                return "\n\n{..code}\n{..language=%s}\n%s\n\n{..html}\n" % (match.group(1), match.group(2))
+                return "\n\n{..code}\n{..language=%s}\n%s\n\n{..html}\n" % (match.group(1).lower(), match.group(2))
             html = pre_lang_re.sub(repl_lang, html)
 
             def repl(match):
