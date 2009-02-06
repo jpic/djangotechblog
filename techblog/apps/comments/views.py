@@ -113,7 +113,6 @@ def xhr_delete_comment(request, **kwargs):
     url_key = urlparse.urlsplit(url)[2]
     cache_key = "views.decorators.cache.cache_header.%s.%s" % (key_prefix, url_key)
     cache.delete(cache_key)
-    print cache_key
 
     if comment_id is None:
         result = "fail"

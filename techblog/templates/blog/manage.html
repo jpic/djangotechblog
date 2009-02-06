@@ -31,6 +31,18 @@ You can also use the <a href="/admin">admin</a> pages for more advanced control.
 </ul>
 
 
+{% if cache_stats %}
+<h3>Cache Stats</h3>
+<table>
+    {% for k, v in cache_stats %}
+    <tr>
+        <td>{{ k }}</td>
+        <td>{{ v }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
 {% endblock %}
 
 

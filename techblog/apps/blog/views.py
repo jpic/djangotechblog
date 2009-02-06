@@ -15,6 +15,8 @@ import tools
 from techblog import broadcast
 from techblog.markup import extendedmarkup
 from django.template.defaultfilters import slugify
+from django.views.decorators.cache import never_cache
+
 
 from itertools import groupby
 import forms
@@ -569,6 +571,7 @@ def writer(request, blog_slug, post_id, blog_root=None):
                               context_instance=RequestContext(request))
 
 @login_required
+@never_cache
 def manage(request, blog_root="", blog_slug=""):
 
     td = {}
@@ -583,6 +586,13 @@ def manage(request, blog_root="", blog_slug=""):
 
     drafts = models.Post.objects.filter(version='live', published=False)
     td['drafts'] = drafts
+
+    if settings.CACHE_BACKEND.startswith('memcache'):
+        import memcache
+        c = memcache.Client([settings.CACHE_BACKEND.split(':',1)[1].strip('/')])
+        cache_stats = c.get_stats()[0][1]
+        print cache_stats
+        td['cache_stats'] = cache_stats.items()
 
     return render_to_response("blog/manage.html",
                               td,
