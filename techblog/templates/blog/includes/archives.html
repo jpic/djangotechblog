@@ -1,7 +1,9 @@
 {% load blogtags %}
 {% load humanize %}
 {% load markuptags %}
+{% load cache %}
 
+{% cache 3600 blog.slug %}
 {% get_archives for blog as archives %}
 
 <div class="module-header">Archives</div>
@@ -27,3 +29,4 @@
     {% endfor %}
 </div>
 </div>
+{% endcache %}

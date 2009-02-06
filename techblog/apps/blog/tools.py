@@ -5,7 +5,7 @@ from itertools import groupby
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-#import tidy
+from django.db import transaction
 
 from techblog import broadcast
 import time
@@ -51,186 +51,194 @@ def collate_archives(blog, blog_root):
     return years
 
 
+@transaction.commit_manually
 def import_wxr(blog_slug, wxr_file):
 
 
-    namespaces = """
-	xmlns:excerpt="http://wordpress.org/export/1.0/excerpt/"
-	xmlns:content="http://purl.org/rss/1.0/modules/content/"
-	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
-	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:wp="http://wordpress.org/export/1.0/"
-"""
+    try:
 
-    content_ns = "http://purl.org/rss/1.0/modules/content/"
-    wp_ns = "http://wordpress.org/export/1.0/"
+        namespaces = """
+            xmlns:excerpt="http://wordpress.org/export/1.0/excerpt/"
+            xmlns:content="http://purl.org/rss/1.0/modules/content/"
+            xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+            xmlns:dc="http://purl.org/dc/elements/1.1/"
+            xmlns:wp="http://wordpress.org/export/1.0/"
+    """
 
-    blog = models.Blog.objects.get(slug=blog_slug)
+        content_ns = "http://purl.org/rss/1.0/modules/content/"
+        wp_ns = "http://wordpress.org/export/1.0/"
 
-    wxr = ET.parse(wxr_file)
+        blog = models.Blog.objects.get(slug=blog_slug)
 
-    items = wxr.findall(".//item")
+        wxr = ET.parse(wxr_file)
 
-    def get_text(item, name, ns=None, default=""):
-        if ns is None:
-            el = item.find(".//%s" % name)
-        else:
-            el = item.find(".//{%s}%s" % (ns, name))
-        if el is not None:
-            if el.text is None:
-                return default
-            return el.text
-        return default
+        items = wxr.findall(".//item")
 
-    pre_lang_re = re.compile(r'<pre lang="(\w+)">(.*?)<\/pre>', re.S)
-    pre_re = re.compile(r'<pre>(.*?)<\/pre>', re.S)
-    url_re = re.compile(r'http[s]*://\w*.\S*', re.S)
-
-    def fix_html(html):
-
-        html = html.replace("<h2>", "\n\n<h3>")
-        html = html.replace("</h2>", "</h3>\n\n")
-        html = html.replace('<p>', '\n\n')
-        html = html.replace('</p>', '\n\n')
-        html = html.replace('<pre', '\n\n<pre')
-        html = html.replace('</pre>', '\n</pre>\n\n')
-
-        lines = []
-        lines.append("{..html}")
-
-        p_start = None
-        pre = False
-        for line in html.split('\n'):
-            #line = line.replace('\n', '<br/>')
-            if "/pre>" in line:
-                pre = False
-                lines.append(line)
-                continue
-            if "<pre" in line:
-                pre = True
-            if pre:
-                line = line.replace('&gt;', '>')
-                line = line.replace('&lt;', '<')
-                line = line.replace('&amp;', '&')
-                lines.append(line)
-                continue
-            line = line.strip()
-            if line:
-                if not line.startswith('<'):
-                    lines.append("\n<p>%s</p>"%line)
-                else:
-                    lines.append(line)
-
-        html = "\n".join(lines)
-
-        def repl_lang(match):
-            return "\n\n{..code}\n{..language=%s}\n%s\n\n{..html}\n" % (match.group(1), match.group(2))
-        html = pre_lang_re.sub(repl_lang, html)
-
-        def repl(match):
-            if '>>>' in match.group(1):
-                language = 'pycon'
+        def get_text(item, name, ns=None, default=""):
+            if ns is None:
+                el = item.find(".//%s" % name)
             else:
-                language = 'python'
-            return "\n\n{..code}\n{..language=%s}\n%s\n\n{..html}\n" % (language, match.group(1))
-        html = pre_re.sub(repl, html)
+                el = item.find(".//{%s}%s" % (ns, name))
+            if el is not None:
+                if el.text is None:
+                    return default
+                return el.text
+            return default
 
-        return html
+        pre_lang_re = re.compile(r'<pre lang="(\w+)">(.*?)<\/pre>', re.S)
+        pre_re = re.compile(r'<pre>(.*?)<\/pre>', re.S)
+        url_re = re.compile(r'http[s]*://\w*.\S*', re.S)
+
+        def fix_html(html):
+
+            html = html.replace("<h2>", "\n\n<h3>")
+            html = html.replace("</h2>", "</h3>\n\n")
+            html = html.replace('<p>', '\n\n')
+            html = html.replace('</p>', '\n\n')
+            html = html.replace('<pre', '\n\n<pre')
+            html = html.replace('</pre>', '\n</pre>\n\n')
+
+            lines = []
+            lines.append("{..html}")
+
+            p_start = None
+            pre = False
+            for line in html.split('\n'):
+                #line = line.replace('\n', '<br/>')
+                if "/pre>" in line:
+                    pre = False
+                    lines.append(line)
+                    continue
+                if "<pre" in line:
+                    pre = True
+                if pre:
+                    line = line.replace('&gt;', '>')
+                    line = line.replace('&lt;', '<')
+                    line = line.replace('&amp;', '&')
+                    lines.append(line)
+                    continue
+                line = line.strip()
+                if line:
+                    if not line.startswith('<'):
+                        lines.append("\n<p>%s</p>"%line)
+                    else:
+                        lines.append(line)
+
+            html = "\n".join(lines)
+
+            def repl_lang(match):
+                return "\n\n{..code}\n{..language=%s}\n%s\n\n{..html}\n" % (match.group(1), match.group(2))
+            html = pre_lang_re.sub(repl_lang, html)
+
+            def repl(match):
+                if '>>>' in match.group(1):
+                    language = 'pycon'
+                else:
+                    language = 'python'
+                return "\n\n{..code}\n{..language=%s}\n%s\n\n{..html}\n" % (language, match.group(1))
+            html = pre_re.sub(repl, html)
+
+            return html
 
 
 
-    if items is not None:
+        if items is not None:
 
-        for item in items:
+            for item in items:
 
-            post_type = get_text(item, "post_type", wp_ns)
-            if post_type!="post":
-                continue
+                post_type = get_text(item, "post_type", wp_ns)
+                if post_type!="post":
+                    continue
 
-            status = get_text(item, 'status')
-            if status.lower() == "draft":
-                continue
+                status = get_text(item, 'status')
+                if status.lower() == "draft":
+                    continue
 
-            guid = get_text(item, 'guid')
-            title = get_text(item, 'title')
+                guid = get_text(item, 'guid')
+                title = get_text(item, 'title')
 
-            if not title or not guid:
-                continue
-            slug = slugify(title)
-            content = get_text(item, 'encoded', content_ns)
+                if not title or not guid:
+                    continue
+                slug = slugify(title)
+                content = get_text(item, 'encoded', content_ns)
 
-            pub_date = get_text(item, 'pubDate')
-            pub_date = datetime.datetime.strptime(pub_date, "%a, %d %b %Y %H:%M:%S +0000")
-            #pub_date = datetime.datetime(*pub_date)
-
-
-            catagories = set(category.text for category in item.findall(".//category"))
-            tags = ",".join(catagories)
-
-            #content = BeautifulSoup(content).prettify()
-            #content = tidy.parseString(content)
-
-            content = fix_html(content)
+                pub_date = get_text(item, 'pubDate')
+                pub_date = datetime.datetime.strptime(pub_date, "%a, %d %b %Y %H:%M:%S +0000")
+                #pub_date = datetime.datetime(*pub_date)
 
 
-            try:
-                new_post = models.Post.objects.get(guid=guid)
-            except models.Post.DoesNotExist:
-                new_post = models.Post()
+                catagories = set(category.text for category in item.findall(".//category"))
+                tags = ",".join(catagories)
 
-            new_post_data = dict(   blog=blog,
-                                    title=title,
-                                    slug=slug,
-                                    guid=guid,
-                                    published=True,
-                                    allow_comments=True,
+                #content = BeautifulSoup(content).prettify()
+                #content = tidy.parseString(content)
 
-                                    created_time=pub_date,
-                                    edit_time=pub_date,
-                                    display_time=pub_date,
+                content = fix_html(content)
 
-                                    tags_text=tags,
-                                    content=content,
-                                    content_markup_type="emarkup")
 
-            for k, v in new_post_data.iteritems():
-                setattr(new_post, k, v)
-            new_post.save()
+                try:
+                    new_post = models.Post.objects.get(guid=guid)
+                except models.Post.DoesNotExist:
+                    new_post = models.Post()
 
-            comments = item.findall(".//{%s}comment" % wp_ns)
+                new_post_data = dict(   blog=blog,
+                                        title=title,
+                                        slug=slug,
+                                        guid=guid,
+                                        published=True,
+                                        allow_comments=True,
 
-            if comments is not None:
-                for comment in comments:
+                                        created_time=pub_date,
+                                        edit_time=pub_date,
+                                        display_time=pub_date,
 
-                    if get_text(comment, "comment_approved", wp_ns) != "1":
-                        continue
+                                        tags_text=tags,
+                                        content=content,
+                                        content_markup_type="emarkup")
 
-                    name = get_text(comment, "comment_author", wp_ns)
-                    email = get_text(comment, "comment_author_email", wp_ns)
-                    url = get_text(comment, "comment_author_url", wp_ns)
-                    content = get_text(comment, "comment_content", wp_ns)
-                    date = get_text(comment, "comment_date", wp_ns)
+                for k, v in new_post_data.iteritems():
+                    setattr(new_post, k, v)
+                new_post.save()
 
-                    date = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+                comments = item.findall(".//{%s}comment" % wp_ns)
 
-                    ct = ContentType.objects.get_for_model(new_post)
-                    ct_id = ".".join( (ct.app_label, ct.model) )
+                if comments is not None:
+                    for comment in comments:
 
-                    def repl_url(match):
-                        url = match.group(0).strip()+" "
-                        return '<a href="%s">%s</a>' % (url, url)
-                    content = url_re.sub(repl_url, content)
-                    content = content.replace('\n', '<br/>')
-                    content = "<p>%s</p>" % content
+                        if get_text(comment, "comment_approved", wp_ns) != "1":
+                            continue
 
-                    broadcast.call.comment(object_id = new_post.id,
-                                           visible=True,
-                                           moderated=True,
-                                           created_time=date,
-                                           name = name,
-                                           email=email,
-                                           url=url,
-                                           content=content,
-                                           content_markup_type="html",
-                                           content_type=ct,
-                                           group="blog."+blog.slug)
+                        name = get_text(comment, "comment_author", wp_ns)
+                        email = get_text(comment, "comment_author_email", wp_ns)
+                        url = get_text(comment, "comment_author_url", wp_ns)
+                        content = get_text(comment, "comment_content", wp_ns)
+                        date = get_text(comment, "comment_date", wp_ns)
+
+                        date = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+
+                        ct = ContentType.objects.get_for_model(new_post)
+                        ct_id = ".".join( (ct.app_label, ct.model) )
+
+                        def repl_url(match):
+                            url = match.group(0).strip()+" "
+                            return '<a href="%s">%s</a>' % (url, url)
+                        content = url_re.sub(repl_url, content)
+                        content = content.replace('\n', '<br/>')
+                        content = "<p>%s</p>" % content
+
+                        broadcast.call.comment(object_id = new_post.id,
+                                               visible=True,
+                                               moderated=True,
+                                               created_time=date,
+                                               name = name,
+                                               email=email,
+                                               url=url,
+                                               content=content,
+                                               content_markup_type="html",
+                                               content_type=ct,
+                                               group="blog."+blog.slug)
+    except e:
+        transaction.rollback()
+        raise e
+    else:
+        transaction.commit()

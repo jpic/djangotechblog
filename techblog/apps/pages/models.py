@@ -26,7 +26,7 @@ class Page(models.Model):
     path = models.CharField("Page path", max_length=255, blank=True)
 
     title = models.CharField("Page Title", max_length=100)
-    slug = models.SlugField("Slug", max_length=100)
+    slug = models.SlugField("Slug", max_length=100, db_index=True)
 
     inherit = models.BooleanField("Inherit parent's content?", default=False)
     created_time = models.DateTimeField(auto_now_add=True)
