@@ -59,9 +59,9 @@ $('#comment-submit').click(function(){
 });
 
 
-function delete_comment(comment_id)
+function delete_comment(comment_id, url)
 {
-    var data = {'comment_id':comment_id};
+    var data = {'comment_id':comment_id, 'url':url};
 
     var xhr_delete_comment = $('#xhr_delete_comment').val();
 

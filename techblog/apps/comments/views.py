@@ -6,6 +6,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.conf import settings
 from django.template.context import RequestContext
+from django.core.cache import cache
+import urlparse
+
 
 from techblog import broadcast
 from forms import CommentForm
@@ -89,6 +92,8 @@ def xhr_post_comment(request, **kwargs):
             response['comment_id'] = comment.id
             response['fwd'] = '%s?%s#comment%d' % (reverse('post_success'), urllib.urlencode(dict(fwd = success_url)), comment.id)
 
+
+
     json = simplejson.dumps(response)
     return HttpResponse(json, mimetype='application/json')
 
@@ -101,6 +106,15 @@ def xhr_delete_comment(request, **kwargs):
     result = ""
 
     comment_id = request.GET.get('comment_id', None)
+
+
+    url = request.GET.get('url', '')
+    key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
+    url_key = urlparse.urlsplit(url)[2]
+    cache_key = "views.decorators.cache.cache_header.%s.%s" % (key_prefix, url_key)
+    cache.delete(cache_key)
+    print cache_key
+
     if comment_id is None:
         result = "fail"
     else:
@@ -119,5 +133,11 @@ def xhr_delete_comment(request, **kwargs):
 def post_success(request):
 
     url = request.GET.get('fwd', '/')
+
+    key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
+
+    url_key = urlparse.urlsplit(url)[2]
+    cache_key = "views.decorators.cache.cache_header.%s.%s" % (key_prefix, url_key)
+    cache.delete(cache_key)
 
     return HttpResponseRedirect(url)

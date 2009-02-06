@@ -3,7 +3,7 @@
 {% load markuptags %}
 {% load cache %}
 
-{% cache 3600 blog.slug %}
+{% cache 3600 archive_year archive_month blog.slug %}
 {% get_archives for blog as archives %}
 
 <div class="module-header">Archives</div>
