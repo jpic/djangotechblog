@@ -119,7 +119,7 @@ class GetTagsNode(template.Node):
 
         try:
             blog = context.get(self.blog_name, None)
-            if object is None:
+            if blog is None:
                 return ''
 
             tags = blog.get_tag_cloud(context_resolve(context, self.max_count, int))

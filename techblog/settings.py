@@ -61,9 +61,16 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+
+    'django.middleware.cache.UpdateCacheMiddleware',
+
+
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    'django.middleware.cache.FetchFromCacheMiddleware',
+
 )
 
 ROOT_URLCONF = 'techblog.urls'
@@ -103,6 +110,10 @@ INSTALLED_APPS = (
     'techblog.apps.pages',
     'techblog.apps.resources'
 )
+
+
+CACHE_BACKEND = "memcached://127.0.0.1:11211/"
+#CACHE_BACKEND = "dummy:///"
 
 
 DEFAULT_BLOG_SLUG = "rootblog"

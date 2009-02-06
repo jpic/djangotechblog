@@ -252,6 +252,9 @@ def process(sections, context_data):
 
                 module_template = select_template(["blog/modules/%s.html"%module])
 
+
+                print module_template.name
+
                 td = {}
                 td.update(context_data)
 
@@ -265,6 +268,7 @@ def process(sections, context_data):
                     chunk_html = unicode(error_template.render(Context(dict(error=error))))
 
                 chunk.text = chunk_html
+                print chunk_html
 
     return sections
 
