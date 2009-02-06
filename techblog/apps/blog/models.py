@@ -79,7 +79,7 @@ class Tag(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ("apps.blog.views.tag", (),
+        return ("blog_tag", (),
                 dict(blog_slug=self.blog.slug, tag_slug=self.slug))
 
     def get_blog_relative_url(self):
@@ -205,7 +205,7 @@ class Channel(models.Model):
 
         channel_slug = self.slug
 
-        return ("apps.blog.views.blog_front", (),
+        return ("blog_front", (),
                 dict(blog_slug=channel_slug))
 
     def get_feed(self):
@@ -449,7 +449,7 @@ class Post(models.Model):
         month = self.display_time.month
         day = self.display_time.day
 
-        return ("apps.blog.views.blog_post", (),
+        return ("blog_post", (),
                 dict(blog_slug=blog_slug, year=year, month=month, day=day, slug=slug))
 
     def get_blog_relative_url(self):
