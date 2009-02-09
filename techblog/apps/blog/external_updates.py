@@ -21,7 +21,7 @@ def update_microblogs():
             return text
         return text[:num_chars-3].rsplit(' ', 1)[0] + '...'
 
-    twitter_api = twitter.Api();
+    twitter_api = twitter.api();
     for microblog in Microblog.objects.all():
         if not microblog.enabled:
             continue
