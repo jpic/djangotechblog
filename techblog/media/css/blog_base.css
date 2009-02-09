@@ -1494,6 +1494,7 @@ tag-cloud a:hover
     color:#333;
 }
 
+
 .blog-comment-form textarea
 {
     width:99%;
@@ -2018,6 +2019,34 @@ li.current-month
 .manage-link
 {
     font-weight:bold;
+}
+
+
+
+.pretty-input input[type="text"],#id_password
+{
+    border:1px solid #b2cc99;
+    padding:2px;
+    float:right;
+    background-image:url("/media/images/formback.png");
+    color:#333;
+}
+
+.pretty-input label
+{
+    color:#444;
+    clear:both;
+    padding:2px;
+    float:left;
+    text-align:right;
+    width:32%;
+    font-size:90%;
+    font-family:Arial, sans-serif;
+}
+
+.login td
+{
+    padding:4px;
 }
 
 pre

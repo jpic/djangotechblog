@@ -27,5 +27,6 @@ urlpatterns += patterns('',
 
     (r'^comments/', include('techblog.apps.comments.urls')),
     (r'^pages/', include('techblog.apps.pages.urls')),
+    (r'^accounts/', include('techblog.apps.accounts.urls'))
 
 )

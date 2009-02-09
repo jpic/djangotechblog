@@ -571,11 +571,9 @@ def writer(request, blog_slug, post_id, blog_root=None):
                               context_instance=RequestContext(request))
 
 @login_required
-@never_cache
 def manage(request, blog_root="", blog_slug=""):
 
     td = {}
-
 
     blogs = models.Blog.objects.all().order_by('title')
     channels = models.Channel.objects.all().order_by('title')
