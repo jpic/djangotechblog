@@ -37,9 +37,15 @@ class Page(models.Model):
 
     content = MarkupField(default="", blank=True, renderer=render)
 
+    objects = models.Manager()
     published_pages = PublishedPageManager()
 
-    #allow_comments = mdoels.BooleanField(default=False)
+
+    version = models.CharField("Version", max_length=100, default="live")
+    version_id = models.IntegerField("Parent Page ID", blank=True, null=True)
+
+
+    allow_comments = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.path
@@ -107,7 +113,7 @@ class Page(models.Model):
         page = None
         for component in components:
             try:
-                page = Page.objects.get(slug=component, parent=page)
+                page = Page.objects.get(slug=component, parent=page, published=True, version='live')
             except Page.DoesNotExist:
                 return None
         return page
@@ -121,3 +127,67 @@ class Page(models.Model):
 
         children = self.get_children().filter(promoted=True)
         return children
+
+
+
+    def get_parent_version(self):
+
+        if self.version_id is None:
+            return self
+        parent_page = Page.objects.get(self.version_id)
+        return parent_page
+
+
+    def get_version(self, version):
+
+        """ Retrieve a versioned page. """
+
+        if self.version == version:
+            return self
+
+        parent_version_id = self.get_parent_version().id
+
+        try:
+            versioned_page = Page.objects.get(version_id=parent_version_id, version=version)
+            return versioned_page
+        except Post.DoesNotExist:
+            versioned_page = Page(version_id=parent_version_id, published=False, version=version)
+            versioned_page.save()
+
+        copy_attribs = ['parent',
+                        'path',
+                        'title',
+                        'slug',
+                        'inherit',
+                        'created_time',
+                        'edit_time',
+                        'promoted']
+
+        for attrib in copy_attribs:
+            setattr(versioned_page, attrib, getattr(self, attrib))
+        versioned_page.save()
+
+        return versioned_page
+
+    def delete_version(self, version):
+
+        """Removes the draft object associated with a page."""
+
+        parent_version_id = self.get_parent_version().id
+
+        try:
+            versioned_page = Page.objects.get(version_id=parent_version_id,
+                                              version=version)
+            versioned_page.delete()
+        except Page.DoesNotExist:
+            pass
+
+    def version_exists(self, version):
+
+        parent_version_id = self.get_parent_version().id
+
+        try:
+            versioned_page = Page.objects.get(version_id=parent_version_id, version=version)
+            return True
+        except Page.DoesNotExist:
+            return False
