@@ -25,7 +25,7 @@ class PageAdmin(admin.ModelAdmin):
               )
 
     radio_fields={'content_markup_type':admin.HORIZONTAL}
-    list_display = ['__unicode__', 'path']
+    list_display = ['__unicode__', 'base', 'published']
     search_fields=('title', )
     prepopulated_fields = {"slug": ("title",)}
 

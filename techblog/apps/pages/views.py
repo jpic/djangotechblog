@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import Http404
 from django.contrib.auth.decorators import *
 from django.template.context import RequestContext
+from django.core.urlresolvers import reverse
 
 from techblog import broadcast
 import forms
@@ -55,7 +56,8 @@ def writer(request, page_id):
     edit_page = page
 
     if page.version_exists('draft'):
-        page = post.get_version('draft')
+        draft_page = page.get_version('draft')
+        page = draft_page
 
     page_slug = page.slug
     if '|' in page_slug:
@@ -66,51 +68,53 @@ def writer(request, page_id):
     def save_to(save_page):
         a=request.POST.get
 
-        save_page.title = a('title', save_post.title)
-        save_page.slug = a('slug', save_post.slug)
+        save_page.title = a('title', save_page.title)
+        save_page.slug = a('slug', save_page.slug)
         if not save_page.slug.strip():
             save_page.slug = slugify(save_page.title)
         save_page.inherit = a('inherit', save_page.inherit) == 'on'
         save_page.promoted = a('promoted', save_page.promoted) == 'on'
-        save_page.promoted = a('published', save_page.published) == 'on'
+        save_page.published = a('published', save_page.published) == 'on'
+        save_page.allow_comments = a('allow_comments', save_page.published) == 'on'
         save_page.content = a('content', save_page.content)
+        save_page.content_markup_type="emarkup"
         save_page.save()
 
-    if request.method == "page":
+    if request.method == "POST":
 
         if 'save' in request.POST:
 
-            draft_post = edit_post.get_version('draft')
-            save_to(draft_post)
-            post = draft_post
-            edit_post.delete_version('preview')
+            draft_page = edit_page.get_version('draft')
+            save_to(draft_page)
+            page = draft_page
+            edit_page.delete_version('preview')
 
         elif 'revert' in request.POST:
 
-            edit_post.delete_version('draft')
-            edit_post.delete_version('preview')
-            post = edit_post
-            #draft_post = edit_post.get_version('draft')
-            #post = draft_post
+            edit_page.delete_version('draft')
+            edit_page.delete_version('preview')
+            page = edit_page
+            #draft_page = edit_page.get_version('draft')
+            #page = draft_page
 
         elif 'publish' in request.POST:
 
-            save_to(edit_post)
-            post_url = reverse('blog_post', args=(blog.slug, edit_post.display_time.year, edit_post.display_time.month, edit_post.display_time.day, edit_post.slug))
-            edit_post.delete_version('preview')
-            edit_post.delete_version('draft')
-            post = edit_post
-            post.published = True
-            post.save()
-            return HttpResponseRedirect(post_url)
+            save_to(edit_page)
+            page_url = reverse('page', args=(edit_page.path,))
+            edit_page.delete_version('preview')
+            edit_page.delete_version('draft')
+            page = edit_page
+            page.published = True
+            page.save()
+            return HttpResponseRedirect(page_url)
 
         elif 'preview' in request.POST:
 
-            preview_post = edit_post.get_version('preview')
-            save_to(preview_post)
-            post_url = reverse('blog_post', args=(blog.slug, edit_post.display_time.year, edit_post.display_time.month, edit_post.display_time.day, edit_post.slug))
-            auto_url = post_url + "?version=preview"
-            post = preview_post
+            preview_page = edit_page.get_version('preview')
+            save_to(preview_page)
+            page_url = reverse('page', args=(edit_page.path,))
+            auto_url = page_url + "?version=preview"
+            page = preview_page
 
         form = forms.WriterForm()
 

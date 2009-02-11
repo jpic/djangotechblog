@@ -70,13 +70,13 @@ input[type=submit]
 
 
 <div style="height: 90%; padding:10px;">
-<form style="height:100%" action="{% url writer blog.slug edit_page.id %}" method="post">
+<form style="height:100%" action="{% url pagewriter edit_page.id %}" method="post">
 
 
 
 <div>
     <table width="100%">
-        <tr >
+        <tr>
             <td width="200px"><label for="id_title">Title</label></td>
             <td><input type="text" id="id_title" name="title" value="{{ page.title }}"></input></td>
         </tr>
@@ -87,12 +87,16 @@ input[type=submit]
         </tr>
 
         <tr>
-            <td><label for="id_tags_text">Tags (comma separated)</label></td>
-            <td><input type="text"  id="id_tags_text" name="tags_text" value="{{ page.tags_text }}"></input></td>
-        </tr>
-        <tr>
             <td></td>
             <td>
+            <div class="option">
+                <input type="checkbox" id="id_inherit" name="inherit" {% if page.inherit %}checked="checked"{% endif %}></input>
+                <label for="id_published">Inherit content from parent?</label>
+            </div>
+            <div class="option">
+                <input type="checkbox" id="id_promoted" name="promoted" {% if page.promoted %}checked="checked"{% endif %}></input>
+                <label for="id_promoted">Promoted?</label>
+            </div>
             <div class="option">
                 <input type="checkbox" id="id_published" name="published" {% if page.published %}checked="checked"{% endif %}></input>
                 <label for="id_published">Visible on site?</label>
@@ -123,7 +127,7 @@ input[type=submit]
 
 {% if auto_url %}
 <script>
-window.open("{{ auto_url }}", 'preview_{{ page.id }}');
+window.open("{{ auto_url }}", 'previewpage_{{ page.id }}');
 </script>
 {% endif %}
 

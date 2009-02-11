@@ -48,6 +48,8 @@ class Page(models.Model):
     allow_comments = models.BooleanField(default=True)
 
     def __unicode__(self):
+        if self.version != 'live':
+            return "%s (%s)" % (self.path, self.version)
         return self.path
 
     def get_sections(self):
@@ -150,7 +152,7 @@ class Page(models.Model):
         try:
             versioned_page = Page.objects.get(version_id=parent_version_id, version=version)
             return versioned_page
-        except Post.DoesNotExist:
+        except Page.DoesNotExist:
             versioned_page = Page(version_id=parent_version_id, published=False, version=version)
             versioned_page.save()
 
