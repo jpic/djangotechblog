@@ -28,6 +28,7 @@ def new_comment(object, comment):
 
 def page(request, path):
 
+    path = path.rstrip('/')
     page = get_object_or_404(models.Page, path=path, version='live')
 
     is_preview = False
@@ -43,6 +44,7 @@ def page(request, path):
 
     td = dict( page=page,
                sections=sections,
+               is_preview=is_preview,
                )
 
     return render_to_response(page.get_template_names(), td)

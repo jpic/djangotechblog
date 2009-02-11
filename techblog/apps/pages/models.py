@@ -47,6 +47,7 @@ class Page(models.Model):
 
     allow_comments = models.BooleanField(default=True)
 
+
     def __unicode__(self):
         if self.version != 'live':
             return "%s (%s)" % (self.path, self.version)
@@ -85,8 +86,7 @@ class Page(models.Model):
     @models.permalink
     def get_absolute_url(self):
 
-        return ("apps.pages.views.page", (),
-                dict(path=self.path))
+        return ("page", (self.path,))
 
     def save(self, *args, **kwargs):
         self.create_path()

@@ -15,7 +15,6 @@ class PageAdmin(admin.ModelAdmin):
     fields = ('base',
               'parent',
               'inherit',
-              'path',
               'title',
               'slug',
               'published',

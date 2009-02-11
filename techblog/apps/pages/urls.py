@@ -4,5 +4,5 @@ from django.core.urlresolvers import reverse
 
 urlpatterns =  patterns('',
                 url(r'^writer/(?P<page_id>\d+)/$', views.writer, name="pagewriter"),
-                url(r'^(?P<path>.*)$', views.page, name="page"),
+                url(r'^(?P<path>.*)/$', views.page, name="page"),
                 )
