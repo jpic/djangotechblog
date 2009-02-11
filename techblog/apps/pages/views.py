@@ -45,9 +45,12 @@ def page(request, path):
     td = dict( page=page,
                sections=sections,
                is_preview=is_preview,
+               user = request.user,
                )
 
-    return render_to_response(page.get_template_names(), td)
+    return render_to_response(page.get_template_names(),
+                              td,
+                              context_instance=RequestContext(request))
 
 
 @login_required

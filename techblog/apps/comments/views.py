@@ -49,6 +49,7 @@ def xhr_post_comment(request, **kwargs):
     response = {'status': 'ok', 'errors' : []}
     if not form.is_valid():
         response['status'] = "fail"
+        print form.errors
         response['errors'] = dict((str(key), str(value)) for key, value in form.errors.iteritems())
     else:
         name = escape(form.cleaned_data.get('name', ''))

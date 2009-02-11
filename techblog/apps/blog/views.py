@@ -35,7 +35,7 @@ def new_comment(object, comment):
         comment.visible = True
         comment.group = "blog.%s" % object.blog.slug
     else:
-        raise broadcast.BroadcastRejected
+        raise broadcast.RejectBroadcast
 
 
 def get_channel_or_blog(slug):
