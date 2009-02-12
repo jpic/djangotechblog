@@ -11,5 +11,5 @@ def send(template, template_data, subject, recipient):
     msg = template.render(Context(template_data))
 
     sender = settings.DEFAULT_FROM_EMAIL
-    print msg, sender, recipient
-    print send_mail(subject, msg, sender, [recipient], fail_silently=False)
+
+    send_mail(subject, msg, sender, [recipient], fail_silently=True)
