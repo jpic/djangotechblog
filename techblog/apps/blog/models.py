@@ -281,6 +281,8 @@ class TagCloud(object):
 
 class Blog(models.Model):
 
+    owner = models.ForeignKey(User)
+
     created_time = models.DateTimeField(auto_now_add=True)
 
     title = models.CharField("Title of the Blog", max_length=100)

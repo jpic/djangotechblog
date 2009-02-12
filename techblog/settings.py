@@ -115,6 +115,8 @@ INSTALLED_APPS = (
 CACHE_BACKEND = "memcached://127.0.0.1:11211/"
 #CACHE_BACKEND = "dummy:///"
 
+DEFAULT_FROM_EMAIL = "will@willmcgugan.com"
+SYSTEM_EMAIL_PREFIX = "[willmcgugan.com]"
 
 DEFAULT_BLOG_SLUG = "rootblog"
 

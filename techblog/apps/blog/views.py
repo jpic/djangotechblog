@@ -16,11 +16,13 @@ from techblog import broadcast
 from techblog.markup import extendedmarkup
 from django.template.defaultfilters import slugify
 from django.views.decorators.cache import never_cache
+from django.contrib.sites.models import Site
 
 
 from itertools import groupby
 import forms
 
+from techblog import mailer
 
 @broadcast.recieve()
 def allow_comment(object):
@@ -34,6 +36,16 @@ def new_comment(object, comment):
         comment.moderated = True
         comment.visible = True
         comment.group = "blog.%s" % object.blog.slug
+        comment.save()
+
+        domain = Site.objects.get_current().domain
+        td = {}
+        td['name'] = object.blog.owner.get_full_name()
+        td['comment'] = object.content_text
+        td['post'] = object.title
+        td['url'] = "http://%s%s#comment%s" % (domain, object.get_absolute_url(), comment.id)
+        mailer.send("admin/mail/newcomment.txt", td, "New Comment", object.blog.owner.email)
+
     else:
         raise broadcast.RejectBroadcast
 
@@ -133,7 +145,6 @@ def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
             #return reverse("blog_month", kwargs = dict(blog_slug=blog_slug, year=year, month=month, blog_root=blog_root))
         else:
             return "%s%i/%i/page/%i"%(blog_root, year, month, page_no)
-            return reverse("blog_month_with_page", kwargs = dict(blog_slug=blog_slug, year=year, month=month, page_no=page_no, blog_root=blog_root))
 
 
     td = get_blog_list_data(request, posts, get_page_url, page_no)

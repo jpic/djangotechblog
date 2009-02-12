@@ -6,7 +6,8 @@ import models
 
 
 class BlogAdmin(admin.ModelAdmin):
-    fields = ('title',
+    fields = ('owner',
+              'title',
               'slug',
               'tagline',
               'description_markup_type',
