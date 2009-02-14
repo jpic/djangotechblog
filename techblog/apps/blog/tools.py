@@ -232,6 +232,7 @@ def import_wxr(blog_slug, wxr_file, included_tags, excluded_tags):
                             url = match.group(0).strip()+" "
                             return '<a href="%s">%s</a>' % (url, url)
                         content = url_re.sub(repl_url, content)
+                        content.replace('<pre>\n', '<pre>')
                         content = content.replace('\n', '<br/>')
                         content = "<p>%s</p>" % content
 
