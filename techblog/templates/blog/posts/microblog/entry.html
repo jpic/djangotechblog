@@ -6,7 +6,9 @@
 {% block js_foot %}
 <script type="text/javascript" src="/media/js/comments.js"> </script>
 {% endblock %}
-
+{% block head %}
+<link rel="canonical" href="{{ post.get_absolute_url }}" />
+{% endblock %}
 {% block title %}{{ post.title }}{% endblock %}
 
 
