@@ -895,9 +895,11 @@ strong {font-weight:bold;}
 .post h2 a
 {
     /*font-weight:normal;*/
+    /*
     color:#5488C5;
     color:#CC7F33;
     color:#555;
+    */
     /*color:#CC7F33;*/
     /*color:#B2CC99;*/
 }
@@ -2008,7 +2010,7 @@ li.current-month
     font-family: "Palatino Linotype", "Book Antiqua", serif;
     font-size:150%;
     line-height:normal;
-    color:#666;
+    color:#000;
 }
 
 .space
