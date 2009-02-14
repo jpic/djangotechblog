@@ -4,7 +4,7 @@
 {% load humanize %}
 {% load markuptags %}
 
-{% block title %}{{ blog.title }}{% ifnotequal page 1 %} - {{ page_no|ordinal }} page{% endifnotequal %}{% endblock %}
+{% block title %}{{ blog.title }}{% ifnotequal page_no 1 %} - {{ page_no|ordinal }} page{% endifnotequal %}{% endblock %}
 
 {% block js %}
 <script type="text/javascript" src="/media/js/blog_base.js"> </script>
