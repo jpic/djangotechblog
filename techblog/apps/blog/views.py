@@ -17,6 +17,10 @@ from techblog.markup import extendedmarkup
 from django.template.defaultfilters import slugify
 from django.views.decorators.cache import never_cache
 from django.contrib.sites.models import Site
+import urlparse
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+
 
 
 from itertools import groupby
@@ -83,6 +87,7 @@ def get_blog_list_data(request, posts, get_page_url, page_no):
     return td
 
 
+@cache_page(60*30)
 def feeds(request, blog_slug, feed_item, **kwargs):
 
     from django.contrib.syndication.views import feed
@@ -101,7 +106,7 @@ def feeds(request, blog_slug, feed_item, **kwargs):
 
 
 
-
+@cache_page(60*30)
 def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
 
     page_no = int(page_no)
@@ -216,6 +221,7 @@ def blog_front(request, blog_slug="", page_no=1, blog_root=None):
     #return posts
 
 
+@cache_page(60*30)
 def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
 
     blog = get_channel_or_blog(slug=blog_slug)
@@ -255,6 +261,13 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
         post = post.get_version(version)
         is_preview = True
 
+    if not request.user.is_anonymous() and request.GET.has_key('clearcache'):
+        url = request.GET.get('url', '')
+        key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
+        url_key = urlparse.urlsplit(url)[2]
+        cache_key = "views.decorators.cache.cache_header.%s.%s" % (key_prefix, url_key)
+        cache.delete(cache_key)
+
 
     sections = extendedmarkup.combine_sections( blog.description_data.get('sections', None),
                                  post.content_data.get('sections', None) )
@@ -276,8 +289,6 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
     #tags.sort(key = lambda t:t.name.lower())
 
 
-    related_posts = post.get_related_posts()
-
     td = dict(  blog_root = blog_root,
                 blog=blog,
                 year=year,
@@ -289,7 +300,6 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
                 page_title = post.title,
                 tagline = post.blog.title,
                 tags = tags,
-                related_posts = related_posts,
                 sections = sections,
                 user = request.user,
                 is_preview = is_preview )
@@ -302,7 +312,7 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
 
 
 
-
+@cache_page(60*30)
 def tag(request, blog_slug, tag_slug, page_no=1, blog_root=None):
 
     page_no = int(page_no)

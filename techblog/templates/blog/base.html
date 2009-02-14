@@ -21,7 +21,7 @@
             <link href="{{ feed.url }}" rel="alternate" type="application/rss+xml" title="{{ feed.title }}" />
         {% endfor %}
     {% endif %}
-
+    {% block head %}{% endblock %}
     {% markupsection sections "head" %}
     {% markupsection sections "css" %}
     {% markupsection sections "js-head" %}
