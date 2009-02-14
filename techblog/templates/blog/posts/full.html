@@ -20,10 +20,10 @@
 
     {% if next_post %}
     <div class="next-post">
-        <a href="{% get_post_url blog_root prev_post %}" title="Newer post">{{ next_post.title }}</a>
+        <a href="{% get_post_url blog_root next_post %}" title="Newer post">{{ next_post.title }}</a>
     </div>
     {% endif %}
-    
+
     <div class="clear"> </div>
 </div>
 {% endif %}
