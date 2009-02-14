@@ -21,7 +21,7 @@
 {% get_comments for page as comments %}
 
 <a name="comments"> </a>
-{% if comments %}
+{% if comments and page.show_comments %}
 <div class="comments">
     <h2>{{ comments.count }} Comment{{ comments.count|pluralize }} on "{{ page.title }}"</h2>
     {% include "blog/includes/comments.html" %}

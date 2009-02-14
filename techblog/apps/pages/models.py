@@ -46,6 +46,7 @@ class Page(models.Model):
 
 
     allow_comments = models.BooleanField(default=True)
+    show_comments = models.BooleanField(default=True)
 
 
     def __unicode__(self):

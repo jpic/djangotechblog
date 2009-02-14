@@ -399,6 +399,7 @@ def xhr_preview_comment(request, **kwargs):
                               context_instance=RequestContext(request))
 
 
+@login_required
 def import_wxr(request, blog_slug='', blog_root=''):
 
     from forms import ImportForm
@@ -412,8 +413,10 @@ def import_wxr(request, blog_slug='', blog_root=''):
             if form.cleaned_data.get('format') == "WXR":
 
                 blog_slug = form.cleaned_data['blog_slug']
+                included_tags = form.cleaned_data['include_tags']
+                excluded_tags = form.cleaned_data['exclude_tags']
                 wxr_file = request.FILES['input_file']
-                tools.import_wxr(blog_slug, wxr_file)
+                tools.import_wxr(blog_slug, wxr_file, included_tags, excluded_tags)
     else:
 
         form = ImportForm()
@@ -470,7 +473,7 @@ def front(request, blog_root=None):
                               template_data,
                               context_instance=RequestContext(request))
 
-
+@login_required
 def newpost(request, blog_slug, blog_root=None):
 
     blog = get_object_or_404(models.Blog, slug=blog_slug)

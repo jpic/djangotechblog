@@ -27,7 +27,7 @@
 {% get_comments for post as comments %}
 
 <a name="comments"> </a>
-{% if comments %}
+{% if comments and post.show_comments %}
 <div class="comments">
     <h3>{{ comments.count }} Response{{ comments.count|pluralize }} to "{{ post.title }}"</h3>
     {% include "blog/includes/comments.html" %}

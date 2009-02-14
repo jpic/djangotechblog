@@ -364,6 +364,7 @@ class Post(models.Model):
     guid = models.CharField(max_length=255, blank=True)
 
     allow_comments = models.BooleanField("Allow Comments?", default=True)
+    show_comments = models.BooleanField("Show Comments?", default=True)
 
     series = models.CharField("Series name", max_length=100, blank=True, default="")
     source = models.CharField("Post source", max_length=100, blank=True, default="")

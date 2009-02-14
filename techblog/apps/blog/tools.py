@@ -52,8 +52,10 @@ def collate_archives(blog, blog_root):
 
 
 @transaction.commit_manually
-def import_wxr(blog_slug, wxr_file):
+def import_wxr(blog_slug, wxr_file, included_tags, excluded_tags):
 
+    included_tags = set(t.strip().lower() for t in included_tags.split())
+    excluded_tags = set(t.strip().lower() for t in excluded_tags.split())
 
     try:
 
@@ -167,8 +169,15 @@ def import_wxr(blog_slug, wxr_file):
                 #pub_date = datetime.datetime(*pub_date)
 
 
-                catagories = set(category.text for category in item.findall(".//category"))
+                catagories = set(category.text.lower() for category in item.findall(".//category"))
                 tags = ",".join(catagories)
+
+                if included_tags:
+                    if not included_tags.intersection(catagories):
+                        continue
+                elif excluded_tags:
+                    if excluded_tags.intersection(catagories):
+                        continue
 
                 #content = BeautifulSoup(content).prettify()
                 #content = tidy.parseString(content)

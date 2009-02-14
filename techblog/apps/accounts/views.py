@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import Http404, HttpResponseRedirect
 from django.template.context import RequestContext
 from django.contrib import auth
-from django.contrib.sites.models import Site
+
 
 def login(request):
 

@@ -5,6 +5,9 @@ class ImportForm(forms.Form):
     blog_slug = forms.CharField("Blog slug")
     input_file = forms.FileField()
 
+    include_tags = forms.CharField("Included tags", required=False)
+    exclude_tags = forms.CharField("Excluded tags", required=False)
+
     format = forms.CharField("Import format", widget=forms.HiddenInput, initial="WXR")
 
 class WriterForm(forms.Form):

@@ -54,6 +54,20 @@ def page(request, path):
 
 
 @login_required
+def newpage(rquest):
+
+    page_count = models.Page.objects.all().count()
+    page = models.Page( title="New Page",
+                        slug="new-page-%i"%page_count,
+                        inherit=False,
+                        published=False,
+                        promoted=False,
+                        version="live" )
+
+    page.save()
+    return HttpResponseRedirect(reverse(writer, args=(page.id,)))
+
+@login_required
 def writer(request, page_id):
 
     page = get_object_or_404(models.Page, id=page_id, version='live')
@@ -81,6 +95,7 @@ def writer(request, page_id):
         save_page.promoted = a('promoted', save_page.promoted) == 'on'
         save_page.published = a('published', save_page.published) == 'on'
         save_page.allow_comments = a('allow_comments', save_page.published) == 'on'
+        save_page.show_comments = a('show_comments', save_page.show_comments) == 'on'
         save_page.content = a('content', save_page.content)
         save_page.content_markup_type="emarkup"
         save_page.save()
