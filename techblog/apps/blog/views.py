@@ -142,10 +142,10 @@ def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
         if page_no < 1 or page_no > num_pages:
             return ""
         if page_no == 1:
-            return "%s%i/%i"%(blog_root, year, month)
+            return "%s%i/%i/"%(blog_root, year, month)
             #return reverse("blog_month", kwargs = dict(blog_slug=blog_slug, year=year, month=month, blog_root=blog_root))
         else:
-            return "%s%i/%i/page/%i"%(blog_root, year, month, page_no)
+            return "%s%i/%i/page/%i/"%(blog_root, year, month, page_no)
 
 
     td = get_blog_list_data(request, posts, get_page_url, page_no)
@@ -190,7 +190,7 @@ def blog_front(request, blog_slug="", page_no=1, blog_root=None):
         if page_no == 1:
             return blog_root
         else:
-            return "%spage/%i" % (blog_root, page_no)
+            return "%spage/%i/" % (blog_root, page_no)
 
     td = get_blog_list_data(request, posts, get_page_url, page_no)
 
