@@ -127,6 +127,8 @@ SYSTEM_EMAIL_PREFIX = "[willmcgugan.com]"
 
 DEFAULT_BLOG_SLUG = "rootblog"
 
+USE_ETAGS = True
+
 try:
     from local_settings import *
 except ImportError:
