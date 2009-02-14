@@ -613,7 +613,6 @@ def manage(request, blog_root="", blog_slug=""):
         import memcache
         c = memcache.Client([settings.CACHE_BACKEND.split(':',1)[1].strip('/')])
         cache_stats = c.get_stats()[0][1]
-        print cache_stats
         td['cache_stats'] = cache_stats.items()
 
     return render_to_response("blog/manage.html",
