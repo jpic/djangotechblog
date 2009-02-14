@@ -6,6 +6,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.syndication.feeds import FeedDoesNotExist
 from django.shortcuts import get_object_or_404
 
+MAX_ENTRIES = 20
+
 def get_channel_or_blog(slug):
     try:
         return Channel.objects.get(slug=slug)
@@ -26,7 +28,7 @@ class BlogFeed(Feed):
         return blog
 
     def items(self, blog):
-        return blog.posts()
+        return blog.posts()[:MAX_ENTRIES]
 
     def title(self, blog):
         return blog.title
@@ -75,7 +77,7 @@ class BlogTagFeed(Feed):
         return tag
 
     def items(self, tag):
-        return tag.posts()
+        return tag.posts()[:MAX_ENTRIES]
 
     def title(self, tag):
         return "%s posts in '%s'" % (tag.name.title(), tag.blog.title)

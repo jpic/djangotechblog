@@ -29,8 +29,8 @@ class Comment(models.Model):
 
     objects = CommentManager()
 
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, db_index=True)
+    object_id = models.PositiveIntegerField(db_index=True)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
     visible = models.BooleanField(default=False)

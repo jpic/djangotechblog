@@ -71,6 +71,8 @@ MIDDLEWARE_CLASSES = (
 
     'django.middleware.cache.FetchFromCacheMiddleware',
 
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 )
 
 ROOT_URLCONF = 'techblog.urls'
@@ -96,7 +98,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    #'django.contrib.sessions',
     'django.contrib.sites',
 
     'django.contrib.humanize',
@@ -108,12 +110,16 @@ INSTALLED_APPS = (
     'techblog.apps.blog',
     'techblog.apps.comments',
     'techblog.apps.pages',
-    'techblog.apps.resources'
+    'techblog.apps.resources',
+    #'debug_toolbar'
 )
 
+INTERNAL_IPS = ('127.0.0.1',)
 
 CACHE_BACKEND = "memcached://127.0.0.1:11211/"
 #CACHE_BACKEND = "dummy:///"
+
+CACHE_MIDDLEWARE_ANONYMOUS_ONLY=True
 
 DEFAULT_FROM_EMAIL = "will@willmcgugan.com"
 SYSTEM_EMAIL_PREFIX = "[willmcgugan.com]"

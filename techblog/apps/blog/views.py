@@ -130,7 +130,7 @@ def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
     title = blog.title
 
 
-    posts = blog.posts().filter(display_time__gte=start_date, display_time__lt=end_date)
+    posts = blog.posts().filter(display_time__gte=start_date, display_time__lt=end_date).select_related()
 
     if not posts.count():
         raise Http404
@@ -178,7 +178,7 @@ def blog_front(request, blog_slug="", page_no=1, blog_root=None):
     blog_root = blog_root or blog.get_absolute_url()
 
     title = blog.title
-    posts = blog.posts()
+    posts = blog.posts().select_related()
 
 
     #archives = tools.collate_archives(blog)
