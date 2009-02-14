@@ -339,15 +339,15 @@ def tag(request, blog_slug, tag_slug, page_no=1, blog_root=None):
     page = paginator.page(page_no)
     posts = page.object_list
 
-    #archives = tools.collate_archives(blog, blog_root)
-
     def get_page_url(page_no):
         if page_no < 1 or page_no > paginator.num_pages:
             return ""
+
         if page_no == 1:
-            return reverse("blog_tag", kwargs=dict(blog_slug=blog_slug, tag_slug=tag_slug))
+            return "%stag/%s/"%(blog_root, tag_slug)
         else:
-            return reverse("blog_tag_with_page", kwargs=dict(blog_slug=blog_slug, tag_slug=tag_slug, page_no=page_no))
+            return "%stag/%s/page/%i/" % (blog_root, tag_slug, page_no)
+  
 
     newer_page_url = get_page_url(page_no - 1)
     older_page_url = get_page_url(page_no + 1)
