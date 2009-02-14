@@ -3,9 +3,9 @@
 {% load markuptags %}
 {% load cache %}
 
+{% if post %}
 {% cache 3600 "relatedposts" post.slug %}
 
-{% if post %}
 {% get_related_posts for post as related_posts max 10 %}
 {% if related_posts %}
 <div class="module-header">Possibly related posts</div>
@@ -17,5 +17,6 @@
     </ul>
 </div>
 {% endif %}
-{% endif %}
 {% endcache %}
+
+{% endif %}
