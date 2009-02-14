@@ -54,8 +54,8 @@ def collate_archives(blog, blog_root):
 @transaction.commit_manually
 def import_wxr(blog_slug, wxr_file, included_tags, excluded_tags):
 
-    included_tags = set(t.strip().lower() for t in included_tags.split())
-    excluded_tags = set(t.strip().lower() for t in excluded_tags.split())
+    included_tags = set(t.strip().lower() for t in included_tags.split(','))
+    excluded_tags = set(t.strip().lower() for t in excluded_tags.split(','))
 
     try:
 
