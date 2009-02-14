@@ -110,10 +110,6 @@ def feeds(request, blog_slug, feed_item, **kwargs):
 def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
 
     page_no = int(page_no)
-    #if page_no < 1:
-    #    raise Http404
-    #if month < 1 or month > 12:
-    #    raise Http404
 
     year = int(year)
     month = int(month)
@@ -221,7 +217,6 @@ def blog_front(request, blog_slug="", page_no=1, blog_root=None):
     #return posts
 
 
-@cache_page(60*30)
 def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
 
     blog = get_channel_or_blog(slug=blog_slug)
@@ -311,8 +306,6 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
                               context_instance=RequestContext(request))
 
 
-
-@cache_page(60*30)
 def tag(request, blog_slug, tag_slug, page_no=1, blog_root=None):
 
     page_no = int(page_no)
@@ -321,7 +314,7 @@ def tag(request, blog_slug, tag_slug, page_no=1, blog_root=None):
 
     blog = get_channel_or_blog(blog_slug)
     blog_root = blog_root or blog.get_absolute_url()
-    #tag = get_object_or_404(models.Tag, slug=tag_slug)
+
     try:
         tag = blog.get_tag(tag_slug)
     except models.Tag.DoesNotExist:
@@ -342,12 +335,11 @@ def tag(request, blog_slug, tag_slug, page_no=1, blog_root=None):
     def get_page_url(page_no):
         if page_no < 1 or page_no > paginator.num_pages:
             return ""
-
         if page_no == 1:
             return "%stag/%s/"%(blog_root, tag_slug)
         else:
             return "%stag/%s/page/%i/" % (blog_root, tag_slug, page_no)
-  
+
 
     newer_page_url = get_page_url(page_no - 1)
     older_page_url = get_page_url(page_no + 1)
@@ -384,10 +376,6 @@ from techblog.markup.render import render_comment
 
 def xhr_preview_comment(request, **kwargs):
 
-    #if settings.DEBUG:
-    #    import time
-    #    time.sleep(3)
-
     bbcode = request.REQUEST.get('bbcode', '')
     html, summary, text, data = render_comment(bbcode, 'comment_bbcode')
 
@@ -400,9 +388,6 @@ def xhr_preview_comment(request, **kwargs):
 
     td = {}
     td['comment'] = comment
-
-#    import time
-#    time.sleep(3);
 
     return render_to_response("xhr_comment_preview.html",
                               td,
@@ -503,9 +488,6 @@ def newpost(request, blog_slug, blog_root=None):
 
 @login_required
 def writer(request, blog_slug, post_id, blog_root=None):
-
-    #if request.user.is_anonymous:
-    #    raise Http404
 
     blog = get_channel_or_blog(blog_slug)
     blog_root = blog_root or blog.get_absolute_url()
