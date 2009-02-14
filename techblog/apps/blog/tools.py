@@ -187,6 +187,7 @@ def import_wxr(blog_slug, wxr_file, included_tags, excluded_tags):
 
                 try:
                     new_post = models.Post.objects.get(guid=guid)
+                    continue
                 except models.Post.DoesNotExist:
                     new_post = models.Post()
 
