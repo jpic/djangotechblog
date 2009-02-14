@@ -271,12 +271,12 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
     prev_post = None
     next_post = None
     try:
-        prev_post = models.Post.objects.filter(blog=blog, published=True, display_time__lt=post.display_time).order_by('-display_time')[0]
+        prev_post = blog.posts().filter(blog=blog, published=True, display_time__lt=post.display_time).order_by('-display_time')[0]
     except IndexError:
         pass
 
     try:
-        next_post = models.Post.objects.filter(blog=blog, published=True, display_time__gt=post.display_time).order_by('display_time')[0]
+        next_post = blog.posts().filter(blog=blog, published=True, display_time__gt=post.display_time).order_by('display_time')[0]
     except IndexError:
         pass
 
