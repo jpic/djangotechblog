@@ -6,7 +6,7 @@
 {% if post %}
 {% cache 3600 "relatedposts" post.slug %}
 
-{% get_related_posts for post as related_posts max 10 %}
+{% get_related_posts for post as related_posts max vars.count %}
 {% if related_posts %}
 <div class="module-header">Possibly related posts</div>
 <div class="module">
