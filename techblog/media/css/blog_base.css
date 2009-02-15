@@ -1838,6 +1838,7 @@ blockquote em
     /*background-image:url(/media/images/moduleback.png);*/
     /*height:11px;*/
     background-image:url(/media/images/moduleheader.png);
+    clear:both;
 }
 
 .feed-icon-container
