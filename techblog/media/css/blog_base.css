@@ -2058,6 +2058,11 @@ li.current-month
     padding-bottom:20px;
 }
 
+em
+{
+    font-style:italic;
+}
+
 pre
 {
     background: #f5f5f5;
