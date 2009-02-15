@@ -36,8 +36,8 @@ class Chunk(object):
     def __iter__(self):
         return iter(self.text)
 
-    def __len__(self):
-        return len(self.text)
+    def __nonzero__(self):
+        return any(l.strip() for l in self.text)
 
     def __cmp__(self, other):
         def priority(s):
