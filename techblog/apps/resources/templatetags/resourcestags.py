@@ -81,8 +81,8 @@ def siteimage(name, dimensions):
         except ValueError:
             raise template.TemplateSyntaxError("Height must be a number")
 
-    url = img_upload.thumb(width, height)
+    url, (w, h) = img_upload.thumb(width, height)
 
-    html = '<img src="%s" width="%s" height="%s" alt="%s" title="%s"></img>' % (url, width, height, img_upload.description, img_upload.description)
+    html = '<img src="%s" width="%s" height="%s" alt="%s" title="%s"></img>' % (url, w, h, img_upload.description, img_upload.description)
 
     return html

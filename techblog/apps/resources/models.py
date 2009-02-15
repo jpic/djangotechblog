@@ -58,7 +58,7 @@ class ImageUpload(models.Model):
 
         url = settings.MEDIA_URL + "uploads/images/thumbs/" + thumb_filename
 
-        return url
+        return url, (thumb_width, thumb_height)
 
     def html_image(self):
         html = '<img src="%s"></img>' % self.thumb(64, 64)
