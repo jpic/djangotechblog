@@ -36,6 +36,9 @@ class Chunk(object):
     def __iter__(self):
         return iter(self.text)
 
+    def __nonzero__(self):
+        return bool(self.text)
+
     def __cmp__(self, other):
         def priority(s):
             try:
