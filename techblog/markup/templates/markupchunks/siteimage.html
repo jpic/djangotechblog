@@ -9,8 +9,10 @@
     {% endif %}
         {% siteimage chunk.vars.name chunk.vars.size %}
     </a>
+    {% if chunk %}
     <div class="caption" style="width:{% siteimage_width chunk.vars.name chunk.vars.size %}px;">
     {% for line in chunk %}{% if line %}<p>{{ line|postmarkup }}</p>{% endif %}{% endfor %}
     </div>
+    {% endif %}
     </div>
 </div>
