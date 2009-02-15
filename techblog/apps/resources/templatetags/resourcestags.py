@@ -83,6 +83,6 @@ def siteimage(name, dimensions):
 
     url = img_upload.thumb(width, height)
 
-    html = '<img src="%s" width="%s" height="%s" alt="%s" title="%s"></img>' % (url, width, height, img_upload.description, img_upload.description)
+    html = '<img src="%s" width="%i" height="%i" alt="%s" title="%s"></img>' % (url, width, height, img_upload.description, img_upload.description)
 
     return html
