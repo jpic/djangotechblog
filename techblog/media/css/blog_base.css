@@ -2053,6 +2053,11 @@ li.current-month
     padding:4px;
 }
 
+.spaced
+{
+    padding-bottom:20px;
+}
+
 pre
 {
     background: #f5f5f5;
