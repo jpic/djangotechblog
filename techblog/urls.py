@@ -14,13 +14,17 @@ urlpatterns = patterns('',
     #url(r'^$', 'apps.blog.views.blog_front', {"blog_slug":"test-blog"}),
 )
 
-if settings.DEBUG:
-    urlpatterns += patterns('',
-        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}) )
 
+urlpatterns += patterns('',
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}) )
+
+
+def bad(request):
+    1/0
 
 urlpatterns += patterns('',
 
+    (r'^bad/$', bad),
     (r'^', include('techblog.apps.blog.urls'), {"blog_slug":settings.DEFAULT_BLOG_SLUG, "blog_root":"/"}),
 
     (r'^blog/(?P<blog_slug>[\w-]*)/', include('techblog.apps.blog.urls') ),
