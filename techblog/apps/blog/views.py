@@ -45,7 +45,7 @@ def new_comment(object, comment):
         domain = Site.objects.get_current().domain
         td = {}
         td['name'] = object.blog.owner.get_full_name()
-        td['comment'] = object.content_text
+        td['comment'] = comment.content_text
         td['post'] = object.title
         td['url'] = "http://%s%s#comment%s" % (domain, object.get_absolute_url(), comment.id)
         mailer.send("admin/mail/newcomment.txt", td, "New Comment", object.blog.owner.email)
