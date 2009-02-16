@@ -2069,7 +2069,7 @@ em
     font-style:italic;
 }
 
-.post pre
+.post pre, .code code
 {
     background: #f5f5f5;
     font-family:"Bitstream Vera Sans Mono","Courier new","Courier",monospace;
@@ -2082,7 +2082,7 @@ em
     line-height:120%;
     clear:both;
 }
-.post code
+.post code, .code code
 {
     font-family:"Bitstream Vera Sans Mono","Courier new","Courier",monospace;
     background: #f9f9f9;
