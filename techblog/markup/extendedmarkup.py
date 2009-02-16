@@ -45,7 +45,7 @@ class Chunk(object):
                 return int(s)
             except:
                 return s
-        return -cmp( self.get_priority(), other.get_priority() )
+        return cmp( self.get_priority(), other.get_priority() )
 
     def get_priority(self):
         try:
