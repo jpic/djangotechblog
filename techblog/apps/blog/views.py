@@ -87,7 +87,7 @@ def get_blog_list_data(request, posts, get_page_url, page_no):
     return td
 
 
-@cache_page(60*30)
+@cache_page(60*60)
 def feeds(request, blog_slug, feed_item, **kwargs):
 
     from django.contrib.syndication.views import feed
@@ -217,6 +217,7 @@ def blog_front(request, blog_slug="", page_no=1, blog_root=None):
     #return posts
 
 
+@cache_page(60*60)
 def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
 
     blog = get_channel_or_blog(slug=blog_slug)
