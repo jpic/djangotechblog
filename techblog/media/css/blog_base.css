@@ -1863,7 +1863,12 @@ blockquote em
     /*position:absolute;*/
     z-index:2;
     float:right;
+    opacity:.5;
+}
 
+.feed-icon-large:hover
+{
+    opacity:1;
 }
 
 .feed-icon-large a
