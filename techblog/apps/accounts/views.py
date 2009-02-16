@@ -28,4 +28,6 @@ def login(request):
 def logout(request):
 
     auth.logout(request)
-    return HttpResponseRedirect('/accounts/login/')
+    next = request.GET.get('next', '/accounts/login/')
+
+    return HttpResponseRedirect(next)
