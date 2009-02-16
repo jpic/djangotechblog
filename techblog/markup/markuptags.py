@@ -82,7 +82,7 @@ class InlineCodeTag(postmarkup.TagBase):
     DEFAULT_NAME = "c"
 
     def __init__(self, name, **kwargs):
-        postmarkup.TagBase.__init__(self, name, inline=True)
+        postmarkup.TagBase.__init__(self, name, inline=True, enclosed=True)
 
     def render_open(self, parser, node_index):
         return u"<code>"
