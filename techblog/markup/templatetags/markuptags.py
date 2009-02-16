@@ -57,7 +57,7 @@ def markupsection(sections, key):
     if chunks is None:
         return u""
 
-    return mark_safe( u"\n".join(chunk.text for chunk in sorted(chunks, key=lambda chunk:chunk.get_priority()) if chunk )  )
+    return mark_safe( u"\n".join(chunk.text for chunk in sorted(chunks, key=lambda chunk:chunk.get_priority(), reverse=True) if chunk )  )
 
 @register.simple_tag
 def code(content, language):
