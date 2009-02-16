@@ -148,17 +148,17 @@ if __name__ == "__main__":
 
     def main():
 
-        @reciever("go")
+        @recieve("go")
         def printer1(what):
             print what, "1"
             return 1
 
-        @reciever("go", 50)
+        @recieve("go", 50)
         def printer2(what):
             print what, "2"
             return 2
 
-        @reciever()
+        @recieve()
         def printer3(what):
             print what, "3"
             return 3
