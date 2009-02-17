@@ -28,9 +28,24 @@ import forms
 
 from techblog import mailer
 
+def invalidate_cache(object):
+
+    key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
+
+    def invalidate_cache(url):
+
+        url_key = urlparse.urlsplit(str(url))[2]
+        cache_key = "views.decorators.cache.cache_header.%s.%s" % (key_prefix, url_key)
+
+        cache.delete(cache_key)
+
+    invalidate_cache(object.get_absolute_url())
+    invalidate_cache('/'+object.get_blog_relative_url())
+
+
 @broadcast.recieve()
 def allow_comment(object):
-    if isinstance(object, models.Post):
+    if settings.ENABLE_COMMENTS and isinstance(object, models.Post):
         return True
     return False
 
@@ -48,8 +63,10 @@ def new_comment(object, comment):
         td['comment'] = comment.content_text
         td['post'] = object.title
         td['url'] = "http://%s%s#comment%s" % (domain, object.get_absolute_url(), comment.id)
-        mailer.send("admin/mail/newcomment.txt", td, "New Comment", object.blog.owner.email)
 
+        invalidate_cache(object)
+
+        mailer.send("admin/mail/newcomment.txt", td, "New Comment", object.blog.owner.email)
     else:
         raise broadcast.RejectBroadcast
 
