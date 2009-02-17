@@ -127,6 +127,8 @@ SYSTEM_EMAIL_PREFIX = "[willmcgugan.com]"
 
 DEFAULT_BLOG_SLUG = "rootblog"
 
+ENABLE_COMMENTS = True
+
 #USE_ETAGS = True
 
 try:
