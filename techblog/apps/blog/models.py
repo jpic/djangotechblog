@@ -84,7 +84,7 @@ class Tag(models.Model):
 
     def get_blog_relative_url(self):
 
-        return "tag/%s" % self.slug
+        return "tag/%s/" % self.slug
 
 
     def get_feed(self):
@@ -461,7 +461,7 @@ class Post(models.Model):
         month = self.display_time.month
         day = self.display_time.day
 
-        return "%i/%i/%i/%s" % (year, month, day, self.slug)
+        return "%i/%i/%i/%s/" % (year, month, day, self.slug)
 
 
     def _remove_tags(self):

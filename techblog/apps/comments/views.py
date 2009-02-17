@@ -113,6 +113,7 @@ def xhr_delete_comment(request, **kwargs):
     key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
     url_key = urlparse.urlsplit(url)[2]
     cache_key = "views.decorators.cache.cache_header.%s.%s" % (key_prefix, url_key)
+    print cache_key
     cache.delete(cache_key)
 
     if comment_id is None:
@@ -134,10 +135,5 @@ def post_success(request):
 
     url = request.GET.get('fwd', '/')
 
-    key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
-
-    url_key = urlparse.urlsplit(url)[2]
-    cache_key = "views.decorators.cache.cache_header.%s.%s" % (key_prefix, url_key)
-    cache.delete(cache_key)
 
     return HttpResponseRedirect(url)
