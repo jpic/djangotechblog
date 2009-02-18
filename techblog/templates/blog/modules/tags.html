@@ -6,12 +6,14 @@
 {% with tags as post.get_tags %}
 {% if tags %}
 <div class="module-header">Tags</div>
-    <ul class="links-list">
-    <div class="module">
+<div class="module">
+    <ul class="tags-list">
     {% for tag in tags %}
     <li><a href="{{ blog_root }}{{ tag.get_blog_relative_url }}" class="tag">{{ tag.name|smart_title }}</a></li>
     {% endfor %}
-    </div>
     </ul>
+    <div class="clear"> </div>
+</div>
+
 {% endif %}
 {% endwith %}

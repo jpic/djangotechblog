@@ -1052,6 +1052,57 @@ ul.links-list
     margin-right:12px;*/
 }
 
+
+.tags-list li
+{
+    list-style: none;
+    /*font-weight:bold;*/
+
+    font-size:12px;
+    /*font-family:courier, sans-serif;*/
+    background-color:#eef3e8;
+    margin:2px;
+    /*border-left:6px solid #B2CC99;*/
+    line-height:130%;
+    float:left;
+    /*padding:2px;*/
+    border:1px solid #B2CC99;
+}
+
+.tags-list li a
+{
+    display:block;
+    /*font-weight:bold;*/
+    color:#000;
+    /*opacity:.6;*/
+    padding:5px;
+    padding-left:10px;
+
+}
+
+.tags-list li a.tag
+{
+    padding-left:24px;
+    background-image:url(/media/images/icons/tag_blue.png);
+    background-repeat:no-repeat;
+    background-position:4px center;
+}
+
+.tags-list li a:hover
+{
+
+
+    /*border-bottom:4px solid #0066CC !important;*/
+    text-decoration:none;
+    background-color:#dae6ce;
+    color:black;
+    opacity:1;
+}
+
+
+
+
+
 .links-list li
 {
 
