@@ -902,6 +902,11 @@ strong {font-weight:bold;}
     */
     /*color:#CC7F33;*/
     /*color:#B2CC99;*/
+    color:#555;
+}
+
+.post h2 a:hover
+{
     color:#994c00;
 }
 
