@@ -72,6 +72,8 @@ MIDDLEWARE_CLASSES = (
 
     'django.middleware.cache.FetchFromCacheMiddleware',
 
+    'techblog.middleware.UrlRemapMiddleware',
+
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
 
 )
@@ -130,6 +132,12 @@ DEFAULT_BLOG_SLUG = "rootblog"
 ENABLE_COMMENTS = True
 
 #USE_ETAGS = True
+
+# A dictionary that transparently maps one set of URLs on to another
+# See techblog.middleware
+URL_REMAP = {
+    '/old/url/' : '/new/url'
+}
 
 try:
     from local_settings import *

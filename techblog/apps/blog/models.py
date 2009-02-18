@@ -107,7 +107,7 @@ class ChannelTag(object):
         query = models.Q()
         for tag in self.tags:
             query = query | models.Q(id__in = tag.post_set.values('pk').query)
-        posts = Post.published_posts.filter(query)
+        posts = Post.published_posts.filter(query).order_by('-display_time')
 
         return posts
 
