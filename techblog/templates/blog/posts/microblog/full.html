@@ -1,8 +1,8 @@
 {% load blogtags %}
 {% load comments %}
-<div class="microblog space">
-{{ post.content_html|urlize|safe }}
-</div>
+<h2 class="microblog space">
+&ldquo; {{ post.content|urlize|safe }} &rdquo;
+</h2>
 
 <div class="post-description">
     This blog post was posted to <a href="{{ post.blog.get_absolute_url }}">{{ post.blog.title }}</a>
