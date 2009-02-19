@@ -1934,6 +1934,12 @@ blockquote em
     height:64px;
 }
 
+.feed-icon-large a:hover
+{
+    text-decoration:none;
+}
+
+
 pre.techblog-error
 {
     color:#000;
