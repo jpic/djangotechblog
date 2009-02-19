@@ -716,6 +716,18 @@ a:active
     font-family:arial,sans-serif;
 }
 
+h2.microblog
+{
+    font-family:cursive !important;
+    font-weight:normal !important;
+    padding:0px 2px 2px 0px !important;
+}
+
+h2.microblog a
+{
+/*    text-decoration:underline;*/
+    color:#994c00 !important;
+}
 
 #column1 h3
 {

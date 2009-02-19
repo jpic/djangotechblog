@@ -1,12 +1,8 @@
 {% load blogtags %}
 {% load comments %}
-<h2><a href="{% get_post_url blog_root post %}">{{ post.title }}</a></h2>
+<h2 class="microblog">&ldquo; {{ post.content|urlize }} &rdquo;</h2>
 
-<div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div>
-
-<div class="microblog">
-{{ post.content_html|urlize|safe }}
-</div>
+{# <div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div> #} {#<a href="{% get_post_url blog_root post %}">#}
 
 <div class="post-info">
 
