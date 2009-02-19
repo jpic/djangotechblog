@@ -1,6 +1,10 @@
 {% extends "blog/base.html" %}
 
+{% load blogtags %}
+{% load humanize %}
 {% load markuptags %}
+{% load cache %}
+
 {% block title %}Posts tagged with '{{ tag.name }}'{% endblock %}
 
 {% load blogtags %}
@@ -33,5 +37,35 @@
     <div class="clear"> </div>
 </div>
 {% endif %}
+
+{% endblock %}
+
+{% block column2 %}
+
+    <div class="module-header">Search</div>
+    <div class="module search">
+        <form action="{{ blog_root }}search" method="get">
+            <input class="search" name="s" value="{{ search_term }}"> </input>
+            <button type="submit">Search</button>
+        </form>
+        <div class="clear"></div>
+    </div>
+
+{% cache 3600 "populartags" blog.slug 100 %}
+{% get_tags for blog as tag_cloud max 100 %}
+<div class="module-header">
+    Other tags
+</div>
+<div class="module">
+    <ul class="links-list">
+{% for scale, tag in tag_cloud %}
+    <li>
+        <a href="{{ blog_root }}{{ tag.get_blog_relative_url }}" title="{{ tag.count }} posts" class="tag">{{ tag.name|title }} ({{ tag.count }})</a>
+    </li>
+{% endfor %}
+    </ul>
+</div>
+<div class="clear"> </div>
+{% endcache %}
 
 {% endblock %}
