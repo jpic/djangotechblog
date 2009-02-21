@@ -443,6 +443,8 @@ def import_wxr(request, blog_slug='', blog_root=''):
 
 def blog_search(request, blog_slug, blog_root=None):
 
+    MAX_RESULTS = 100
+
     s = request.GET.get('s', '').strip()
 
     blog = get_channel_or_blog(blog_slug)
@@ -461,7 +463,7 @@ def blog_search(request, blog_slug, blog_root=None):
 
     if normalized_s:
         query = Q(title__icontains=normalized_s) | Q(content_text__icontains=normalized_s)
-        posts = models.Post.published_posts.filter(blog__in=blogs, version="live").filter(query).distinct().order_by("-display_time")[:100]
+        posts = models.Post.published_posts.filter(blog__in=blogs, version="live").filter(query).distinct().order_by("-display_time")[:MAX_RESULTS]
         num_results = posts.count()
     else:
         posts = []
