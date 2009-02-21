@@ -16,7 +16,7 @@ class PostSitemap(Sitemap):
     def changefreq(self, obj):
 
         now = datetime.now()
-        t = max(obj.edit_time, obj.display_time)
+        t = obj.display_time
         days_since = (now - t).days
 
         if days_since < 1:
