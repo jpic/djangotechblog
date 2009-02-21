@@ -9,7 +9,8 @@ import binascii
 
 MARKUP_TYPES = [ ("html", "Raw HTML"),
                 ("postmarkup", "Postmarkup (BBCode like)"),
-                ("emarkup", "Extended markup") ]
+                ("emarkup", "Extended markup"),
+                ("text", "Plain text")]
 
 
 try:
