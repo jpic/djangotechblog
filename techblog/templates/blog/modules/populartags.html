@@ -12,7 +12,7 @@
     <ul class="links-list">
 {% for scale, tag in tag_cloud %}
     <li>
-        <a href="{{ blog_root }}{{ tag.get_blog_relative_url }}" title="{{ tag.count }} posts" class="tag">{{ tag.name|title }} ({{ tag.count }})</a>
+        <a href="{{ blog_root }}{{ tag.get_blog_relative_url }}" title="{{ tag.count }} posts" class="tag">{{ tag.name|smart_title }} ({{ tag.count }})</a>
     </li>
 {% endfor %}
     </ul>
