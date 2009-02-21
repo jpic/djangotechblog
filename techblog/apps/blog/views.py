@@ -470,8 +470,11 @@ def blog_search(request, blog_slug, blog_root=None):
         num_results = 0
 
     query_words=normalized_s.split()
-    tag_query = reduce(operator.or_, [Q(name__icontains=word) for word in query_words])
-    tags = models.Tag.objects.filter(blog__in=blogs).filter(tag_query).distinct()
+    if query_words:
+        tag_query = reduce(operator.or_, [Q(name__icontains=word) for word in query_words])
+        tags = models.Tag.objects.filter(blog__in=blogs).filter(tag_query).distinct()
+    else:
+        tags = []
 
 
     td = dict(blog_root = blog_root,
