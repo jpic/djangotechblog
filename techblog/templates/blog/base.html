@@ -7,7 +7,7 @@
 <head>
     <title>{% block title %}YOU FORGOT THE TITLE!{% endblock %}</title>
     <link rel="stylesheet" href="/media/css/blog_base.css" type="text/css" ></link>
-    
+
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 
     {% block css %}{% endblock %}
@@ -46,7 +46,7 @@
         {% if feeds %}
         <div class="feed-icon-container">
             <div class="feed-icon-large">
-                <a href="{{ feeds.0.url }}" title="{{ feeds.0.title }}">&nbsp;</a>
+                <a href="{{ feeds.0.url }}" title="Click here to subscribe to {{ feeds.0.title }}">&nbsp;</a>
             </div>
         </div>
         {% endif %}
