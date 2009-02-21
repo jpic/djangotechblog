@@ -2064,7 +2064,7 @@ li.current-month
 
 .comment-body p
 {
-    font-size:12px !important;
+    /*font-size:12px !important;*/
     font-family:Arial, sans-serif !important;
 }
 
