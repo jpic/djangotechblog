@@ -485,6 +485,10 @@ body
     font-size:13px;
     line-height:20px;
 }
+/*#column1 p + p*/
+/*{*/
+/*    text-indent:1.5em;*/
+/*}*/
 
 .post > p:first-child:first-letter
 {
