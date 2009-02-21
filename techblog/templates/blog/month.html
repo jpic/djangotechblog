@@ -4,7 +4,7 @@
 {% load blogtags %}
 {% load humanize %}
 
-{% block title %}{{ blog.title }}, Archive for {{ archive_month|longmonth }}, {{ archive_year }} {% ifnotequal page 1 %} - {{ page_no|ordinal }} page{% endifnotequal %}{% endblock %}
+{% block title %}{{ blog.title }}, Archive for {{ archive_month|longmonth }}, {{ archive_year }} {% ifnotequal page_no 1 %} - {{ page_no|ordinal }} page{% endifnotequal %}{% endblock %}
 
 {% block js %}
 <script type="text/javascript" src="/media/js/blog_base.js"> </script>
