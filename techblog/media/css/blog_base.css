@@ -47,14 +47,15 @@ blockquote, q {
 .invisible {display:none;}
 .clear {clear:both;}
 
+textarea {
+overflow:auto;
+}
+
+
 body
 {
-    background-color:#eee;
-    background-color:#555;
-    font-family:"Arial",sans-serif;
 
-    background-color:#ededed;
-    background-color:#929292;
+    font-family:"Arial",sans-serif;
     background-color:#494949;
 
 }
@@ -482,7 +483,7 @@ body
     /*font-family:verdana;*/
     font-size:13px;
     /*font-family: "Book Antiqua", "Palatino Linotype", Georgia, serif;*/
-    font-family:Georgia, serif;
+    font-family:serif;
     font-size:13px;
     line-height:20px;
 }
@@ -497,7 +498,7 @@ body
   float:left;
   padding-top:5px;
   /*margin-right:2px;*/
-  font-family:Georgia, serif;
+  font-family:serif;
   display:block;
   color:#555;
   letter-spacing:1px;
@@ -1710,7 +1711,7 @@ tag-cloud a:hover
     font-weight:bold;
     font-size:14px;
     font-weight:bold;
-    font-family: "georgia", serif;
+    font-family: serif;
     font-style:italic;
     margin-bottom:4px;
 }
