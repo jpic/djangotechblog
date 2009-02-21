@@ -101,6 +101,8 @@ class ChannelTag(object):
         self.tags = Tag.objects.filter(slug=self.tag_slug)
         self.channel = Channel.objects.get(slug=channel_slug)
         self.description_data = {}
+        if not self.tags.count():
+            raise Tag.DoesNotExist
 
     def posts(self):
 
