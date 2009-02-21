@@ -41,7 +41,7 @@ class Tag(models.Model):
     name = models.CharField("Tag name", max_length=100)
     slug = models.SlugField(max_length=100, db_index=True)
 
-    template = models.CharField("Template", max_length=100, required=False)
+    template = models.CharField("Template", max_length=100, blank=True)
 
     count = models.IntegerField(default=0, editable=False)
 
