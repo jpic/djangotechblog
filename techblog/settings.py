@@ -107,6 +107,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'django.contrib.admin',
+    'django.contrib.sitemaps',
 
     'techblog.markup',
 

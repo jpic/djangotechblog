@@ -9,7 +9,7 @@ from techblog import broadcast
 import forms
 
 from django.conf import settings
-
+from django.template.defaultfilters import slugify
 
 @broadcast.recieve()
 def allow_comment(object):

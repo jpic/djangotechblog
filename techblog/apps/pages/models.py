@@ -16,7 +16,7 @@ class PageBase(models.Model):
 class PublishedPageManager(models.Manager):
 
     def get_query_set(self):
-        return super(PublishedPageManager, self).get_query_set().filter(published=True)
+        return super(PublishedPageManager, self).get_query_set().filter(published=True, version='live')
 
 
 class Page(models.Model):

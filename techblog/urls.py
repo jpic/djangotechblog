@@ -5,6 +5,12 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
+from apps.blog.sitemap import PostSitemap, TagSitemap
+from apps.pages.sitemap import PageSitemap
+
+sitemaps = { 'posts' : PostSitemap,
+             'pages' : PageSitemap,
+             'tags' : TagSitemap }
 
 urlpatterns = patterns('',
 
@@ -20,6 +26,7 @@ urlpatterns += patterns('',
 
 
 def bad(request):
+    """ Simulates a server error """
     1/0
 
 urlpatterns += patterns('',
@@ -31,6 +38,7 @@ urlpatterns += patterns('',
 
     (r'^comments/', include('techblog.apps.comments.urls')),
     (r'^pages/', include('techblog.apps.pages.urls')),
-    (r'^accounts/', include('techblog.apps.accounts.urls'))
+    (r'^accounts/', include('techblog.apps.accounts.urls')),
+    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 
 )

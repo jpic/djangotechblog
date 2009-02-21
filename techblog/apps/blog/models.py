@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 
 from techblog.markup.render import render
 from techblog.markup.fields import MarkupField
+from techblog import broadcast
 
 import markup
 import operator
@@ -17,6 +18,14 @@ import datetime
 import os
 import os.path
 from itertools import groupby
+
+from django.contrib.sitemaps import ping_google
+
+@broadcast.recieve
+def new_content_on_site():
+    ping_google('/sitemap.xml')
+
+
 
 
 #
@@ -517,6 +526,8 @@ class Post(models.Model):
         self._remove_tags()
         super(Post, self).save(*args, **kwargs)
         self._add_tags()
+        if self.version == 'live' and self.published:
+            broadcast.safe_first.new_content_on_site()
 
     def get_tags(self):
 

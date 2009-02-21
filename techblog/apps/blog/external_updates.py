@@ -59,6 +59,9 @@ def update_microblogs():
 
                 tags = [t.strip() for t in microblog.tags.split(',')]
                 tags += list(parse_hashtags(tweet.text))
+                if 'http' in tweet.text:
+                    tags.append('link')
+                tags = list(set(tags))
 
                 post = Post(blog = microblog.blog,
                             title = "Microblog: " + title,
