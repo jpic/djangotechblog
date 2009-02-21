@@ -26,4 +26,18 @@
 
 {% block column2 %}
 {% include "blog/modules/search.html" %}
+
+{% if tags %}
+<div class="module-header">Tags</div>
+<div class="module">
+    <ul class="tags-list">
+    {% for tag in tags %}
+    <li><a href="{{ blog_root }}{{ tag.get_blog_relative_url }}" class="tag">{{ tag.name|smart_title }}</a></li>
+    {% endfor %}
+    </ul>
+    <div class="clear"> </div>
+</div>
+
+{% endif %}
+
 {% endblock %}
