@@ -481,7 +481,8 @@ body
     /*text-align:justify;*/
     /*font-family:verdana;*/
     font-size:13px;
-    font-family: serif;
+    /*font-family: "Book Antiqua", "Palatino Linotype", Georgia, serif;*/
+    font-family:Georgia, serif;
     font-size:13px;
     line-height:20px;
 }
@@ -496,7 +497,7 @@ body
   float:left;
   padding-top:5px;
   /*margin-right:2px;*/
-  font-family:Palatino Linotype, Book Antiqua, serif;
+  font-family:Georgia, serif;
   display:block;
   color:#555;
   letter-spacing:1px;
@@ -1587,8 +1588,8 @@ tag-cloud a:hover
 
 .comment-form-options
 {
-    width:98%;
-    float:right;
+    /*width:98%;*/
+    /*float:right;*/
     padding:4px;
     clear:both;
     margin-top:6px;
@@ -1606,6 +1607,7 @@ tag-cloud a:hover
     background-repeat:no-repeat;
     background-position:left center;
     min-height:16px;
+    padding-top:5px;
 }
 
 .comment-form-options input[type=submit]
@@ -1708,7 +1710,7 @@ tag-cloud a:hover
     font-weight:bold;
     font-size:14px;
     font-weight:bold;
-    font-family: "georgia", "Palatino Linotype", "Book Antiqua", serif;
+    font-family: "georgia", serif;
     font-style:italic;
     margin-bottom:4px;
 }
@@ -2018,7 +2020,7 @@ pre.techblog-error
 
 .post li
 {
-    font-family: "Palatino Linotype", "Book Antiqua", serif;
+    font-family: Georgia, serif;
     color:#333;
     font-size:12px;
     line-height:20px;
@@ -2097,7 +2099,7 @@ li.current-month
 
 .microblog
 {
-    font-family: "Palatino Linotype", "Book Antiqua", serif;
+    font-family: Georgia, serif;
     font-size:150%;
     line-height:normal;
     color:#666;
