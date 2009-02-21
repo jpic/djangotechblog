@@ -10,6 +10,7 @@ register = template.Library()
 
 from django.template.loader import get_template, select_template
 from django.template.context import Context
+from django.template.defaultfilters import urlize
 
 
 short_months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
@@ -20,6 +21,30 @@ def context_resolve(context, var, callable=None):
     if callable is not None:
         resolved_var = callable(resolved_var)
     return resolved_var
+
+
+_hash_tags = re.compile(r'(^|\s)\#\w+')
+
+def urlize_hashtags(txt, blog_root, post):
+
+    tags = dict((t.name.lower(),t) for t in post.get_tags())
+    def repl(match):
+        tag_name = unicode(match.group(0))[2:].lower()
+        tag = tags.get(tag_name)
+        print tag_name
+        if tag is None:
+            return tag_name
+        link = blog_root + tag.get_blog_relative_url()
+        return ' <a href="%s">#%s</a>' % (link, tag_name)
+    return _hash_tags.sub(repl, txt)
+
+
+@register.simple_tag
+def microblog(post, blog_root):
+    content = urlize_hashtags(post.content, blog_root, post)
+    content = urlize(content)
+    return content
+
 
 @register.filter
 @stringfilter

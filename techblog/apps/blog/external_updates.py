@@ -13,6 +13,13 @@ def update():
 
 re_microblog_reply = re.compile(r'^@\w+')
 
+def parse_hashtags(microblog):
+
+    for word in microblog.split():
+        if word.startswith('#'):
+            yield word[1:]
+
+
 def update_microblogs():
 
 
@@ -36,10 +43,14 @@ def update_microblogs():
             except Post.DoesNotExist:
                 tweet_time = datetime.fromtimestamp(tweet.created_at_in_seconds)
                 title = char_break(tweet.text, 50)
+
+                tags = [t.strip() for t in microblog.tags.split(',')]
+                tags += list(parse_hashtags(tweet.text))
+
                 post = Post(blog = microblog.blog,
                             title = "Microblog: " + title,
                             source = "microblog:" + microblog.service,
-                            tags_text = microblog.tags,
+                            tags_text = ",".join(tags),
                             slug = slugify(title),
                             published = True,
                             guid = tweet_guid,

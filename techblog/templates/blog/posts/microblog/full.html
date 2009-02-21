@@ -1,7 +1,7 @@
 {% load blogtags %}
 {% load comments %}
 <h2 class="microblog space">
-&ldquo; {{ post.content|urlize|safe }} &rdquo;
+    &ldquo; {% microblog post blog_root %} &rdquo;
 </h2>
 
 <div class="post-description">

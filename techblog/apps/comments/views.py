@@ -84,7 +84,7 @@ def xhr_post_comment(request, **kwargs):
                 email = email,
                 url = url
             )
-            comment.content_markup_type
+            comment.content_markup_type = 'comment_bbcode'
             comment.content = content
 
             broadcast.safe_call.new_comment(object, comment)
