@@ -20,6 +20,17 @@ def parse_hashtags(microblog):
             yield word[1:]
 
 
+_microblog_user = re.compile(r'(^|\s)\@\w+')
+
+def microblog_microformat(txt, url):
+
+    def repl_hash(match):
+        user_name = unicode(match.group(0))[2:].lower()
+        return ' @<a href="%s%s">%s</a>' % (url, user_name, user_name)
+
+    return _microblog_user.sub(repl_hash, txt).lstrip()
+
+
 def update_microblogs():
 
 
@@ -44,6 +55,8 @@ def update_microblogs():
                 tweet_time = datetime.fromtimestamp(tweet.created_at_in_seconds)
                 title = char_break(tweet.text, 50)
 
+                tweet_text = microblog_microformat(tweet.text, microblog.url)
+
                 tags = [t.strip() for t in microblog.tags.split(',')]
                 tags += list(parse_hashtags(tweet.text))
 
@@ -58,8 +71,8 @@ def update_microblogs():
                             created_time=datetime.now(),
                             edit_time=datetime.now(),
                             display_time=tweet_time,
-                            content = tweet.text,
-                            content_markup_type = "text",
+                            content = tweet_text,
+                            content_markup_type = "microblog",
                             version = 'live',
                             template_path = microblog.template_path,
                             )
