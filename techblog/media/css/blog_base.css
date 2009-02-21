@@ -1605,6 +1605,7 @@ tag-cloud a:hover
     background-image:url("/media/images/icons/asterisk_orange.png");
     background-repeat:no-repeat;
     background-position:left center;
+    min-height:16px;
 }
 
 .comment-form-options input[type=submit]
