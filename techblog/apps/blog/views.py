@@ -22,7 +22,7 @@ from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 
 
-
+import operator
 from itertools import groupby
 import forms
 
@@ -467,12 +467,16 @@ def blog_search(request, blog_slug, blog_root=None):
         posts = []
         num_results = 0
 
+    query_words=normalized_s.split()
+    tag_query = reduce(operator.or_, [Q(name__icontains=word) for word in query_words])
+    tags = models.Tag.objects.filter(blog__in=blogs).filter(tag_query).distinct()
 
 
     td = dict(blog_root = blog_root,
               blog=blog,
               sections=sections,
               posts=posts,
+              tags=tags,
               num_results=num_results,
               search_term=s)
 
