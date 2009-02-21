@@ -5,7 +5,7 @@ from models import Post, Tag
 from datetime import datetime, timedelta
 
 class PostSitemap(Sitemap):
-    
+
     def items(self):
         return Post.published_posts.all()
 
@@ -29,7 +29,7 @@ class PostSitemap(Sitemap):
         else:
             return 'never'
 
-    def priority(self):
+    def priority(self, obj):
         now = datetime.now()
         t = obj.display_time
         days_since = (now - t).days
