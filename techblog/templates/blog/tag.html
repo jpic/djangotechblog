@@ -34,7 +34,7 @@
     <div class="next-post">
         <a href="{{ newer_page_url }}">Newer posts</a>
     </div>{% endif %}
-    <div class="clear"> </div>
+    <div class="clear">&nbsp;</div>
 </div>
 {% endif %}
 
@@ -48,7 +48,7 @@
             <input class="search" name="s" value="{{ search_term }}"> </input>
             <button type="submit">Search</button>
         </form>
-        <div class="clear"> </div>
+        <div class="clear">&nbsp;</div>
     </div>
 
 {% cache 3600 "populartags" blog.slug 100 %}
@@ -65,7 +65,7 @@
 {% endfor %}
     </ul>
 </div>
-<div class="clear"> </div>
+<div class="clear">&nbsp;</div>
 {% endcache %}
 
 {% endblock %}

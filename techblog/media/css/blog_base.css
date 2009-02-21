@@ -45,7 +45,7 @@ blockquote, q {
 }
 
 .invisible {display:none;}
-.clear {clear:both;}
+.clear {clear:both;height:1px;}
 
 textarea {
 overflow:auto;
