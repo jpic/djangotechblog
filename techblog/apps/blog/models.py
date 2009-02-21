@@ -361,7 +361,7 @@ class PublisedPostManager(models.Manager):
     def get_query_set(self):
         posts = super(PublisedPostManager, self).get_query_set()
         now = datetime.datetime.now()
-        posts.filter(published=True, display_time__lt=now, version="live")
+        posts = posts.filter(published=True, display_time__lt=now, version="live")
 
         return posts
 
