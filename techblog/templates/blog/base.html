@@ -1,17 +1,15 @@
 {% load markuptags %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 "http://www.w3.org/TR/html4/strict.dtd">
-{% comment %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-{% endcomment %}
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>{% block title %}YOU FORGOT THE TITLE!{% endblock %}</title>
-    {# <link rel="stylesheet" href="/media/css/common.css" type="text/css" ></link> #}
     <link rel="stylesheet" href="/media/css/blog_base.css" type="text/css" ></link>
-    {# <link rel="stylesheet" href="/media/css/code.css" type="text/css" ></link> #}
+    
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+
     {% block css %}{% endblock %}
 
     <link rel="icon" type="image/png" href="/media/images/favicon.png" ></link>
