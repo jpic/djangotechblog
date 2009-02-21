@@ -33,7 +33,7 @@ def urlize_hashtags(txt, blog_root, post):
         tag = tags.get(tag_name)
         print tag_name
         if tag is None:
-            return tag_name
+            return " #"+tag_name
         link = blog_root + tag.get_blog_relative_url()
         return ' <a href="%s">#%s</a>' % (link, tag_name)
     return _hash_tags.sub(repl, txt)
