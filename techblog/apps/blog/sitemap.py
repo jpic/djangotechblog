@@ -166,7 +166,7 @@ class RootblogSitemap(BlogSitemap):
 
 
 class TagSitemap(Sitemap):
-    priority = 0.5
+    priority = 0.4
 
     def items(self):
         return Tag.objects.all()
