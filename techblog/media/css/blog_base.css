@@ -118,6 +118,7 @@ body
     padding:50px 0px 50px 0px;
     background-image:url(/media/images/topshade.png);
     background-repeat:no-repeat;
+    _background-image:none;
 }
 
 .blurb
