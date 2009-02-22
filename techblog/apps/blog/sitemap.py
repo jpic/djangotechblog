@@ -60,7 +60,7 @@ class RootblogPostSitemap(PostSitemap):
         return blog.posts()
 
     def location(self, obj):
-        return obj.get_blog_relative_url()
+        return '/' + obj.get_blog_relative_url()
 
 
 class BlogSitemap(Sitemap):
