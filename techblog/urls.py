@@ -5,10 +5,14 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
-from apps.blog.sitemap import PostSitemap, TagSitemap
+from apps.blog.sitemap import PostSitemap, TagSitemap, BlogSitemap, ChannelSitemap, RootblogSitemap, RootblogPostSitemap
 from apps.pages.sitemap import PageSitemap
 
-sitemaps = { 'posts' : PostSitemap,
+sitemaps = { 'blogs' : BlogSitemap,
+             'channels' : ChannelSitemap,
+             'rootblog' : RootblogSitemap,
+             'posts' : PostSitemap,
+             'rootblogposts' : RootblogPostSitemap,
              'pages' : PageSitemap,
              'tags' : TagSitemap }
 

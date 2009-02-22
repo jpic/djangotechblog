@@ -132,6 +132,8 @@ DEFAULT_BLOG_SLUG = "rootblog"
 
 ENABLE_COMMENTS = True
 
+BLOG_POSTS_PER_PAGE = 10
+
 #USE_ETAGS = True
 
 # A dictionary that transparently maps one set of URLs on to another

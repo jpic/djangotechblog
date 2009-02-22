@@ -1,6 +1,7 @@
 from django.contrib.sitemaps import Sitemap
+from django.conf import settings
 
-from models import Post, Tag
+from models import Post, Tag, Blog, Channel
 
 from datetime import datetime, timedelta
 
@@ -43,6 +44,113 @@ class PostSitemap(Sitemap):
 
     def location(self, obj):
         return obj.get_absolute_url()
+
+class RootblogPostSitemap(PostSitemap):
+
+    def items(self):
+        try:
+            blog = Channel.objects.get(slug=settings.DEFAULT_BLOG_SLUG)
+        except Channel.DoesNotExist:
+            try:
+                blog = Blog.objects.get(slug=settings.DEFAULT_BLOG_SLUG)
+            except Blog.DoesNotExist:
+                blog = None
+        if blog is None:
+            return []
+        return blog.posts()
+
+    def location(self, obj):
+        return obj.get_blog_relative_url()
+
+
+class BlogSitemap(Sitemap):
+
+    changefreq = 'daily'
+
+    def items(self):
+        blogs = Blog.objects.all()
+        def get_page_count(blog):
+            num_pages = 1 + (blog.posts().count() / settings.BLOG_POSTS_PER_PAGE)
+            return num_pages
+        index_pages = []
+        for blog in blogs:
+            index_pages += [(blog, page_no+1) for page_no in xrange(get_page_count(blog))]
+        return index_pages
+
+    def location(self, obj):
+        blog, page_no = obj
+        if page_no == 1:
+            return blog.get_absolute_url()
+        else:
+            return "%spage/%i/" % (blog.get_absolute_url(), page_no)
+
+    def priority(self, obj):
+        blog, page_no = obj
+        if page_no == 1:
+            return 0.8
+        else:
+            return .4
+
+    def lastmod(self, obj):
+        blog, page_no = obj
+        try:
+            return blog.posts()[0].edit_time
+        except IndexError:
+            return blog.created_time
+
+
+class ChannelSitemap(BlogSitemap):
+
+    def items(self):
+        blogs = Channel.objects.all()
+        def get_page_count(blog):
+            num_pages = 1 + (blog.posts().count() / settings.BLOG_POSTS_PER_PAGE)
+            return num_pages
+        index_pages = []
+        for blog in blogs:
+            index_pages += [(blog, page_no+1) for page_no in xrange(get_page_count(blog))]
+        return index_pages
+
+    def priority(self, obj):
+        blog, page_no = obj
+        if page_no == 1:
+            return 0.9
+        else:
+            return .5
+
+    def location(self, obj):
+        blog, page_no = obj
+        if page_no == 1:
+            return blog.get_absolute_url()
+        else:
+            return "%spage/%i/" % (blog.get_absolute_url(), page_no)
+
+
+class RootblogSitemap(BlogSitemap):
+
+    def items(self):
+        try:
+            blogs = [Channel.objects.get(slug=settings.DEFAULT_BLOG_SLUG)]
+        except Channel.DoesNotExist:
+            try:
+                blogs = [Blog.objects.get(slug=settings.DEFAULT_BLOG_SLUG)]
+            except Blog.DoesNotExist:
+                blogs = []
+
+        def get_page_count(blog):
+            num_pages = 1 + (blog.posts().count() / settings.BLOG_POSTS_PER_PAGE)
+            return num_pages
+        index_pages = []
+        for blog in blogs:
+            index_pages += [(blog, page_no+1) for page_no in xrange(get_page_count(blog))]
+        return index_pages
+
+    def location(self, obj):
+        blog, page_no = obj
+        if page_no == 1:
+            return "/"
+        else:
+            return "page/%i/" % (page_no)
 
 
 

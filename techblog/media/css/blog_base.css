@@ -474,10 +474,8 @@ body
 
 #column1 p
 {
-    /*font-size:80%;*/
-    line-height:17px;
-    color:#333;
 
+    color:#000;
     padding-bottom:1em;
     /*text-align:justify;*/
     /*font-family:verdana;*/

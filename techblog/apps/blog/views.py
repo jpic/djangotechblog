@@ -81,7 +81,7 @@ def get_channel_or_blog(slug):
 def get_blog_list_data(request, posts, get_page_url, page_no):
 
 
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, settings.BLOG_POSTS_PER_PAGE)
 
     if page_no > paginator.num_pages:
         raise Http404
