@@ -28,7 +28,7 @@ class PostSitemap(Sitemap):
         elif days_since < 365:
             return 'monthly'
         else:
-            return 'never'
+            return 'yearly'
 
     def priority(self, obj):
         now = datetime.now()
@@ -36,7 +36,7 @@ class PostSitemap(Sitemap):
         days_since = (now - t).days
 
         if days_since < 7:
-            return 1.0
+            return .9
         elif days_since < 30:
             return .7
         else:
@@ -62,6 +62,17 @@ class RootblogPostSitemap(PostSitemap):
     def location(self, obj):
         return '/' + obj.get_blog_relative_url()
 
+    def priority(self, obj):
+        now = datetime.now()
+        t = obj.display_time
+        days_since = (now - t).days
+
+        if days_since < 7:
+            return 1.0
+        elif days_since < 30:
+            return .8
+        else:
+            return .6
 
 class BlogSitemap(Sitemap):
 
