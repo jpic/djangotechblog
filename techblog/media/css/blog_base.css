@@ -481,11 +481,10 @@ body
     padding-bottom:1em;
     /*text-align:justify;*/
     /*font-family:verdana;*/
-    font-size:13px;
     /*font-family: "Book Antiqua", "Palatino Linotype", Georgia, serif;*/
-    font-family:serif;
+    font-family:Georgia, serif;
     font-size:13px;
-    line-height:20px;
+    line-height:21px;
 }
 /*#column1 p + p*/
 /*{*/
@@ -494,9 +493,9 @@ body
 
 .post > p:first-child:first-letter
 {
-  font-size:41px;
+  font-size:43px;
   float:left;
-  padding-top:5px;
+  padding-top:7px;
   /*margin-right:2px;*/
   font-family:serif;
   display:block;
