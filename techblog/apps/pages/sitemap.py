@@ -22,7 +22,7 @@ class PageSitemap(Sitemap):
             return 'hourly'
         elif days_since < 7:
             return 'daily'
-        return 'monthly'
+        return 'weekly'
 
     def location(self, obj):
         return obj.get_absolute_url()
