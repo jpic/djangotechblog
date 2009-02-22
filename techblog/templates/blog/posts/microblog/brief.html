@@ -4,16 +4,18 @@
 
 {# <div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div> #} {#<a href="{% get_post_url blog_root post %}">#}
 
+
 <div class="post-info">
 
-    <div class="comments-count">
-{% get_comments_count for post as num_comments %}
-{% if num_comments %}<a class="comments-link" href="{% get_post_url blog_root post %}#comments">{{ num_comments }} comments</a>{% endif %}
-{% if not num_comments %}<a  class="comments-link" href="{% get_post_url blog_root post %}#comments">No comments</a>{% endif %}
-</div>
-<div class="tag-list">
-    {% for tag in post.get_tags %}<a class="tag-link" href="{{ blog_root }}{{ tag.get_blog_relative_url }}">{{ tag.name }}</a>{% if not forloop.last %}, {%endif %} {% endfor %}</a>
-</div>
+    <span class="comments-count">
+    {% get_comments_count for post as num_comments %}
+    {% if num_comments %}<a class="comments-link" href="{% get_post_url blog_root post %}#comments">{{ num_comments }} comments</a>{% endif %}
+    {% if not num_comments %}<a  class="comments-link" href="{% get_post_url blog_root post %}#comments">No comments</a>{% endif %}
+    </span>
+    <span class="tag-list">
+        {% for tag in post.get_tags %}<a class="tag-link" href="{{ blog_root }}{{ tag.get_blog_relative_url }}">{{ tag.name }}</a>{% if not forloop.last %}, {%endif %} {% endfor %}</a>
+    </span>
 
 </div>
+
 <div class="clear">&nbsp;</div>

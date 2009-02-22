@@ -1578,6 +1578,8 @@ blockquote em
     background-repeat:no-repeat;
     padding-left:20px;
     min-height:16px;
+    padding-top:1px;
+    padding-bottom:1px;
 }
 
 .tag-link
@@ -1590,11 +1592,18 @@ blockquote em
     font-size:85% !important;
     color:#666 !important;
     min-height:16px;
+    height:16px;
 
-    display:table;
-    margin:18px auto 18px auto;
+    /*display:table;
+    margin:18px auto 18px auto;*/
     clear:both;
+    text-align:center;
 
+}
+
+.post-info-outer
+{
+    text-align:center;
 }
 
 .tag-list
@@ -1604,13 +1613,16 @@ blockquote em
     background-repeat:no-repeat;
     padding-left:21px;
     height:16px;
-    float:left;
+    min-height:16px;
+    padding-top:1px;
+    padding-bottom:1px;
+    /*float:left;*/
 }
 
 .comments-count
 {
 
-    float:left;
+    /*float:left;*/
     text-align:right;
 }
 
@@ -1864,6 +1876,7 @@ li.current-month
 {
     padding-bottom:20px;
 }
+
 
 em
 {
