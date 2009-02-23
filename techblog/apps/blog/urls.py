@@ -27,7 +27,7 @@ urlpatterns = patterns('',
     url(r'^page/(?P<page_no>\d+)/$', views.blog_front, name="blog_front_with_page"),
     url(r'^search/$', views.blog_search, name="blog_search"),
 
-    url(r'^writer/(?P<post_id>\d+)$', views.writer, name="writer"),
+    url(r'^writer/(?P<post_id>\d+)/$', views.writer, name="writer"),
     url(r'^newpost/$', views.newpost, name="newpost"),
     url(r'^manage/$', views.manage, name="manage"),
 

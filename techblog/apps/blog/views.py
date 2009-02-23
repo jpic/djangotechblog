@@ -502,17 +502,24 @@ def front(request, blog_root=None):
 def newpost(request, blog_slug, blog_root=None):
 
     blog = get_object_or_404(models.Blog, slug=blog_slug)
+    default_slug = slugify(str(datetime.now()))
 
-    post = models.Post(blog=blog,
-                       title="Post",
-                       slug="post slug",
-                       published=False,
-                       content_markup_type="emarkup",
-                       version='live')
+    post = models.Post( blog=blog,
+                        title="Post",
+                        slug=default_slug,
+                        published=False,
+                        created_time=datetime.now(),
+                        edit_time=datetime.now(),
+                        display_time=datetime.now(),
+                        content='',
+                        content_markup_type="emarkup",
+                        version='live')
     post.save()
-    post.title = "post %i" % post.id
+
+    post.title = "post %i" % post.pk
     post.slug = post.title.replace(' ','_')
     post.save()
+
 
     return HttpResponseRedirect(reverse(writer, args=(blog_slug, post.id)))
 

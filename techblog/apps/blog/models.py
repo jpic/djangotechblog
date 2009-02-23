@@ -477,10 +477,10 @@ class Post(models.Model):
 
     def _remove_tags(self):
 
-        if self.version != 'live':
-            return
-
         if self.pk is not None:
+
+            if self.version != 'live':
+                return
             tags = Tag.objects.filter(blog=self.blog, post=self)
             for tag in self.tags.all():
                 if not tag.decrement():
@@ -522,6 +522,7 @@ class Post(models.Model):
         super(Post, self).delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
+
 
         self._remove_tags()
         super(Post, self).save(*args, **kwargs)
