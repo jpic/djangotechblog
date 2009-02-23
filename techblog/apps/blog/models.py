@@ -396,8 +396,8 @@ class Post(models.Model):
 
     #created_time = models.DateTimeField(auto_now_add=True)
 
-    published_posts = PublisedPostManager()
     objects = models.Manager()
+    published_posts = PublisedPostManager()
 
     def get_template_names(self, name="default"):
 

@@ -516,11 +516,6 @@ def newpost(request, blog_slug, blog_root=None):
                         version='live')
     post.save()
 
-    post.title = "post %i" % post.pk
-    post.slug = post.title.replace(' ','_')
-    post.save()
-
-
     return HttpResponseRedirect(reverse(writer, args=(blog_slug, post.id)))
 
 @login_required
@@ -528,7 +523,8 @@ def writer(request, blog_slug, post_id, blog_root=None):
 
     blog = get_channel_or_blog(blog_slug)
     blog_root = blog_root or blog.get_absolute_url()
-    post = get_object_or_404(models.Post, id=post_id, version='live')
+    post = get_object_or_404(models.Post, id=int(post_id), version='live')
+
 
     edit_post = post
 
