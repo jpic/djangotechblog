@@ -134,6 +134,9 @@ ENABLE_COMMENTS = True
 
 BLOG_POSTS_PER_PAGE = 10
 
+if not DEBUG:
+    PREPEND_WWW = True
+
 #USE_ETAGS = True
 
 # A dictionary that transparently maps one set of URLs on to another

@@ -57,8 +57,6 @@ def import_wxr(blog_slug, wxr_file, included_tags, excluded_tags):
     included_tags = set(t.strip().lower() for t in included_tags.split(',') if t)
     excluded_tags = set(t.strip().lower() for t in excluded_tags.split(',') if t)
 
-    print excluded_tags
-
     try:
 
         namespaces = """
@@ -250,8 +248,7 @@ def import_wxr(blog_slug, wxr_file, included_tags, excluded_tags):
                                                content_markup_type="html",
                                                content_type=ct,
                                                group="blog."+blog.slug)
-    except e:
+    except:
         transaction.rollback()
-        raise e
     else:
         transaction.commit()

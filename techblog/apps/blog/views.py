@@ -115,6 +115,9 @@ def feeds(request, blog_slug, feed_item, **kwargs):
         feed_type = feed_item
         slug =""
 
+    if 'blog_root' in kwargs:
+        del kwargs['blog_root']
+
     if feed_type == "posts":
         return feed(request, url="posts/%s"% ( blog_slug ), **kwargs)
     elif feed_type == "tag":
