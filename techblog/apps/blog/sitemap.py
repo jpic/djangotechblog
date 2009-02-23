@@ -31,16 +31,7 @@ class PostSitemap(Sitemap):
             return 'yearly'
 
     def priority(self, obj):
-        now = datetime.now()
-        t = obj.display_time
-        days_since = (now - t).days
-
-        if days_since < 7:
-            return .9
-        elif days_since < 30:
-            return .7
-        else:
-            return .5
+        return .9
 
     def location(self, obj):
         return obj.get_absolute_url()
@@ -63,16 +54,7 @@ class RootblogPostSitemap(PostSitemap):
         return '/' + obj.get_blog_relative_url()
 
     def priority(self, obj):
-        now = datetime.now()
-        t = obj.display_time
-        days_since = (now - t).days
-
-        if days_since < 7:
-            return 1.0
-        elif days_since < 30:
-            return .8
-        else:
-            return .6
+        return 1.0
 
 class BlogSitemap(Sitemap):
 
@@ -96,11 +78,7 @@ class BlogSitemap(Sitemap):
             return "%spage/%i/" % (blog.get_absolute_url(), page_no)
 
     def priority(self, obj):
-        blog, page_no = obj
-        if page_no == 1:
-            return 0.8
-        else:
-            return .4
+        return .5
 
     def lastmod(self, obj):
         blog, page_no = obj
@@ -123,11 +101,7 @@ class ChannelSitemap(BlogSitemap):
         return index_pages
 
     def priority(self, obj):
-        blog, page_no = obj
-        if page_no == 1:
-            return 0.9
-        else:
-            return .5
+        return .6
 
     def location(self, obj):
         blog, page_no = obj
@@ -138,6 +112,8 @@ class ChannelSitemap(BlogSitemap):
 
 
 class RootblogSitemap(BlogSitemap):
+
+    priority = .7
 
     def items(self):
         try:
