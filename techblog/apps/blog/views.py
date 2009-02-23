@@ -479,6 +479,7 @@ def blog_search(request, blog_slug, blog_root=None):
     else:
         tags = []
 
+    tags = [itags.next() for (tag_name, itags) in groupby(tags, lambda t:t.slug)]
 
     td = dict(blog_root = blog_root,
               blog=blog,
