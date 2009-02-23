@@ -137,7 +137,7 @@ class RootblogSitemap(BlogSitemap):
         if page_no == 1:
             return "/"
         else:
-            return "page/%i/" % (page_no)
+            return "/page/%i/" % (page_no)
 
 
 
