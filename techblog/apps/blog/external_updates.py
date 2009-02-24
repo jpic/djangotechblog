@@ -13,12 +13,12 @@ def update():
 
 re_microblog_reply = re.compile(r'^@\w+')
 
+_hash_tags = re.compile(r'^|\s\#(\w+)')
 def parse_hashtags(microblog):
 
-    for word in microblog.split():
-        if word.startswith('#'):
-            yield word[1:]
-
+    for match in _hash_tags.findall(microblog):
+        if match.strip():
+            yield match
 
 _microblog_user = re.compile(r'(^|\s)\@\w+')
 
