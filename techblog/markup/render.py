@@ -61,6 +61,13 @@ def render(markup, markup_type):
         text = postmarkup.textilize(html)
         data = {}
 
+    elif markup_type == "text":
+
+        html = "<p>%s</p>" % postmarkup._escape(markup)
+        summary_html = html
+        text = markup
+        data = {}
+
     else:
 
         html = markup

@@ -75,7 +75,7 @@ def update_microblogs():
                             edit_time=datetime.now(),
                             display_time=tweet_time,
                             content = tweet_text,
-                            content_markup_type = "microblog",
+                            content_markup_type = "text",
                             version = 'live',
                             template_path = microblog.template_path,
                             )

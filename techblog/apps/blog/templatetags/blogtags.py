@@ -42,7 +42,7 @@ def urlize_hashtags(txt, blog_root, post):
 
 @register.simple_tag
 def microblog(post, blog_root):
-    content = urlize_hashtags(post.content_html, blog_root, post)
+    content = urlize_hashtags(post.content_text, blog_root, post)
     content = urlize(content)
     return content
 
