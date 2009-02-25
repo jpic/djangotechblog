@@ -149,6 +149,11 @@ class EMarkupParser(object):
                 if self.re_extended_directive.match(line):
 
                     line = line[1:-1]
+
+                    if self.re_extended_directive.match(line):
+                        current_lines.append(line)
+                        continue
+
                     # Chunk type
                     if line.startswith('..'):
                         line = line[2:]
