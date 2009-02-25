@@ -1,5 +1,6 @@
 from models import Microblog
 from models import Post
+import postmarkup
 
 from datetime import datetime
 import twitter
@@ -55,7 +56,10 @@ def update_microblogs():
                 tweet_time = datetime.fromtimestamp(tweet.created_at_in_seconds)
                 title = char_break(tweet.text, 50)
 
-                tweet_text = microblog_microformat(tweet.text, microblog.url)
+                tweet_text = tweet.text
+                tweet_text = postmarkup.textilize(tweet_text)
+                tweet_text = microblog_microformat(tweet_text, microblog.url)
+
 
                 tags = [t.strip() for t in microblog.tags.split(',')]
                 tags += list(parse_hashtags(tweet.text))
@@ -75,7 +79,7 @@ def update_microblogs():
                             edit_time=datetime.now(),
                             display_time=tweet_time,
                             content = tweet_text,
-                            content_markup_type = "text",
+                            content_markup_type = "html",
                             version = 'live',
                             template_path = microblog.template_path,
                             )
