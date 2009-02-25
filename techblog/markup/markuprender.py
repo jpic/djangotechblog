@@ -4,7 +4,7 @@
 import postmarkup
 import markuptags
 
-post_render = postmarkup.create(exlude=["url", "link"], annotate_links=False)
+post_render = postmarkup.create(exlude=["url", "link"], annotate_links=False, auto_url=False)
 #post_render.add_tag(postmarkup.SectionTag, "in")
 
 
