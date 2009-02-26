@@ -89,26 +89,125 @@ class InlineCodeTag(postmarkup.TagBase):
         self.skip_contents(parser)
         return u"<code>%s</code>"%contents
 
-class PostLinkTag(postmarkup.TagBase):
+class PostLinkTag(TagBase):
 
     DEFAULT_NAME = "url"
 
-    def __init__(self, name, **kwargs):
-        super(PostLinkTag, self).__init__(name, annotate_links=False, **kwargs)
+    _safe_chars = frozenset('ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+               'abcdefghijklmnopqrstuvwxyz'
+               '0123456789'
+               '_.-=/&?:%&')
+
+    _re_domain = re.compile(r"//([a-z0-9-\.]*)", re.UNICODE)
+
+    def __init__(self, name, annotate_links=True, **kwargs):
+        TagBase.__init__(self, name, inline=True)
+
+        self.annotate_links = annotate_links
+
 
     def render_open(self, parser, node_index):
 
-        external_link = ':' in self.params
+        self.domain = u''
+        tag_data = parser.tag_data
+        nest_level = tag_data['link_nest_level'] = tag_data.setdefault('link_nest_level', 0) + 1
 
-        if external_link:
-            domain = postmarkup.LinkTag._re_domain.search(self.params.lower()).group(1)
-            return u'<a href="%s" class="external-link" title="%s">' % (self.params, domain)
+        if nest_level > 1:
+            return u""
+
+        if self.params:
+            url = self.params.strip()
         else:
-            return u'<a href="%s">' % (self.params)
+            url = self.get_contents_text(parser).strip()
+            url = _unescape(url)
+
+        self.domain = ""
+
+        if u"javascript:" in url.lower():
+            return ""
+
+        if ':' not in url:
+            url = 'http://' + url
+
+        scheme, uri = url.split(':', 1)
+
+        if scheme not in ['http', 'https']:
+            return u''
+
+        try:
+            domain = self._re_domain.search(uri.lower()).group(1)
+        except IndexError:
+            return u''
+
+        domain = domain.lower()
+        if domain.startswith('www.'):
+            domain = domain[4:]
+
+        def percent_encode(s):
+            safe_chars = self._safe_chars
+            def replace(c):
+                if c not in safe_chars:
+                    return "%%%02X"%ord(c)
+                else:
+                    return c
+            return "".join([replace(c) for c in s])
+
+        self.url = percent_encode(url.encode('utf-8', 'replace'))
+        self.domain = domain
+
+        if not self.url:
+            return u""
+
+        if self.domain:
+            if ':' in self.params:
+                return u'<a href="%s" class="external-link">'%self.url
+            else:
+                return u'<a href="%s">'%self.url
+        else:
+            return u""
+
 
     def render_close(self, parser, node_index):
 
-        return u"</a>"
+        tag_data = parser.tag_data
+        tag_data['link_nest_level'] -= 1
+
+        if tag_data['link_nest_level'] > 0:
+            return u''
+
+        if self.domain:
+            return u'</a>'+self.annotate_link(self.domain)
+        else:
+            return u''
+
+    def annotate_link(self, domain=None):
+
+        if domain and self.annotate_links:
+            return annotate_link(domain)
+        else:
+            return u""
+
+
+#class PostLinkTag(postmarkup.TagBase):
+#
+#    DEFAULT_NAME = "url"
+#
+#    def __init__(self, name, **kwargs):
+#        super(PostLinkTag, self).__init__(name, annotate_links=False, **kwargs)
+#
+#    def render_open(self, parser, node_index):
+#
+#        external_link = ':' in self.params
+#
+#        if external_link:
+#            domain = postmarkup.LinkTag._re_domain.search(self.params.lower()).group(1)
+#            return u'<a href="%s" class="external-link" title="%s">' % (self.params, domain)
+#        else:
+#            return u'<a href="%s">' % (self.params)
+#
+#    def render_close(self, parser, node_index):
+#
+#        return u"</a>"
 
 
 class MoreTag(postmarkup.TagBase):
