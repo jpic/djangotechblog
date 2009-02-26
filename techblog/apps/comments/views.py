@@ -49,7 +49,6 @@ def xhr_post_comment(request, **kwargs):
     response = {'status': 'ok', 'errors' : []}
     if not form.is_valid():
         response['status'] = "fail"
-        print form.errors
         response['errors'] = dict((str(key), str(value)) for key, value in form.errors.iteritems())
     else:
         name = escape(form.cleaned_data.get('name', ''))
@@ -113,7 +112,6 @@ def xhr_delete_comment(request, **kwargs):
     key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
     url_key = urlparse.urlsplit(url)[2]
     cache_key = "views.decorators.cache.cache_header.%s.%s" % (key_prefix, url_key)
-    print cache_key
     cache.delete(cache_key)
 
     if comment_id is None:
