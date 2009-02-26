@@ -3,6 +3,7 @@
 import postmarkup
 
 import sys
+import re
 
 try:
     from cStringIO import StringIO
@@ -89,7 +90,7 @@ class InlineCodeTag(postmarkup.TagBase):
         self.skip_contents(parser)
         return u"<code>%s</code>"%contents
 
-class PostLinkTag(TagBase):
+class PostLinkTag(postmarkup.TagBase):
 
     DEFAULT_NAME = "url"
 
