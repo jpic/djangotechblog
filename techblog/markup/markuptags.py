@@ -102,7 +102,7 @@ class PostLinkTag(postmarkup.TagBase):
     _re_domain = re.compile(r"//([a-z0-9-\.]*)", re.UNICODE)
 
     def __init__(self, name, annotate_links=True, **kwargs):
-        TagBase.__init__(self, name, inline=True)
+        postmarkup.TagBase.__init__(self, name, inline=True)
 
         self.annotate_links = annotate_links
 
