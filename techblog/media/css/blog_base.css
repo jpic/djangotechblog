@@ -131,16 +131,6 @@ body
     padding:0px;
 }
 
-/*
-.intro
-{
-    background-image:url(/media/images/topgradient.png);
-    padding:20px;
-    border-bottom:4px solid white;
-    display:none;
-}
-*/
-
 .blog-tagline
 {
     font-size:120%;
@@ -1236,11 +1226,13 @@ tag-cloud a:hover
     padding:2px;
     background-image:url("/media/images/formback.png");
     color:#333;
+    width:178px;
 }
 
 .search button
 {
     float:right;
+    width:65px;
 }
 
 .blog-comment-form input[type=text]
