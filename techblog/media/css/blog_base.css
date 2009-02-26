@@ -403,6 +403,9 @@ body
 .post > p:first-child:first-letter
 {
   font-size:43px;
+
+  font-size:43px;
+
   float:left;
   padding-top:5px;
   /*margin-right:2px;*/
@@ -418,9 +421,11 @@ body
 {
 }
 
-.post p + p
+.post > p:first-child
 {
-    clear:both;
+    /*clear:both;*/
+    padding-bottom:16px !important;
+
 }
 
 #column2 p
@@ -1615,9 +1620,13 @@ pre.techblog-error
     padding:4px;
     border:1px solid #d5d5d5;
     background-color:#f8f8f8;
+
+    border:1px solid #B2CC99;
+    background-color:#eef3e8;
+
     clear:both;
     margin:8px auto;
-    overflow:auto;
+    /*overflow:auto;*/
 
 }
 

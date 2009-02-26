@@ -61,7 +61,8 @@ class ImageUpload(models.Model):
         return url, (thumb_width, thumb_height)
 
     def html_image(self):
-        html = '<img src="%s"></img>' % self.thumb(64, 64)
+        url, (w, h) = self.thumb(64, 64)
+        html = '<img src="%s" width="%i" height="%i"></img>' % (url, w, h)
         return html
     html_image.allow_tags = True
 
