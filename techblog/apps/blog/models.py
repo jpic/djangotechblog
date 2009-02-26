@@ -385,6 +385,7 @@ class Post(models.Model):
     display_time = models.DateTimeField("Display Time", default=datetime.datetime.now)
 
     tags = models.ManyToManyField("Tag", blank=True)
+
     tags_text = models.TextField("Comma separated tags", default="", blank=True)
 
     content = MarkupField(default="", renderer=render, blank=True)
@@ -398,6 +399,9 @@ class Post(models.Model):
 
     objects = models.Manager()
     published_posts = PublisedPostManager()
+
+    def get_tags(self):
+        return self.tags.filter(count__gt=0)
 
     def get_template_names(self, name="default"):
 
@@ -483,10 +487,8 @@ class Post(models.Model):
                 return
             tags = Tag.objects.filter(blog=self.blog, post=self)
             for tag in self.tags.all():
-                if not tag.decrement():
-                    tag.delete()
-                else:
-                    tag.save()
+                tag.decrement()
+                tag.save()
                 self.tags.remove(tag)
 
 
@@ -522,7 +524,6 @@ class Post(models.Model):
         super(Post, self).delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-
 
         self._remove_tags()
         super(Post, self).save(*args, **kwargs)
