@@ -189,7 +189,12 @@ def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
                               context_instance=RequestContext(request))
 
 
+
 def blog_front(request, blog_slug="", page_no=1, blog_root=None):
+
+    s = request.GET.get('s')
+    if s:
+        return HttpResponseRedirect(reverse('blog_search', kwargs=dict(blog_slug=blog_slug))+'?s='+s)
 
     page_no = int(page_no)
     if page_no < 1:
