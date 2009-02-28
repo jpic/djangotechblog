@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 from django.conf import settings
 _url_remap = settings.URL_REMAP
 
