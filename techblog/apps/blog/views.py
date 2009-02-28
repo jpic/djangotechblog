@@ -104,7 +104,7 @@ def get_blog_list_data(request, posts, get_page_url, page_no):
     return td
 
 
-@cache_page(60*60)
+@cache_page(60*10)
 def feeds(request, blog_slug, feed_item, **kwargs):
 
     from django.contrib.syndication.views import feed
@@ -126,7 +126,7 @@ def feeds(request, blog_slug, feed_item, **kwargs):
 
 
 
-@cache_page(60*30)
+@cache_page(60*60*12)
 def blog_month(request, blog_slug, year, month, page_no=1, blog_root=None):
 
     page_no = int(page_no)
