@@ -91,7 +91,7 @@ class UpdateCacheMiddleware(object):
             # away before this middleware gets a chance to cache it.
             return response
         if request.GET:
-            return
+            return response
         if not response.status_code == 200:
             return response
         timeout = get_max_age(response)
