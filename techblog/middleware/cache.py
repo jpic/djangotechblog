@@ -90,6 +90,8 @@ class UpdateCacheMiddleware(object):
             # HTTPMiddleware, which throws the body of a HEAD-request
             # away before this middleware gets a chance to cache it.
             return response
+        if request.GET:
+            return
         if not response.status_code == 200:
             return response
         timeout = get_max_age(response)
