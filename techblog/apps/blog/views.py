@@ -38,6 +38,7 @@ def invalidate_cache(object):
         cache_key = "%s.%s" % (key_prefix, url_key)
 
         cache.delete(cache_key)
+        cache.delete(cache_key.lstrip('/'))
 
     invalidate_cache(object.get_absolute_url())
     invalidate_cache('/'+object.get_blog_relative_url())
