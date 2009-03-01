@@ -1806,6 +1806,45 @@ em
     font-style:italic;
 }
 
+
+.image-overlay
+{
+    position:relative;
+    display:block;
+    float:left;
+    overflow:hidden;
+
+/*
+    height:100px;
+    top:-200px;*/
+    z-index:20;
+
+}
+
+.image-overlay p
+{
+    color:#fff !important;
+    font-family:helvetica !important;
+    font-size:13px !important;
+    font-weight:bold !important;
+    padding:4px;
+}
+
+.image-overlay-background
+{
+    position:relative;
+    display:block;
+    float:left;
+    overflow:hidden;
+    background-color:#000;
+    opacity:.7;
+    z-index:10;
+
+/*
+    height:100px;
+    top:-100px;*/
+}
+
 pre
 {
     background: #f5f5f5;

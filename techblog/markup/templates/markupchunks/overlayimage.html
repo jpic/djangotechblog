@@ -1,0 +1,51 @@
+{% load markuptags %}{% load resourcestags %}
+{% get_siteimage for chunk.vars.name as si size chunk.vars.size %}
+
+    {% if chunk.vars.link %}
+    <a href="{{ chunk.vars.link }}">
+    {% else %}
+    <a href="{% siteimage_url chunk.vars.name chunk.vars.size %}" target="_blank">
+    {% endif %}
+
+<div id="oi-{{ si.name }}" class="{{ chunk.vars.float }}" style="line-height:0;">
+    <div style="width:{{ si.w }}px; height:{{ si.h }}px; overflow:hidden;">
+
+        {% siteimage chunk.vars.name chunk.vars.size %}
+
+        <div class="overlay-outer" style="position:relative; top:0px; height:{{ si.h }}px; ">
+            <div style="width:{{ si.w }}px; height:{{ si.half_h }}px; top:-{{ si.h }}"
+                class="image-overlay-background" >
+            </div>
+            <div style="width:{{ si.w }}px;height:{{ si.h }}px;top:-{{ si.half_h }}px;"
+                 class="image-overlay">
+                {% if chunk %}
+                <div class="caption" style="width:{% siteimage_width chunk.vars.name chunk.vars.size %}px;">
+                {% for line in chunk %}{% if line %}<p>{{ line|postmarkup }}</p>{% endif %}{% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div id="oiarea-{{ chunk.vars.name }}" style="z-index:40;width:{{ si.w }}px; height:{{ si.h }}px; position:relative; top:-{{ si.twice_h }}px;">
+        </div>
+
+    </div>
+</div>
+
+    </a>
+
+<script lang="text/javascript">
+$('#oiarea-{{ chunk.vars.name }}').mouseover(function(){
+   $('#oi-{{ chunk.vars.name }} .overlay-outer').animate({
+    'top':-{{ si.half_h }}
+   }, 300, 'swing');
+
+});
+$('#oiarea-{{ chunk.vars.name }}').mouseout(function(){
+   $('#oi-{{ chunk.vars.name }} .overlay-outer').animate({
+        'top':0
+   }, 300, 'swing');
+
+
+});
+
+</script>
