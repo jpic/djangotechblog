@@ -395,8 +395,8 @@ body
     color:#000;
     padding-bottom:1em;
     font-family:Georgia, serif;
-    font-size:14px;
-    line-height:21px;
+    font-size:14.6667px;
+    line-height:20.5333px;
 }
 
 
@@ -613,6 +613,17 @@ h2.microblog a
     background-repeat:repeat-x;
 
     margin-bottom:4px;
+
+    font-size:18px;
+    color:#6C6C6C;
+    font-family:helvetica,sans-serif;
+    font-weight:normal;
+    border:none;
+}
+
+#column1 .post h3
+{
+    border-bottom:2px solid #eee;
 }
 
 
@@ -821,6 +832,7 @@ strong {font-weight:bold;}
     font-size:90%;
 }
 
+/*
 .prev-post a
 {
     background-image:url(/media/images/icons/arrow_left.png);
@@ -837,6 +849,7 @@ strong {font-weight:bold;}
     background-repeat:no-repeat;
     padding-right:20px
 }
+*/
 
 .post-description
 {
@@ -1356,6 +1369,7 @@ tag-cloud a:hover
 .comment p
 {
     text-align:left !important;
+    /*font-size:13px !important;*/
 }
 
 .comment-author
@@ -1702,7 +1716,7 @@ li.current-month
 
 .comment-body p
 {
-    font-family:Arial, sans-serif !important;
+    /*font-family:Arial, sans-serif !important;*/
 }
 
 .comment-body pre

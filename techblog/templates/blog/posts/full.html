@@ -14,13 +14,13 @@
 <div class="post-navigation">
     {% if prev_post %}
     <div class="prev-post">
-        <a href="{% get_post_url blog_root prev_post %}" title="Older post">{{ prev_post.title }}</a>
+        <a href="{% get_post_url blog_root prev_post %}" title="Older post">&larr;&nbsp;{{ prev_post.title|truncatewords:6 }}</a>
     </div>
     {% endif %}
 
     {% if next_post %}
     <div class="next-post">
-        <a href="{% get_post_url blog_root next_post %}" title="Newer post">{{ next_post.title }}</a>
+        <a href="{% get_post_url blog_root next_post %}" title="Newer post">{{ next_post.title|truncatewords:6 }}&nbsp;&rarr;</a>
     </div>
     {% endif %}
 
