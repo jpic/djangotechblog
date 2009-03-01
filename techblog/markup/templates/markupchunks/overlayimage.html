@@ -13,10 +13,10 @@
         {% siteimage chunk.vars.name chunk.vars.size %}
 
         <div class="overlay-outer" style="position:relative; top:0px; height:{{ si.h }}px; ">
-            <div style="width:{{ si.w }}px; height:{{ si.half_h }}px; top:-{{ si.h }}"
+            <div style="width:{{ si.w }}px; height:{{ si.h }}px; top:-{{ si.h }}"
                 class="image-overlay-background" >
             </div>
-            <div style="width:{{ si.w }}px;height:{{ si.h }}px;top:-{{ si.half_h }}px;"
+            <div style="width:{{ si.w }}px;height:{{ si.h }}px;top:-{{ si.h }}px;"
                  class="image-overlay">
                 {% if chunk %}
                 <div class="caption" style="width:{% siteimage_width chunk.vars.name chunk.vars.size %}px;">
@@ -36,7 +36,7 @@
 <script lang="text/javascript">
 $('#oiarea-{{ chunk.vars.name }}').mouseover(function(){
    $('#oi-{{ chunk.vars.name }} .overlay-outer').animate({
-    'top':-{{ si.half_h }}
+    'top':-{{ si.h }}
    }, 300, 'swing');
 
 });
