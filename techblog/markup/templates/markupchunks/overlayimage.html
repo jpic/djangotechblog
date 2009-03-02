@@ -18,10 +18,10 @@
             <div style="width:{{ si.w }}px; height:{{ si.h }}px; top:-{{ si.h }}"
                 class="image-overlay-background" >
             </div>
-            <div style="width:{{ si.w }}px;top:-{{ si.h }}px;"
+            <div style="width:{{ si.w }}px;height:{{ si.h }}px;top:-{{ si.h }}px;"
                  class="image-overlay">
                 {% if chunk %}
-                <div class="caption" style="width:{% siteimage_width chunk.vars.name chunk.vars.size %}px;">
+                <div class="caption" style="width:{{ si.w }}px;">
                 {% for line in chunk %}{% if line %}<p>{{ line|postmarkup }}</p>{% endif %}{% endfor %}
                 </div>
                 {% endif %}

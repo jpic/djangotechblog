@@ -4,7 +4,7 @@ $(function(){
 
         var name = $(this).attr('id').substr(3);
         $('#oiarea-'+name).mouseover(function(){
-           var h = $('#oi-'+name+' .image-overlay').height();
+           var h = $('#oi-'+name+' .image-overlay .caption').height();
            $('#oi-'+name+' .overlay-outer').animate({
             'top':-h
            }, 300, 'swing');
