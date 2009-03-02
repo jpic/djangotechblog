@@ -56,8 +56,7 @@ from django.http import HttpResponse
 def get_cache_key(request, key_prefix=None):
     if key_prefix is None:
         key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
-    cache_key = '%s.%s' % (key_prefix, request.path)
-    print cache_key
+    cache_key = '%s.%s' % (key_prefix, request.path_info)
     return cache_key
 
 def invalidate_page(url):

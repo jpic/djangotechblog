@@ -16,7 +16,7 @@
             <div style="width:{{ si.w }}px; height:{{ si.h }}px; top:-{{ si.h }}"
                 class="image-overlay-background" >
             </div>
-            <div style="width:{{ si.w }}px;height:{{ si.h }}px;top:-{{ si.h }}px;"
+            <div style="width:{{ si.w }}px;top:-{{ si.h }}px;"
                  class="image-overlay">
                 {% if chunk %}
                 <div class="caption" style="width:{% siteimage_width chunk.vars.name chunk.vars.size %}px;">
@@ -35,8 +35,9 @@
 
 <script lang="text/javascript">
 $('#oiarea-{{ chunk.vars.name }}').mouseover(function(){
+   var h = $('#oi-{{ chunk.vars.name }} .image-overlay').height();
    $('#oi-{{ chunk.vars.name }} .overlay-outer').animate({
-    'top':-{{ si.h }}
+    'top':-h
    }, 300, 'swing');
 
 });
