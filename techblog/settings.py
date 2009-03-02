@@ -62,8 +62,8 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
 
-    #'django.middleware.cache.UpdateCacheMiddleware',
-    'techblog.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+
 
 
     'django.middleware.http.ConditionalGetMiddleware',
@@ -71,8 +71,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 
-    #'django.middleware.cache.FetchFromCacheMiddleware',
-    'techblog.middleware.cache.FetchFromCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
+
 
     'techblog.middleware.UrlRemapMiddleware',
 

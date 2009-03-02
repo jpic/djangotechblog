@@ -8,6 +8,7 @@ from django.conf import settings
 from django.template.context import RequestContext
 from django.core.cache import cache
 import urlparse
+from techblog.tools import clear_cached_page
 
 
 from techblog import broadcast
@@ -107,12 +108,7 @@ def xhr_delete_comment(request, **kwargs):
 
     comment_id = request.GET.get('comment_id', None)
 
-
-    url = request.GET.get('url', '')
-    key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
-    url_key = urlparse.urlsplit(url)[2]
-    cache_key = "%s.%s" % (key_prefix, url_key)
-    cache.delete(cache_key)
+    clear_cached_page(url)
 
     if comment_id is None:
         result = "fail"

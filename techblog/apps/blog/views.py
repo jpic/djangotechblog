@@ -20,7 +20,7 @@ from django.contrib.sites.models import Site
 import urlparse
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
-
+from techblog.tools import clear_cached_page
 
 import operator
 from itertools import groupby
@@ -28,19 +28,12 @@ import forms
 
 from techblog import mailer
 
-def invalidate_cache(object):
+def invalidate_cache(post):
 
-    key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
-
-    def invalidate_cache(url):
-
-        url_key = urlparse.urlsplit(str(url))[2]
-        cache_key = "%s.%s" % (key_prefix, url_key)
-
-        cache.delete(cache_key)
-
-    invalidate_cache(object.get_absolute_url())
-    invalidate_cache('/'+object.get_blog_relative_url())
+    clear_cached_page(post.get_absolute_url())
+    clear_cached_page('/'+post.get_blog_relative_url())
+    clear_cached_page('/')
+    clear_cached_page(post.blog.get_absolute_url())
 
 
 @broadcast.recieve()
@@ -283,11 +276,7 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
         is_preview = True
 
     if not request.user.is_anonymous() and request.GET.has_key('clearcache'):
-        url = request.GET.get('url', '')
-        key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
-        url_key = urlparse.urlsplit(url)[2]
-        cache_key = "%s.%s" % (key_prefix, url_key)
-        cache.delete(cache_key)
+        invalidate_cache(post)
 
 
     sections = extendedmarkup.combine_sections( blog.description_data.get('sections', None),

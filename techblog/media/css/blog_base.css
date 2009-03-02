@@ -1847,6 +1847,16 @@ em
     top:-100px;*/
 }
 
+.breadcrumbs
+{
+    font-size:11px;
+}
+
+.breadcrumbs a
+{
+    font-size:11px;
+}
+
 pre
 {
     background: #f5f5f5;
