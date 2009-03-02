@@ -7,6 +7,8 @@
     <a href="{% siteimage_url chunk.vars.name chunk.vars.size %}" target="_blank">
     {% endif %}
 
+
+
 <div id="oi-{{ si.name }}" class="{{ chunk.vars.float }}" style="line-height:0;">
     <div style="width:{{ si.w }}px; height:{{ si.h }}px; overflow:hidden;">
 
@@ -33,20 +35,19 @@
 
     </a>
 
-<script lang="text/javascript">
-$('#oiarea-{{ chunk.vars.name }}').mouseover(function(){
-   var h = $('#oi-{{ chunk.vars.name }} .image-overlay').height();
-   $('#oi-{{ chunk.vars.name }} .overlay-outer').animate({
-    'top':-h
-   }, 300, 'swing');
-
-});
-$('#oiarea-{{ chunk.vars.name }}').mouseout(function(){
-   $('#oi-{{ chunk.vars.name }} .overlay-outer').animate({
-        'top':0
-   }, 300, 'swing');
-
-
-});
-
-</script>
+<!--<script lang="text/javascript">-->
+<!--$('#oiarea-{{ chunk.vars.name }}').mouseover(function(){-->
+<!--   var h = $('#oi-{{ chunk.vars.name }} .image-overlay').height();-->
+<!--   $('#oi-{{ chunk.vars.name }} .overlay-outer').animate({-->
+<!--    'top':-h-->
+<!--   }, 300, 'swing');-->
+<!---->
+<!--});-->
+<!--$('#oiarea-{{ chunk.vars.name }}').mouseout(function(){-->
+<!--   $('#oi-{{ chunk.vars.name }} .overlay-outer').animate({-->
+<!--        'top':0-->
+<!--   }, 300, 'swing');-->
+<!---->
+<!--});-->
+<!---->
+<!--</script>-->
