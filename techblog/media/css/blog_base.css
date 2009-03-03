@@ -1892,7 +1892,6 @@ ul.main-links
     float:left;
     text-align:center;
     font-size:12px;
-    padding:8px 16px;
 
     margin-right:1px;
     background-color:#000;
@@ -1905,7 +1904,7 @@ ul.main-links
     float:left;
     text-align:center;
     font-size:12px;
-    padding:8px 16px;
+
     /*width:10em;*/
 
     margin-right:1px;
@@ -1921,6 +1920,7 @@ ul.main-links
     color:#fff;
     text-decoration:none;
     display:block;
+    padding:8px 16px;
 }
 
 pre
