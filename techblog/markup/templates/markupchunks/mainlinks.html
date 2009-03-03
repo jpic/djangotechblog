@@ -2,7 +2,7 @@
     <div class="main-links-container">
         <ul class="main-links">
             <ul>
-            {% for line in chunk %}<li>{{ line|link }}</li>{% endfor %}
+            {% for line in chunk %}{% if line %}<li>{{ line|link }}</li>{% endif %}{% endfor %}
             </ul>
         </ul>
     </div>
