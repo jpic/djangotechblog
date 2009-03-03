@@ -1,0 +1,8 @@
+{% load markuptags %}
+    <div class="main-links-container">
+        <ul class="main-links">
+            <ul>
+            {% for line in chunk %}<li>{{ line|link }}</li>{% endfor %}
+            </ul>
+        </ul>
+    </div>
