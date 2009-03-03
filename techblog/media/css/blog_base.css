@@ -1862,6 +1862,66 @@ em
     font-size:11px;
 }
 
+.main-links-container
+{
+    width:100%;
+    float:left;
+    position:relative;
+    height:0px;
+    top:-34px;
+    overflow:visible;
+}
+
+
+
+ul.main-links
+{
+    /*background-color:#e7e7e7;*/
+    width:100%;
+    float:left;
+    height:20px;
+    position:relative;
+    /*top:-20px;*/
+    display:table-row;
+    margin-top:4px;
+    margin-left:0px;
+}
+
+.main-links li
+{
+    float:left;
+    text-align:center;
+    font-size:12px;
+    padding:8px 16px;
+
+    margin-right:1px;
+    background-color:#000;
+    opacity:.3;
+}
+
+
+.main-links li:hover
+{
+    float:left;
+    text-align:center;
+    font-size:12px;
+    padding:8px 16px;
+    /*width:10em;*/
+
+    margin-right:1px;
+    background-color:transparent;
+    opacity:1;
+}
+
+
+
+.main-links li a
+{
+    font-weight:bold;
+    color:#fff;
+    text-decoration:none;
+}
+
 pre
 {
     background: #f5f5f5;

@@ -51,16 +51,21 @@
         {% endif %}
 
         <div id="header">
+
             <div class="title-area">
-            <div class="inner">
-                {% block summary_area %}{% endblock %}
+                <div class="inner">
+                    {% block summary_area %}{% endblock %}
                 </div>
 
             </div>
+             {% markupsection sections "mainlinks" %}
 
         </div>
 
         <div id="main">
+
+
+
             <div class="bottom-shadow"> </div>
 
             {% block above_columns %}{% endblock %}

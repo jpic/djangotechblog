@@ -41,8 +41,8 @@ urlpatterns += patterns('',
     (r'^blog/(?P<blog_slug>[\w-]*)/', include('techblog.apps.blog.urls') ),
 
     (r'^comments/', include('techblog.apps.comments.urls')),
-    (r'^pages/', include('techblog.apps.pages.urls')),
     (r'^accounts/', include('techblog.apps.accounts.urls')),
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    (r'^', include('techblog.apps.pages.urls')),
 
 )
