@@ -41,6 +41,7 @@
 <div class="module">
     <ul class="links-list">
         <li><a href="{% url newpost blog.slug %}">New Post</a></li>
+        <li><a href="/accounts/logout/?next={{ request.path }}">Logout</a></li>
     </ul>
 
 </div>
