@@ -58,11 +58,13 @@ def page(request, path):
     sections = page.get_sections()
 
 
+    preview_comment_url = reverse('xhr_preview_comment', args=[settings.DEFAULT_BLOG_SLUG])
+
     td = dict( page=page,
                sections=sections,
                is_preview=is_preview,
                user = request.user,
-               )
+               preview_comment_url = preview_comment_url)
 
     return render_to_response(page.get_template_names(),
                               td,

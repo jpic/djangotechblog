@@ -33,7 +33,12 @@
 
 <body>
 
+    {% if preview_comment_url %}
+    <input type="hidden" id="xhr_preview_comment" value="{{ preview_comment_url }}" />
+    {% else %}
     <input type="hidden" id="xhr_preview_comment" value="{% url xhr_preview_comment blog.slug %}" />
+    {% endif %}
+
     <input type="hidden" id="xhr_post_comment" value="{% url xhr_post_comment %}" />
     <input type="hidden" id="xhr_delete_comment" value="{% url xhr_delete_comment %}" />
 
