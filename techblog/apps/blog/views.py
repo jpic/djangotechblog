@@ -65,6 +65,8 @@ def new_comment(object, comment):
 
 
 def get_channel_or_blog(slug):
+    if not slug:
+        slug = settings.DEFAULT_BLOG_SLUG
     try:
         return models.Channel.objects.get(slug=slug)
     except models.Channel.DoesNotExist:
