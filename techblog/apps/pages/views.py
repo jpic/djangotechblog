@@ -10,6 +10,9 @@ import forms
 
 from django.conf import settings
 from django.template.defaultfilters import slugify
+from django.contrib.sites.models import Site
+
+from techblog import mailer
 
 @broadcast.recieve()
 def allow_comment(object):
@@ -22,8 +25,21 @@ def new_comment(object, comment):
     if isinstance(object, models.Page):
         comment.moderated = True
         comment.visible = True
+        page = object
+
+        domain = Site.objects.get_current().domain
+        for name, email in settings.ADMINS:
+            td = {}
+            td['name'] = name
+            td['comment'] = comment.content_text
+            td['post'] = page.title
+            td['url'] = "http://%s%s" % (domain, object.get_absolute_url())
+            mailer.send("admin/mail/newcomment.txt", td, "New Comment", email)
+
     else:
         raise broadcast.RejectBroadcast
+
+
 
 
 def page(request, path):
