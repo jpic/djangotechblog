@@ -112,7 +112,6 @@ class EMarkupParser(object):
         def make_chunk():
             #if current_lines:
             chunk = current_lines[:]
-            print "*", self._current_chunk_type.strip()
             chunk = Chunk(chunk, self._current_chunk_type.strip() or self._default_chunk_type)
             chunk.vars.update(self._chunk_vars)
             self._chunk_vars.clear()
