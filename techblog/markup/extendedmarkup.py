@@ -77,7 +77,7 @@ class Section(list):
 class EMarkupParser(object):
 
 
-    re_extended_directive = re.compile(r"^\{.+?\}$")
+    re_extended_directive = re.compile(r"^\{(.+)\}(.*?)$")
 
     def __init__(self, renderer=None):
         if renderer is None:
@@ -112,11 +112,13 @@ class EMarkupParser(object):
         def make_chunk():
             #if current_lines:
             chunk = current_lines[:]
+            print "*", self._current_chunk_type.strip()
             chunk = Chunk(chunk, self._current_chunk_type.strip() or self._default_chunk_type)
             chunk.vars.update(self._chunk_vars)
             self._chunk_vars.clear()
             chunks.append(chunk)
             del current_lines[:]
+
 
         def process_vars(vars, line):
             if '=' in line:
@@ -146,9 +148,11 @@ class EMarkupParser(object):
                 if line.startswith(';//'):
                     continue
 
-                if self.re_extended_directive.match(line):
-
-                    line = line[1:-1]
+                m = self.re_extended_directive.match(line)
+                if m:
+                    line = m.group(1)
+                    line_content = m.group(2).strip()
+                    #line = line[1:]
 
                     if self.re_extended_directive.match(line):
                         current_lines.append(line)
@@ -158,8 +162,15 @@ class EMarkupParser(object):
                     if line.startswith('..'):
                         line = line[2:]
                         if not process_vars(self._chunk_vars, line):
+                            chunk_type = self._current_chunk_type
                             make_chunk()
-                            self._current_chunk_type = line or default_chunk_type
+                            if line_content:
+                                current_lines.append(line_content)
+                                self._current_chunk_type = line or default_chunk_type
+                                make_chunk()
+                                self._current_chunk_type = chunk_type
+                            else:
+                                self._current_chunk_type = line or default_chunk_type
                         continue
 
                     # Section

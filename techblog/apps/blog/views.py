@@ -455,7 +455,7 @@ def blog_search(request, blog_slug, blog_root=None):
         blogs = [blog]
 
     sections = blog.description_data.get('sections', None)
-    sections = extendedmarkup.combine_sections( blog.description_data.get('sections', None), sections)
+    #sections = extendedmarkup.combine_sections( blog.description_data.get('sections', None), sections)
 
     from string import punctuation
     normalized_s = "".join(c for c in s if c not in punctuation)

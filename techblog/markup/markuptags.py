@@ -192,6 +192,28 @@ class MoreTag(postmarkup.TagBase):
     def render_open(self, parser, node_index):
         return u"<!--more-->"
 
+
+def OffsettedHeaderTag(level, offset):
+
+    class HTag(postmarkup.TagBase):
+
+        """A simple tag that is replaces with a div and a style."""
+
+        DEFAULT_NAME = "h" + str(level)
+
+        def render_open(self, parser, node_index):
+            return u'<%s>' % self.DEFAULT_NAME
+
+        def render_close(self, parser, node_index):
+            return u'</%s>' % self.DEFAULT_NAME
+
+    return HTag
+
+H1Tag = OffsettedHeaderTag(1, 2)
+H2Tag = OffsettedHeaderTag(2, 2)
+H3Tag = OffsettedHeaderTag(3, 2)
+
+
 #
 #class HTMLTag(postmarkup.TagBase):
 #
