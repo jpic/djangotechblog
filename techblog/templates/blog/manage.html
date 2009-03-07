@@ -26,7 +26,7 @@ You can also use the <a href="/admin">admin</a> pages for more advanced control.
 
 <ul>
     {% for draft in drafts %}
-    <li><a href="{{ draft.get_absolute_url }}">{{ draft.title }}</a> ({{ draft.blog.title }})</li>
+    <li><a href="{% url writer draft.blog.slug draft.version_id %}">{{ draft.title }}</a> ({{ draft.blog.title }})</li>
     {% endfor %}
 </ul>
 

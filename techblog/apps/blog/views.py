@@ -618,7 +618,7 @@ def manage(request, blog_root="", blog_slug=""):
     td['blogs'] = blogs
     td['channels'] = channels
 
-    drafts = models.Post.objects.filter(version='live', published=False)
+    drafts = models.Post.objects.filter(version='draft', published=False).order_by('id')
     td['drafts'] = drafts
 
     if settings.CACHE_BACKEND.startswith('memcache'):
