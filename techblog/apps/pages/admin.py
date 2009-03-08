@@ -19,6 +19,8 @@ class PageAdmin(admin.ModelAdmin):
               'slug',
               'published',
               'promoted',
+              'allow_comments',
+              'show_comments',
               'content_markup_type',
               'content',
               )
