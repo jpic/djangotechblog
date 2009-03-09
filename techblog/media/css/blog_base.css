@@ -1013,7 +1013,7 @@ ul.links-list
 {
     padding:1px;
     padding-bottom:3px;
-    border-bottom:1px dotted #ccc;
+    border-bottom:1px dotted #B2CC99;
     margin-bottom:3px;
     padding-left:5px;
     float:left;
@@ -1766,12 +1766,13 @@ li.current-month
 
 .recent-comment
 {
-    border-bottom:1px dotted #e5e5e5;
+    border-bottom:1px dotted #B2CC99;
     padding: 10px 0px;
     font-size:12px;
     line-height:normal;
     font-style:italic;
     color:#222;
+    margin:2px;
 }
 
 .recent-comment .author
