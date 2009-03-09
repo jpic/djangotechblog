@@ -53,8 +53,8 @@ $(function(){
 
         }while(max_years>0 && !$archive_year);
 
-        $current_archive_year.hide();
-        $archive_year.show();
+        $current_archive_year.slideUp(function(){
+        $archive_year.slideDown();});
     })
 
     $(".yearnextbutton").click(function(){
@@ -75,8 +75,8 @@ $(function(){
 
         }while(max_years>0 && !$archive_year);
 
-        $current_archive_year.hide();
-        $archive_year.show();
+        $current_archive_year.slideUp(function(){
+        $archive_year.slideDown();});
     })
 
 })
