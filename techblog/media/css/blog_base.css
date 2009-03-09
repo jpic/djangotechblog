@@ -1044,7 +1044,7 @@ ul.links-list
 .archive-count
 {
     float:right;
-    color:#777;
+    color:#333;
     width:30%;
     text-align:right;
     padding-right:3px;
@@ -1771,7 +1771,7 @@ li.current-month
     font-size:12px;
     line-height:normal;
     font-style:italic;
-    color:#555;
+    color:#222;
 }
 
 .recent-comment .author
