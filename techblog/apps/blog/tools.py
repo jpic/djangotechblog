@@ -39,8 +39,7 @@ def collate_archives(blog, blog_root):
         return (display_time.year, display_time.month)
 
     def month_details(year, month, post_group):
-        url = "%s%i/%i" % (blog_root, year, month)
-        #url = reverse("blog_month", kwargs=dict(blog_slug=blog.slug, year=year, month=month))
+        url = "%s%i/%i/" % (blog_root, year, month)
         return url, year, month, count_iterable(post_group)
 
     months = [month_details(year, month, post_group) for (year, month),post_group in groupby(posts, year_month)]
