@@ -1710,12 +1710,12 @@ pre.techblog-error
 
 
 
-.column1 ul
+#column1 ul
 {
     padding-bottom:1em;
 }
 
-.column1 li
+#column1 li
 {
     font-family: Georgia, serif;
     color:#333;
