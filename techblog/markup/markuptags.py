@@ -178,7 +178,7 @@ class PostLinkTag(postmarkup.TagBase):
         if tag_data['link_nest_level'] > 0:
             return u''
 
-        return u'</a> '
+        return u'</a>'
 
 
 

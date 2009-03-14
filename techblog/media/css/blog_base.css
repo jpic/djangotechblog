@@ -619,6 +619,7 @@ h2.microblog a
     font-family:helvetica,sans-serif;
     font-weight:normal;
     border:none;
+    clear:both;
 }
 
 #column1 .post h4
