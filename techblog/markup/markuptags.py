@@ -162,6 +162,9 @@ class PostLinkTag(postmarkup.TagBase):
         tag_data = parser.tag_data
         nest_level = tag_data['link_nest_level'] = tag_data.setdefault('link_nest_level', 0) + 1
 
+        if nest_level > 1:
+            return u''
+
         external_link = ':' in self.params
 
         if external_link:
