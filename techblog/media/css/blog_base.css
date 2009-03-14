@@ -599,6 +599,7 @@ h2.microblog a
     color:#994c00 !important;
 }
 
+/*
 #column1 h3
 {
     font-size:14px;
@@ -621,6 +622,7 @@ h2.microblog a
     border:none;
     clear:both;
 }
+*/
 
 #column1 .post h4
 {
@@ -628,7 +630,7 @@ h2.microblog a
     font-weight:bold;
 }
 
-#column1 .post h3
+#column1 h3
 {
     border-bottom:2px solid #eee;
     font-weight:bold;
