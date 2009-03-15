@@ -1360,6 +1360,11 @@ tag-cloud a:hover
     background-position:right center;
 }
 
+.comments-list ul
+{
+    list-style:none;
+}
+
 .comments-list li
 {
     float:left;
