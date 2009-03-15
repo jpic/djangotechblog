@@ -1365,8 +1365,8 @@ tag-cloud a:hover
 .comments-list li
 {
     float:left;
-    margin-left:0px;
-    list-style-type:none;
+    margin-left:0px !important;
+    list-style-type:none !important;
 }
 
 .comments
