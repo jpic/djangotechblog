@@ -1297,7 +1297,7 @@ tag-cloud a:hover
     padding:4px;
     clear:both;
     margin-top:6px;
-    font-family:arial,serif !important;
+    font-family:arial,san-serif !important;
     font-size:85%;
     clear:both;
 }
@@ -1509,12 +1509,17 @@ blockquote em
 
 .errorlist li
 {
-    height:16px;
-    padding-left:20px;
-    background-image:url(/media/images/icons/exclamation.png);
-    background-repeat:no-repeat;
-    padding-top:3px;
-
+    height:16px !important;
+    padding-left:20px  !important;
+    background-image:url(/media/images/icons/exclamation.png)  !important;
+    background-repeat:no-repeat  !important;
+    padding-top:3px  !important;
+    list-style-type:none !important;
+    font-family:arial,sans-serif !important;
+    padding:0 !important;
+    padding-left:20px !important;
+    padding-bottom:10px;
+    line-height:18px !important;
 }
 
 .comments-link
