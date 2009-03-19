@@ -911,6 +911,9 @@ ul.links-list
     line-height:130%;
     float:left;
     border:1px solid #B2CC99;
+
+
+    border:1px solid #555;
 }
 
 .tags-list li a
@@ -936,6 +939,10 @@ ul.links-list
     color:black;
     opacity:1;
     filter: alpha(opacity = 100);
+
+    /*border:1px solid #fff;*/
+    background-color:#315f8c;
+    color:#fff;
 }
 
 
