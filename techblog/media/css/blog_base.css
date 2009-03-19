@@ -1036,6 +1036,11 @@ ul.links-list
     width:232px;
 }
 
+.archives-full  li
+{
+    border-bottom:1px dotted #aaa !important;
+}
+
 
 .archive-year
 {
