@@ -944,7 +944,7 @@ ul.links-list
 
     list-style: none;
     font-size:12px;
-    background-color:#eef3e8;
+    /*background-color:#eef3e8;*/
     margin:2px 0px;
     border-left:6px solid #B2CC99;
     line-height:130%;
@@ -1017,13 +1017,14 @@ ul.links-list
 {
     padding:1px;
     padding-bottom:3px;
-    border-bottom:1px dotted #B2CC99;
+    /*border-bottom:1px dotted #777;*/
     margin-bottom:3px;
     padding-left:5px;
     float:left;
     clear:both;
     width:232px;
 }
+
 
 .archive-year
 {
@@ -1587,6 +1588,11 @@ blockquote em
 
 }
 
+.module input
+{
+    border:1px solid #666;
+}
+
 .module p
 {
     text-align:left !important;
@@ -1779,7 +1785,7 @@ li.current-month
 
 .recent-comment
 {
-    border-bottom:1px dotted #B2CC99;
+    /*border-bottom:1px dotted #B2CC99;*/
     padding: 10px 0px;
     font-size:12px;
     line-height:normal;
