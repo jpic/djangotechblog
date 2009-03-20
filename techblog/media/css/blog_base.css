@@ -899,6 +899,8 @@ strong {font-weight:bold;}
 
 ul.links-list
 {
+    max-height:390px;
+    overflow:auto;
 }
 
 
@@ -957,6 +959,11 @@ ul.links-list
     border-left:6px solid #999;
     line-height:130%;
 
+}
+
+.alltags li
+{
+    border-left:none;
 }
 
 
