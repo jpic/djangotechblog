@@ -926,6 +926,9 @@ ul.links-list
     padding-left:10px;
 }
 
+
+
+
 .tags-list li a.tag
 {
     padding-left:24px;
@@ -955,8 +958,10 @@ ul.links-list
     font-size:12px;
     /*background-color:#eef3e8;*/
     margin:2px 0px;
+    /*
     border-left:6px solid #B2CC99;
     border-left:6px solid #999;
+    */
     line-height:130%;
 
 }
@@ -981,6 +986,13 @@ ul.links-list
 }
 
 
+.links-list li a
+{
+    padding-left:24px;
+    background-image:url(/media/images/icons/bullet_orange.png);
+    background-repeat:no-repeat;
+    background-position:4px center;
+}
 
 
 .links-list li a.tag
@@ -1816,6 +1828,11 @@ li.current-month
     font-style:italic;
     color:#222;
     margin:2px;
+
+    padding-left:22px;
+    background-image:url(/media/images/icons/comments.png);
+    background-repeat:no-repeat;
+    background-position:0 center;
 }
 
 .recent-comment .author
