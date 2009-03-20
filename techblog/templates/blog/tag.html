@@ -51,7 +51,7 @@
         <div class="clear">&nbsp;</div>
     </div>
 
-{% cache 3600 "populartags" blog.slug 100 %}
+{% cache 3600 "populartags" tag.id blog.slug 100 %}
 {% get_tags for blog as tag_cloud max 100 %}
 <div class="module-header">
     Popular Tags
