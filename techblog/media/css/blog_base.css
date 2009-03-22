@@ -966,6 +966,13 @@ ul.links-list
 
 }
 
+.links-list li:hover
+{
+    background-image:url(/media/images/selectback.png);
+    background-position:0 center;
+    background-repeat:repeat-x;
+}
+
 .alltags li
 {
     border-left:none;
@@ -1016,13 +1023,14 @@ ul.links-list
 .links-list li a:hover
 {
     text-decoration:none;
-    background-color:#dae6ce;
+    /*background-color:#dae6ce;*/
     color:black;
     opacity:1;
     filter: alpha(opacity = 100);
 
-    background-color:#315f8c;
+    /*background-color:#315f8c;*/
     color:#fff;
+
 }
 
 .links-list li a:visited
