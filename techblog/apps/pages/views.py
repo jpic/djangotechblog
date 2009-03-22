@@ -113,7 +113,6 @@ def writer(request, page_id):
         save_page.promoted = a('promoted', save_page.promoted) == 'on'
         save_page.published = a('published', save_page.published) == 'on'
         save_page.allow_comments = a('allow_comments', save_page.published) == 'on'
-        save_page.show_comments = a('show_comments', save_page.show_comments) == 'on'
         save_page.content = a('content', save_page.content)
         save_page.content_markup_type="emarkup"
         save_page.save()

@@ -23,7 +23,6 @@ urlpatterns = patterns('',
     url(r'^tag/(?P<tag_slug>[\w-]*)/$', views.tag, name="blog_tag"),
     url(r'^tag/(?P<tag_slug>[\w-]*)/page/(?P<page_no>\d+)/$', views.tag, name="blog_tag_with_page" ),
 
-    #url(r'^/$', views.blog_front, name="blog_front"),
     url(r'^page/(?P<page_no>\d+)/$', views.blog_front, name="blog_front_with_page"),
     url(r'^search/$', views.blog_search, name="blog_search"),
 
