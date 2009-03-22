@@ -47,6 +47,9 @@ def page(request, path):
     path = path.rstrip('/')
     page = get_object_or_404(models.Page, path=path, version='live')
 
+    if request.user.is_anonymous() and not page.published:
+        raise Http404
+
     is_preview = False
     if 'version' in request.GET and not request.user.is_anonymous():
         version = request.GET.get('version')
