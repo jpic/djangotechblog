@@ -108,8 +108,6 @@ def xhr_delete_comment(request, **kwargs):
 
     comment_id = request.GET.get('comment_id', None)
 
-    clear_cached_page(url)
-
     if comment_id is None:
         result = "fail"
     else:
@@ -119,6 +117,11 @@ def xhr_delete_comment(request, **kwargs):
             result = "success"
         except Comment.DoesNotExist:
             result = "fail"
+
+    try:
+        clear_cached_page(request.GET.get('url'))
+    except:
+        pass
 
     response = dict(result=result)
     json = simplejson.dumps(response)
