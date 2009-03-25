@@ -30,9 +30,9 @@ class ImageUpload(models.Model):
         thumb_height = height
 
         if thumb_width is None:
-            thumb_width = thumb_height / aspect
+            thumb_width = thumb_height * aspect
         elif thumb_height is None:
-            thumb_height = thumb_width * aspect
+            thumb_height = thumb_width / aspect
 
         thumb_width = int(thumb_width)
         thumb_height = int(thumb_height)
@@ -68,10 +68,8 @@ class ImageUpload(models.Model):
         html = '<a href="%s" target="_blank"><img src="%s" width="%i" height="%i" /></a>' % \
             (full_url, url, w, h)
 
-        container = '<div style="border:1px dotted #aaa;width:%ipx;height:%ipx;padding-top:%ipx">%s</div>'
-        space = (WIDTH-h)/2
-        container %= (WIDTH, WIDTH-space, space, html)
-        return container
+        return html
+    
     thumbnail_html.allow_tags = True
 
 
