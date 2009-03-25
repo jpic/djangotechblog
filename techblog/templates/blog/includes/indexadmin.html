@@ -7,7 +7,7 @@
         <li><a href="{% url newpost blog.slug %}">New Post</a></li>
         {% else %}
         {% for child_blog in blog.child_blogs %}
-        <li><a href="{{ child_blog.get_absolute_url }}"><strong>Blog:</strong> {{ blog.title }}</a></li>
+        <li><a href="{{ child_blog.get_absolute_url }}"><strong>Blog:</strong> {{ child_blog.title }}</a></li>
         {% endfor %}
         {% endif %}
 
