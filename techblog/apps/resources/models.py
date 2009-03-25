@@ -30,9 +30,9 @@ class ImageUpload(models.Model):
         thumb_height = height
 
         if thumb_width is None:
-            thumb_width = thumb_height * aspect
+            thumb_width = thumb_height / aspect
         elif thumb_height is None:
-            thumb_height = thumb_width / aspect
+            thumb_height = thumb_width * aspect
 
         thumb_width = int(thumb_width)
         thumb_height = int(thumb_height)
@@ -60,7 +60,7 @@ class ImageUpload(models.Model):
 
         return url, (thumb_width, thumb_height)
 
-    def html_image(self):
+    def thumbnail_html(self):
         WIDTH = 100
         url, (w, h) = self.thumb(WIDTH)
         full_url = settings.MEDIA_URL + self.image.name
