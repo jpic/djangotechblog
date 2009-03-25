@@ -72,7 +72,7 @@ class ImageUpload(models.Model):
         space = (WIDTH-h)/2
         container %= (WIDTH, WIDTH-space, space, html)
         return container
-    html_image.allow_tags = True
+    thumbnail_html.allow_tags = True
 
 
 
