@@ -1,7 +1,7 @@
 {% load blogtags %}
 {% load cache %}
 
-{% cache 3600 "recentposts" blog.slug %}
+{% cache 3600 "recentpostsmodule" blog.slug vars.count %}
 
 {% get_recent_posts for blog as posts max vars.count %}
 

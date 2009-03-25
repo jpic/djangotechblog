@@ -4,7 +4,7 @@
 {% load cache %}
 
 {% if post %}
-{% cache 3600 "relatedposts_" post.id %}
+{% cache 3600 "relatedpostsmodule" post.id vars.count %}
 
 {% get_related_posts for post as related_posts max vars.count %}
 {% if related_posts %}

@@ -3,8 +3,8 @@
 <div class="module">
     <ul class="links-list">
         <li><a href="/manage/">Manage blog</a></li>
-        <li><a href="{% url writer blog.slug post.id %}">Edit this Page</a></li>
-        <li><a href="/admin/blog/post/{{ post.id}}">Admin Page</a></li>
+        <li><a href="{% url writer blog.slug post.id %}">Edit this post</a></li>
+        <li><a href="/admin/blog/post/{{ post.id}}/">Admin post</a></li>
         <li><a href="?clearcache">Clear cached page</a></li>
         <li><a href="/accounts/logout/?next={{ request.path }}">Logout</a></li>
     </ul>

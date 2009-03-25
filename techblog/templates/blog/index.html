@@ -36,16 +36,7 @@
 
 {% block column2 %}
 
-{% if not is_preview and not user.is_anonymous %}
-<div class="module-header">Admin Options</div>
-<div class="module">
-    <ul class="links-list">
-        <li><a href="{% url newpost blog.slug %}">New Post</a></li>
-        <li><a href="/accounts/logout/?next={{ request.path }}">Logout</a></li>
-    </ul>
-
-</div>
-{% endif %}
+{% include "blog/includes/indexadmin.html" %}
 
 {% markupsection sections "column2" %}
 

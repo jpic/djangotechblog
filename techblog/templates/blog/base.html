@@ -47,7 +47,11 @@
 
     <div id="content">
 
+        {% if user.is_anonymous %}
         <div class="hidden-login"><a href="/accounts/login/?next={{ request.path }}">&nbsp;</a></div>
+        {% else %}
+        <div class="hidden-login"><a href="/accounts/logout/?next={{ request.path }}">&nbsp;</a></div>
+        {% endif %}
 
         {% if feeds %}
         <div class="feed-icon-container">

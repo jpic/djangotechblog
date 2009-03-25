@@ -155,6 +155,13 @@ class Channel(models.Model):
 
     blogs = models.ManyToManyField("Blog")
 
+    def is_channel(self):
+        """ Returns True if this is a channel (for the benefit of tempalates) """
+        return True
+
+    def child_blogs(self):
+        return list(self.blogs.order_by('title'))
+
     def get_full_template_name(self, template_name):
         return self.template.rstrip('/') + '/' + self.template
 
