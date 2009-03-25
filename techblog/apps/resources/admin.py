@@ -9,7 +9,7 @@ class ImageUploadAdmin(admin.ModelAdmin):
               'image',
               'description'
               )
-    list_display = ('name', 'html_image')
+    list_display = ('name', 'html_image', 'description')
     search_fields = ['name', 'description']
 
 

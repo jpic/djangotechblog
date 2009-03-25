@@ -61,9 +61,17 @@ class ImageUpload(models.Model):
         return url, (thumb_width, thumb_height)
 
     def html_image(self):
-        url, (w, h) = self.thumb(64, 64)
-        html = '<img src="%s" width="%i" height="%i"></img>' % (url, w, h)
-        return html
+        WIDTH = 100
+        url, (w, h) = self.thumb(WIDTH)
+        full_url = settings.MEDIA_URL + self.image.name
+
+        html = '<a href="%s" target="_blank"><img src="%s" width="%i" height="%i" /></a>' % \
+            (full_url, url, w, h)
+
+        container = '<div style="border:1px dotted #aaa;width:%ipx;height:%ipx;padding-top:%ipx">%s</div>'
+        space = (WIDTH-h)/2
+        container %= (WIDTH, WIDTH-space, space, html)
+        return container
     html_image.allow_tags = True
 
 
