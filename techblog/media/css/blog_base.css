@@ -596,6 +596,7 @@ h2.microblog
     padding-left:58px !important;
     background-image:url(/media/images/icons/twitter_48.png) !important;
     background-repeat:no-repeat !important;
+    min-height:48px;
 }
 
 h2.microblog a
