@@ -28,6 +28,13 @@ import forms
 
 from techblog import mailer
 
+
+# This is a sentinal date to overcome a subtle design flaw in the model
+# It is slightly less painful that a DB migration
+# New posts are given this date when first created, and the actual date is
+# set when the post is published
+DUMMY_DATE = datetime(1970, 1, 1)
+
 def invalidate_cache(post):
 
     clear_cached_page(post.get_absolute_url())
@@ -507,7 +514,7 @@ def newpost(request, blog_slug, blog_root=None):
                         published=False,
                         created_time=datetime.now(),
                         edit_time=datetime.now(),
-                        display_time=datetime.now(),
+                        display_time=DUMMY_DATE,
                         content='',
                         content_markup_type="emarkup",
                         version='live')
@@ -571,6 +578,8 @@ def writer(request, blog_slug, post_id, blog_root=None):
         elif 'publish' in request.POST:
 
             save_to(edit_post)
+            if edit_post.display_time == DUMMY_DATE:
+                edit_post.display_time = datetime.now()
             post_url = reverse('blog_post', args=(blog.slug, edit_post.display_time.year, edit_post.display_time.month, edit_post.display_time.day, edit_post.slug))
             edit_post.delete_version('preview')
             edit_post.delete_version('draft')
