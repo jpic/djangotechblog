@@ -2,9 +2,12 @@
 {% load comments %}
 <h2 class="microblog">&ldquo;&nbsp;{% microblog post blog_root %}&nbsp;&rdquo;</h2>
 
-{# <div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div> #} {#<a href="{% get_post_url blog_root post %}">#}
-
-
+    <span class="comments-count" style="float:right;">
+    {% get_comments_count for post as num_comments %}
+    <a class="comments-link" href="{% get_post_url blog_root post %}#comments">{{ num_comments }}</a>
+    </span>
+{# Removed this because tweets took up too much space... #}
+{% comment %}
 <div class="post-info">
 
     <span class="comments-count">
@@ -17,5 +20,6 @@
     </span>
 
 </div>
+{% endcomment %}
 
 <div class="clear">&nbsp;</div>
