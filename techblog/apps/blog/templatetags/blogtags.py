@@ -31,9 +31,7 @@ def urlize_hashtags(txt, blog_root, post):
     tags = dict((t.name.lower(),t) for t in post.get_tags())
     def repl_hash(match):
         tag_name = unicode(match.group(1)).strip()
-        print txt, repr(tag_name)
         tag = tags.get(tag_name.lower())
-        print tags
         if tag is None:
             return " #"+tag_name
         link = blog_root + tag.get_blog_relative_url()
