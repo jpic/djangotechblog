@@ -14,7 +14,7 @@ def update():
 
 re_microblog_reply = re.compile(r'^@\w+')
 
-_hash_tags = re.compile(r'^|\s\#(\w+)')
+_hash_tags = re.compile(r'(?:^|\s)#(\w+)')
 def parse_hashtags(microblog):
 
     for match in _hash_tags.findall(microblog):

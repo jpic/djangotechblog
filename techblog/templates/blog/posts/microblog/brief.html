@@ -4,7 +4,7 @@
 
     <span class="comments-count" style="float:right;">
     {% get_comments_count for post as num_comments %}
-    <a class="comments-link" href="{% get_post_url blog_root post %}#comments">{{ num_comments }}</a>
+    <a class="comments-link" title="comments" href="{% get_post_url blog_root post %}#comments">{{ num_comments }}</a>
     </span>
 {# Removed this because tweets took up too much space... #}
 {% comment %}
