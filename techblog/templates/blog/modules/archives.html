@@ -3,7 +3,7 @@
 {% load markuptags %}
 {% load cache %}
 
-{% cache 3600 "archivesmodule" blog.slug %}
+{% cache 3600 "archivesmodule2" blog.slug %}
 {% get_archives for blog as archives %}
 
 <div class="module-header">Archives</div>
@@ -18,7 +18,7 @@
         </div>
         <ul class="archive-months">
             {% for month_url, year, month, count in months %}
-            <li{% ifequal month archive_month %}{% ifequal year archive_year %} class="current-month"{% endifequal %}{% endifequal %}>
+            <li>
                 <div class="archive-month">
                     <a href="{{ month_url }}" title="{{ count }} posts">{{ month|longmonth }}</a>
                 </div>
