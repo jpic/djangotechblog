@@ -24,26 +24,33 @@ def context_resolve(context, var, callable=None):
 
 
 _hash_tags = re.compile(r'(?:^|\s)\#(\w+)')
+#_hash_tags_urls = re.compile(r'(http:\S+)|(?:^|\s)\#(\w+)')
+_hash_tags_urls = re.compile(r'(http[:/\.\w-]+)|#(\w+)')
+
 _microblog_user = re.compile(r'(^|\s)\@\w+')
 
 def urlize_hashtags(txt, blog_root, post):
 
     tags = dict((t.name.lower(),t) for t in post.get_tags())
     def repl_hash(match):
-        tag_name = unicode(match.group(1)).strip()
-        tag = tags.get(tag_name.lower())
-        if tag is None:
-            return " #"+tag_name
-        link = blog_root + tag.get_blog_relative_url()
-        return ' #<a href="%s">%s</a>' % (link, tag_name)
 
-    return _hash_tags.sub(repl_hash, txt).lstrip()
+        url, tag_name = match.group(1), match.group(2)
+        if url:
+            return '<a href="%s">%s</a>' % (url, url)
+        else:
+            tag = tags.get(tag_name.lower())
+            if tag is None:
+                return " #"+tag_name
+            link = blog_root + tag.get_blog_relative_url()
+            return ' #<a href="%s">%s</a>' % (link, tag_name)
+
+    return _hash_tags_urls.sub(repl_hash, txt).lstrip()
 
 
 @register.simple_tag
 def microblog(post, blog_root):
     content = urlize_hashtags(post.content_html, blog_root, post)
-    content = urlize(content)
+    #content = urlize(content)
     return content
 
 
