@@ -25,18 +25,19 @@ def context_resolve(context, var, callable=None):
 
 _hash_tags = re.compile(r'(?:^|\s)\#(\w+)')
 #_hash_tags_urls = re.compile(r'(http:\S+)|(?:^|\s)\#(\w+)')
-_hash_tags_urls = re.compile(r'(http[:/\.\w-]+)|#(\w+)')
+_hash_tags_urls = re.compile(r'\s(http[:/\.\w-]+)|#(\w+)')
 
 _microblog_user = re.compile(r'(^|\s)\@\w+')
 
 def urlize_hashtags(txt, blog_root, post):
 
     tags = dict((t.name.lower(),t) for t in post.get_tags())
+
     def repl_hash(match):
 
         url, tag_name = match.group(1), match.group(2)
         if url:
-            return '<a href="%s">%s</a>' % (url, url)
+            return ' <a href="%s">%s</a>' % (url, url)
         else:
             tag = tags.get(tag_name.lower())
             if tag is None:
