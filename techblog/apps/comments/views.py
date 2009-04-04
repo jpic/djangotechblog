@@ -57,6 +57,8 @@ def xhr_post_comment(request, **kwargs):
         url = escape(form.cleaned_data.get('url', ''))
         if 'javascript' in url.lower():
             url = url.split(':', 1)[-1]
+        if ':' not in url:
+            url = 'http://' + url
         content = form.cleaned_data.get('content', '')
         content_format = form.cleaned_data.get('content_format', '')
 
