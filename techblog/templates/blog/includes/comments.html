@@ -8,7 +8,7 @@
         <a href="#comment{{ comment.id }}">{% gravatar comment.email 40 "identicon" %}</a>
         <div class="comment-header">
             {% if not user.is_anonymous %}
-                <a href="http://127.0.0.1:8000/admin/comments/comment/{{ comment.id }}/">Admin comment</a>
+                <a href="/admin/comments/comment/{{ comment.id }}/">Admin comment</a>
                 <a href="#" class="delete-comment-link" onclick="delete_comment({{ comment.id }}, '{{ request.path }}'); return false;">Delete</a>
             {% endif %}
             <div class="comment-author">
