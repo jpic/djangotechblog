@@ -10,7 +10,8 @@ import binascii
 MARKUP_TYPES = [ ("html", "Raw HTML"),
                 ("postmarkup", "Postmarkup (BBCode like)"),
                 ("emarkup", "Extended markup"),
-                ("text", "Plain text")]
+                ("text", "Plain text"),
+                ("comment_bbcode", "BBcode used in comments"), ]
 
 
 try:
