@@ -7,13 +7,13 @@ $(function(){
            var h = $('#oi-'+name+' .image-overlay .caption').height();
            $('#oi-'+name+' .overlay-outer').animate({
             'top':-h
-           }, 300, 'swing');
+           }, { queue:false, duration:300 }, 'swing');
 
         });
         $('#oiarea-' + name).mouseout(function(){
            $('#oi-' + name +' .overlay-outer').animate({
                 'top':0
-           }, 300, 'swing');
+           }, { queue:false, duration:300 }, 'swing');
 
         });
     });

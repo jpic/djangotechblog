@@ -128,6 +128,8 @@ CACHE_BACKEND = "memcached://127.0.0.1:11211/"
 
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY=True
 
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
 DEFAULT_FROM_EMAIL = "will@willmcgugan.com"
 SYSTEM_EMAIL_PREFIX = "[willmcgugan.com]"
 
@@ -150,6 +152,8 @@ URL_REMAP = {
 
 # Path to your google analytics code
 GA_PATH = ""
+
+
 
 try:
     from local_settings import *
