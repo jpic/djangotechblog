@@ -128,7 +128,7 @@ CACHE_BACKEND = "memcached://127.0.0.1:11211/"
 
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY=True
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 DEFAULT_FROM_EMAIL = "will@willmcgugan.com"
 SYSTEM_EMAIL_PREFIX = "[willmcgugan.com]"
