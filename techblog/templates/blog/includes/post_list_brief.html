@@ -11,7 +11,7 @@
 {# <div class="post-subtitle">{{ post.display_time|date:"F jS, Y" }}</div> #}
 
 
-<p>{{ post.content_text|truncatewords:"24"|safe }}</p>
+<p>{{ post.content_text|textilize|truncatewords:"24"|safe }}</p>
 </div>
 
 {% endfor %}

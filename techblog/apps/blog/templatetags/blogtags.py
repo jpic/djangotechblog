@@ -6,6 +6,7 @@ from techblog.apps.comments.models import Comment
 from django.template import Variable
 
 register = template.Library()
+import postmarkup
 
 
 from django.template.loader import get_template, select_template
@@ -15,6 +16,13 @@ from django.template.defaultfilters import urlize
 
 short_months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
 long_months = "January February March April May June July August September October November December".split()
+
+
+@register.filter
+@stringfilter
+def textilize(value):
+    return postmarkup.textilize(value)
+
 
 def context_resolve(context, var, callable=None):
     resolved_var = Variable(var).resolve(context)
