@@ -262,6 +262,7 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
 
     if request.user.is_anonymous():
         post = get_object_or_404(models.Post,
+                                 blog=blog,
                                  display_time__gte=post_day_start,
                                  display_time__lt=post_day_end,
                                  slug=slug,
@@ -269,6 +270,7 @@ def blog_post(request, blog_slug, year, month, day, slug, blog_root=None):
                                  published=True)
     else:
         post = get_object_or_404(models.Post,
+                                 blog=blog,
                                  display_time__gte=post_day_start,
                                  display_time__lt=post_day_end,
                                  slug=slug,
