@@ -76,6 +76,8 @@ def render(markup, markup_type):
         data = {}
 
     more_i = html.find('<!--more-->')
+    if more_i == -1:
+        more_i = html.find('<!-- more -->')
 
     if more_i != -1:
         summary_html = html[:more_i]
