@@ -1664,7 +1664,7 @@ blockquote em
     padding:2px 0px;
     text-align:center;
     text-transform:uppercase;
-    background-image:url(/media/images/moduleheader.png);
+    /*background-image:url(/media/images/moduleheader.png);*/
     clear:both;
 }
 
